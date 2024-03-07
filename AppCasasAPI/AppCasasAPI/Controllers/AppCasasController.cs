@@ -13,7 +13,7 @@ namespace AppCasasAPI.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
+        [HttpGet(Name = "GetAppCasas")]
         public string Get()
         {
             return "Hello AppCasas";
