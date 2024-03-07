@@ -5,6 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+var configuration = builder.Configuration;
+configuration.AddUserSecrets<Program>();
+
 
 var connectionString = builder.Configuration.GetConnectionString("AppCasasDB");
 await using var dataSource = NpgsqlDataSource.Create(connectionString);
