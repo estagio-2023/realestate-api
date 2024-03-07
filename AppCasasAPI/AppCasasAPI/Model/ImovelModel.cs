@@ -1,6 +1,6 @@
-﻿namespace AppCasasAPI.Models
+﻿namespace AppCasasAPI.Model
 {
-    public class Imovel
+    public class ImovelModel
     {
         public int Id { get; set; }
         public string Titulo { get; set; }

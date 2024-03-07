@@ -1,6 +1,6 @@
-﻿namespace AppCasasAPI.Models
+﻿namespace AppCasasAPI.Model
 {
-    public class ReferenceData
+    public class ReferenceDataModel
     {
         public int Id { get; set; }
         public string Descricao { get; set; }

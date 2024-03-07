@@ -1,6 +1,6 @@
-﻿namespace AppCasasAPI.Models
+﻿namespace AppCasasAPI.Model
 {
-    public class PedidoVisita
+    public class PedidoVisitaModel
     {
         public int Id { get; set; }
         public string Nome { get; set; }
