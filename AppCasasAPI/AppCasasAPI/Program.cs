@@ -1,4 +1,6 @@
-using Npgsql;
+using AppCasasAPI.Helpers;
+using AppCasasAPI.Repository;
+using AppCasasAPI.Repository.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,13 +10,11 @@ builder.Services.AddControllers();
 var configuration = builder.Configuration;
 configuration.AddUserSecrets<Program>();
 
-
-var connectionString = builder.Configuration.GetConnectionString("AppCasasDB");
-await using var dataSource = NpgsqlDataSource.Create(connectionString);
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
+
+builder.Services.AddScoped<IVendedorRepository, VendedorRepository>();
 
 var app = builder.Build();
 

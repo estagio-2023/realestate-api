@@ -3,18 +3,26 @@ using AppCasasAPI.Repository.Interfaces;
 
 namespace AppCasasAPI.Repository
 {
-    
     public class VendedorRepository : IVendedorRepository
     {
-        private readonly NpgsqlConnection _connection;
+        private readonly NpgsqlDataSource _dataSource;
 
-        public async Task<string> GetUserName()
+        public VendedorRepository(NpgsqlDataSource dataSource) {
+            _dataSource = dataSource;
+        }
+
+        public async Task<string?> GetUserName()
         {
-            await _connection.OpenAsync();
-            await using var command = new NpgsqlCommand("SELECT name FROM vendedor;");
-            return (string)await command.ExecuteScalarAsync();   
-
+            using (var conn = await _dataSource.OpenConnectionAsync())
+            {
+                using var command = new NpgsqlCommand("SELECT nome FROM vendedor;", conn);
+                var execute = await command.ExecuteScalarAsync();
+                if (execute != null)
+                {
+                    return execute.ToString();
+                }
+                return null;
+            }            
         }
     }
 }
-

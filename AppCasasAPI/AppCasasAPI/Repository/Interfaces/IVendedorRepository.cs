@@ -2,7 +2,6 @@
 {
     public interface IVendedorRepository
     {
-       Task<string> GetUserName();
+       Task<string?> GetUserName();
     }
 }
-

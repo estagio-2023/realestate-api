@@ -1,3 +1,4 @@
+using AppCasasAPI.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Security;
 
@@ -8,16 +9,19 @@ namespace AppCasasAPI.Controllers
     public class AppCasasController : ControllerBase
     {
         private readonly ILogger<AppCasasController> _logger;
+        private readonly IVendedorRepository _vendedorRepository;
 
-        public AppCasasController(ILogger<AppCasasController> logger)
+        public AppCasasController(ILogger<AppCasasController> logger,IVendedorRepository vendedorRepository)
         {
-            _logger = logger;
+            _logger = logger;   
+            _vendedorRepository = vendedorRepository;
         }
 
         [HttpGet(Name = "GetAppCasas")]
-        public string Get()
+        public async Task<string?> Get()
         {
-            return "Hello AppCasas";
+            return await _vendedorRepository.GetUserName();
+           
         }
     }
 }
