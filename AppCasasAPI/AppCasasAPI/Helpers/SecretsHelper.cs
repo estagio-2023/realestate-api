@@ -10,8 +10,7 @@
             var userName = builder.Configuration["ConnectionStrings:AppCasasDB:Username"];
             var password = builder.Configuration["ConnectionStrings:AppCasasDB:Password"];
 
-            var connectionString = $"Server={host};Port={port};Database={dataBase};Username={userName};Password={password};";
-            return connectionString;
+            return $"Server={host};Port={port};Database={dataBase};Username={userName};Password={password};";
         }
     }
 }
