@@ -35,8 +35,12 @@
       <a href="#">Pre-Requirements
       </a>
     </li>
+    <li>
+      <a href="#">Configuration
+      </a>
+    </li>
      <li>
-      <a href="#">Connection Strings
+      <a href="#">Database Connection
       </a>
     </li>
     
@@ -48,7 +52,7 @@
 <!-- SOBRE O PROJETO -->
 ## About the API
 
-This API serves as the central communication hub between the frontend application and the database, facilitating various functionalities related to real estate listings, property management, user authentication, and more.
+This API serves as the central communication hub between the frontend application and the database, facilitating various functionalities related to real estate listings, property management and database requests.
 
 ### Technologies
 
@@ -68,10 +72,20 @@ This API serves as the central communication hub between the frontend applicatio
     <li>Clone Repository</li>
     <li>Install NuGet Packages
         <ul>
-        <li>Npgsql</li>
-        <li>Npgsql.DependencyInjection</li>
-        <li>Microsoft.Extensions.Configuration.UserSecrets</li>
+          <li>Npgsql</li>
+          <li>Npgsql.DependencyInjection</li>
+          <li>Microsoft.Extensions.Configuration.UserSecrets</li>
         </ul>
-      </li>
+    </li>
   </ul>
+  <li>PostgreSql</li>
+    <ul>
+      <li>Download PostgreSQL -<a href="https://www.postgresql.org/download/">https://www.postgresql.org/download/</a> </li>
+      <li>Define a password for the database superuser. it can be used "postgres", and leave everythign else as default.</li>
+      <li>This password, as well as the server name, username and database will be used for the connection string used to get data from the database, so keep these information.</li>
+    </ul>
 </ul>
+
+## Configuration
+
+
