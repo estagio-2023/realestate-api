@@ -81,7 +81,7 @@ This API serves as the central communication hub between the frontend applicatio
   <li>PostgreSql</li>
     <ul>
       <li>Download PostgreSQL -<a href="https://www.postgresql.org/download/">https://www.postgresql.org/download/</a> </li>
-      <li>Define a password for the database superuser. it can be used "postgres", and leave everythign else as default.</li>
+      <li>Define a password for the database superuser. it can be used "postgres", and leave everything else as default.</li>
       <li>This password, as well as the server name, username and database will be used for the connection string used to get data from the database, so keep these information.</li>
     </ul>
 </ul>
