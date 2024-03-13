@@ -1,10 +1,10 @@
 ﻿namespace AppCasasAPI.Model
 {
-    public class PedidoVisitaModel
+    public class ClientModel
     {
         public int Id { get; set; }
-        public string Nome { get; set; }
+        public string Name { get; set; }
         public string Email { get; set; }
-        public int FkImovelId { get; set; }
+        public string Password { get; set; }
     }
 }
