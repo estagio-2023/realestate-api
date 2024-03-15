@@ -25,13 +25,11 @@ namespace AppCasasAPI.Repository
                 {                    
                     var typologyModel = new TypologyModel();
                     typologyModel.Description = typologyReader["descricao"].ToString();
-                    refData.TypologiesList.Add(typologyModel);
                     typologyModel.Id = (int)typologyReader["id"];
                     refData.TypologiesList.Add(typologyModel);
                 }
 
                 typologyReader.Close();
-
 
                 using var realEstateTypeQuerry = new NpgsqlCommand("SELECT * FROM tipo_imovel;", conn);
                 var realEstateTypeReader = await realEstateTypeQuerry.ExecuteReaderAsync();
@@ -39,8 +37,7 @@ namespace AppCasasAPI.Repository
                 while (realEstateTypeReader.Read())
                 {
                     var realEstateTypeModel = new RealEstateTypeModel();
-                    realEstateTypeModel.Description = realEstateTypeReader["descricao"].ToString();
-                    refData.RealEstateTypesList.Add(realEstateTypeModel);
+                    realEstateTypeModel.Description = realEstateTypeReader["descricao"].ToString();                   
                     realEstateTypeModel.Id = (int)realEstateTypeReader["id"];
                     refData.RealEstateTypesList.Add(realEstateTypeModel);
                 }
@@ -54,7 +51,6 @@ namespace AppCasasAPI.Repository
                 {
                     var citiesModel = new CityModel();
                     citiesModel.Description = cityReader["descricao"].ToString();
-                    refData.CitiesList.Add(citiesModel);
                     citiesModel.Id = (int)cityReader["id"];
                     refData.CitiesList.Add(citiesModel);
                 }
@@ -68,7 +64,6 @@ namespace AppCasasAPI.Repository
                 {
                     var amenitiesModel = new AmenitiesModel();
                     amenitiesModel.Description = amenitiesReader["descricao"].ToString();
-                    refData.AmenitiesList.Add(amenitiesModel);
                     amenitiesModel.Id = (int)amenitiesReader["id"];
                     refData.AmenitiesList.Add(amenitiesModel);
                 }
