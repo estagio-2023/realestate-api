@@ -26,6 +26,8 @@ namespace AppCasasAPI.Repository
                     var typologyModel = new TypologyModel();
                     typologyModel.Description = typologyReader["descricao"].ToString();
                     refData.TypologiesList.Add(typologyModel);
+                    typologyModel.Id = (int)typologyReader["id"];
+                    refData.TypologiesList.Add(typologyModel);
                 }
 
                 typologyReader.Close();
@@ -39,6 +41,8 @@ namespace AppCasasAPI.Repository
                     var realEstateTypeModel = new RealEstateTypeModel();
                     realEstateTypeModel.Description = realEstateTypeReader["descricao"].ToString();
                     refData.RealEstateTypesList.Add(realEstateTypeModel);
+                    realEstateTypeModel.Id = (int)realEstateTypeReader["id"];
+                    refData.RealEstateTypesList.Add(realEstateTypeModel);
                 }
 
                 realEstateTypeReader.Close();
@@ -51,6 +55,8 @@ namespace AppCasasAPI.Repository
                     var citiesModel = new CityModel();
                     citiesModel.Description = cityReader["descricao"].ToString();
                     refData.CitiesList.Add(citiesModel);
+                    citiesModel.Id = (int)cityReader["id"];
+                    refData.CitiesList.Add(citiesModel);
                 }
 
                 cityReader.Close();
@@ -62,6 +68,8 @@ namespace AppCasasAPI.Repository
                 {
                     var amenitiesModel = new AmenitiesModel();
                     amenitiesModel.Description = amenitiesReader["descricao"].ToString();
+                    refData.AmenitiesList.Add(amenitiesModel);
+                    amenitiesModel.Id = (int)amenitiesReader["id"];
                     refData.AmenitiesList.Add(amenitiesModel);
                 }
 
