@@ -32,6 +32,7 @@ namespace AppCasasAPI.Repository
                     };
                     refData.TypologiesList.Add(typologyModel);
                 }
+
                 typologyReader.Close();
 
                 using var realEstateTypeQuerry = new NpgsqlCommand("SELECT * FROM realestate_type;", conn);
@@ -96,6 +97,7 @@ namespace AppCasasAPI.Repository
                 {
                     return execute.ToString();
                 }
+
                 return null;
             }
         }
