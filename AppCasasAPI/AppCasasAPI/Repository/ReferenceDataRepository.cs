@@ -73,7 +73,7 @@ namespace AppCasasAPI.Repository
             }
             catch (Exception ex)
             {
-                Console.WriteLine("error");
+                Console.WriteLine(ex.Message);
             }
             return refData;
         }
