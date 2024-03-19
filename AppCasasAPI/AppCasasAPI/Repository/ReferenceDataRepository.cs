@@ -1,7 +1,7 @@
-﻿using Npgsql;
-using AppCasasAPI.Repository.Interfaces;
-using AppCasasAPI.Dto.Response;
+﻿using AppCasasAPI.Dto.Response;
 using AppCasasAPI.Model;
+using AppCasasAPI.Repository.Interfaces;
+using Npgsql;
 
 namespace AppCasasAPI.Repository
 {
@@ -9,84 +9,87 @@ namespace AppCasasAPI.Repository
     {
         private readonly NpgsqlDataSource _dataSource;
 
-        public ReferenceDataRepository(NpgsqlDataSource dataSource) {
+        public ReferenceDataRepository(NpgsqlDataSource dataSource)
+        {
             _dataSource = dataSource;
         }
 
         public async Task<ReferenceDataResponseDto> GetAllReferenceDataAsync()
         {
             ReferenceDataResponseDto refData = new();
-            using (var conn = await _dataSource.OpenConnectionAsync())
-            {
-                using var typologyQuerry = new NpgsqlCommand("SELECT * FROM tipologia;", conn);
-                var typologyReader = await typologyQuerry.ExecuteReaderAsync();
+            using var conn = await _dataSource.OpenConnectionAsync();
 
+            using var typologyQuerry = new NpgsqlCommand("SELECT * FROM typology;", conn);
+            using var typologyReader = await typologyQuerry.ExecuteReaderAsync();
+            try
+            {
                 while (typologyReader.Read())
-                {                    
+                {
                     var typologyModel = new TypologyModel();
-                    typologyModel.Description = typologyReader["descricao"].ToString();
+                    typologyModel.Description = typologyReader["description"].ToString();
                     typologyModel.Id = (int)typologyReader["id"];
                     refData.TypologiesList.Add(typologyModel);
                 }
-
                 typologyReader.Close();
 
-                using var realEstateTypeQuerry = new NpgsqlCommand("SELECT * FROM tipo_imovel;", conn);
+                using var realEstateTypeQuerry = new NpgsqlCommand("SELECT * FROM realestate_type;", conn);
                 var realEstateTypeReader = await realEstateTypeQuerry.ExecuteReaderAsync();
 
                 while (realEstateTypeReader.Read())
                 {
                     var realEstateTypeModel = new RealEstateTypeModel();
-                    realEstateTypeModel.Description = realEstateTypeReader["descricao"].ToString();                   
+                    realEstateTypeModel.Description = realEstateTypeReader["description"].ToString();
                     realEstateTypeModel.Id = (int)realEstateTypeReader["id"];
                     refData.RealEstateTypesList.Add(realEstateTypeModel);
                 }
 
                 realEstateTypeReader.Close();
 
-                using var cityQuerry = new NpgsqlCommand("SELECT * FROM cidades;", conn);
+                using var cityQuerry = new NpgsqlCommand("SELECT * FROM city;", conn);
                 var cityReader = await cityQuerry.ExecuteReaderAsync();
 
                 while (cityReader.Read())
                 {
                     var citiesModel = new CityModel();
-                    citiesModel.Description = cityReader["descricao"].ToString();
+                    citiesModel.Description = cityReader["description"].ToString();
                     citiesModel.Id = (int)cityReader["id"];
                     refData.CitiesList.Add(citiesModel);
                 }
 
                 cityReader.Close();
 
-                using var amenitiesQuerry = new NpgsqlCommand("SELECT * FROM cidades;", conn);
+                using var amenitiesQuerry = new NpgsqlCommand("SELECT * FROM amenity;", conn);
                 var amenitiesReader = await cityQuerry.ExecuteReaderAsync();
 
-                while (cityReader.Read())
+                while (amenitiesReader.Read())
                 {
                     var amenitiesModel = new AmenitiesModel();
-                    amenitiesModel.Description = amenitiesReader["descricao"].ToString();
+                    amenitiesModel.Description = amenitiesReader["description"].ToString();
                     amenitiesModel.Id = (int)amenitiesReader["id"];
                     refData.AmenitiesList.Add(amenitiesModel);
                 }
 
-                cityReader.Close();
-
-                return refData;
+                amenitiesReader.Close();
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error");
+            }
+            return refData;
         }
-
 
         public async Task<string?> GetUserName()
         {
             using (var conn = await _dataSource.OpenConnectionAsync())
             {
-                using var command = new NpgsqlCommand("SELECT nome FROM vendedor;", conn);
+                using var command = new NpgsqlCommand("SELECT nome FROM agent;", conn);
                 var execute = await command.ExecuteScalarAsync();
                 if (execute != null)
                 {
                     return execute.ToString();
                 }
                 return null;
-            }            
+            }
         }
     }
 }

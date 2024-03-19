@@ -15,7 +15,7 @@ namespace AppCasasAPI.Repository
         {
             using (var conn = await _dataSource.OpenConnectionAsync())
             {
-                using var command = new NpgsqlCommand("SELECT nome FROM vendedor;", conn);
+                using var command = new NpgsqlCommand("SELECT nome FROM agent;", conn);
                 var execute = await command.ExecuteScalarAsync();
                 if (execute != null)
                 {
