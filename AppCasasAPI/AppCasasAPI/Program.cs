@@ -16,6 +16,8 @@ builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(b
 
 builder.Services.AddScoped<IVendedorRepository, VendedorRepository>();
 
+builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
