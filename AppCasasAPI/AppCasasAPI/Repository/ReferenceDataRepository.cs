@@ -1,7 +1,7 @@
-﻿using Npgsql;
-using AppCasasAPI.Repository.Interfaces;
-using AppCasasAPI.Dto.Response;
+﻿using AppCasasAPI.Dto.Response;
 using AppCasasAPI.Model;
+using AppCasasAPI.Repository.Interfaces;
+using Npgsql;
 
 namespace AppCasasAPI.Repository
 {
@@ -9,7 +9,8 @@ namespace AppCasasAPI.Repository
     {
         private readonly NpgsqlDataSource _dataSource;
 
-        public ReferenceDataRepository(NpgsqlDataSource dataSource) {
+        public ReferenceDataRepository(NpgsqlDataSource dataSource)
+        {
             _dataSource = dataSource;
         }
 
@@ -22,7 +23,7 @@ namespace AppCasasAPI.Repository
                 var typologyReader = await typologyQuerry.ExecuteReaderAsync();
 
                 while (typologyReader.Read())
-                {                    
+                {
                     var typologyModel = new TypologyModel();
                     typologyModel.Description = typologyReader["descricao"].ToString();
                     typologyModel.Id = (int)typologyReader["id"];
@@ -37,7 +38,7 @@ namespace AppCasasAPI.Repository
                 while (realEstateTypeReader.Read())
                 {
                     var realEstateTypeModel = new RealEstateTypeModel();
-                    realEstateTypeModel.Description = realEstateTypeReader["descricao"].ToString();                   
+                    realEstateTypeModel.Description = realEstateTypeReader["descricao"].ToString();
                     realEstateTypeModel.Id = (int)realEstateTypeReader["id"];
                     refData.RealEstateTypesList.Add(realEstateTypeModel);
                 }
@@ -74,7 +75,6 @@ namespace AppCasasAPI.Repository
             }
         }
 
-
         public async Task<string?> GetUserName()
         {
             using (var conn = await _dataSource.OpenConnectionAsync())
@@ -86,7 +86,7 @@ namespace AppCasasAPI.Repository
                     return execute.ToString();
                 }
                 return null;
-            }            
+            }
         }
     }
 }

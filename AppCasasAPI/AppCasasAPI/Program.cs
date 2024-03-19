@@ -1,6 +1,8 @@
 using AppCasasAPI.Helpers;
 using AppCasasAPI.Repository;
 using AppCasasAPI.Repository.Interfaces;
+using AppCasasAPI.Services;
+using AppCasasAPI.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
 
+builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 builder.Services.AddScoped<IVendedorRepository, VendedorRepository>();
 builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
 var app = builder.Build();
@@ -32,3 +35,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
