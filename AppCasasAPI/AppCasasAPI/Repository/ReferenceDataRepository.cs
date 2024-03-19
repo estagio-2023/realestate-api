@@ -25,9 +25,11 @@ namespace AppCasasAPI.Repository
             {
                 while (typologyReader.Read())
                 {
-                    var typologyModel = new TypologyModel();
-                    typologyModel.Description = typologyReader["description"].ToString();
-                    typologyModel.Id = (int)typologyReader["id"];
+                    var typologyModel = new TypologyModel
+                    {
+                        Description = typologyReader["description"].ToString(),
+                        Id = (int)typologyReader["id"]
+                    };
                     refData.TypologiesList.Add(typologyModel);
                 }
                 typologyReader.Close();
@@ -37,9 +39,11 @@ namespace AppCasasAPI.Repository
 
                 while (realEstateTypeReader.Read())
                 {
-                    var realEstateTypeModel = new RealEstateTypeModel();
-                    realEstateTypeModel.Description = realEstateTypeReader["description"].ToString();
-                    realEstateTypeModel.Id = (int)realEstateTypeReader["id"];
+                    var realEstateTypeModel = new RealEstateTypeModel
+                    {
+                        Description = realEstateTypeReader["description"].ToString(),
+                        Id = (int)realEstateTypeReader["id"]
+                    };
                     refData.RealEstateTypesList.Add(realEstateTypeModel);
                 }
 
@@ -50,22 +54,26 @@ namespace AppCasasAPI.Repository
 
                 while (cityReader.Read())
                 {
-                    var citiesModel = new CityModel();
-                    citiesModel.Description = cityReader["description"].ToString();
-                    citiesModel.Id = (int)cityReader["id"];
+                    var citiesModel = new CityModel
+                    {
+                        Description = cityReader["description"].ToString(),
+                        Id = (int)cityReader["id"]
+                    };
                     refData.CitiesList.Add(citiesModel);
                 }
 
                 cityReader.Close();
 
                 using var amenitiesQuerry = new NpgsqlCommand("SELECT * FROM amenity;", conn);
-                var amenitiesReader = await cityQuerry.ExecuteReaderAsync();
+                var amenitiesReader = await amenitiesQuerry.ExecuteReaderAsync();
 
                 while (amenitiesReader.Read())
                 {
-                    var amenitiesModel = new AmenitiesModel();
-                    amenitiesModel.Description = amenitiesReader["description"].ToString();
-                    amenitiesModel.Id = (int)amenitiesReader["id"];
+                    var amenitiesModel = new AmenitiesModel
+                    {
+                        Description = amenitiesReader["description"].ToString(),
+                        Id = (int)amenitiesReader["id"]
+                    };
                     refData.AmenitiesList.Add(amenitiesModel);
                 }
 
