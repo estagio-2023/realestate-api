@@ -18,7 +18,7 @@ namespace AppCasasAPI.Controllers
         }
 
         [HttpGet(Name = "GetAllReferenceData")]
-        public async Task<ReferenceDataResponseDto> Get()
+        public async Task<ReferenceDataResponseDto> GetAllReferenceData()
         {
             return await _referenceDataRepository.GetAllReferenceDataAsync();
 
