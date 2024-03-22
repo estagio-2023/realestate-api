@@ -5,7 +5,9 @@ namespace AppCasasAPI.Repository.Interfaces
     public interface IReferenceDataRepository
     {
         Task<ReferenceDataResponseDto> GetAllReferenceDataAsync();
-        Task<ReferenceDataResponseDto> AddReferenceDataAsync(string refDataType);
-
+        Task<AddReferenceDataResponseDto> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+        Task<AddReferenceDataResponseDto> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+        Task<AddReferenceDataResponseDto> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+        Task<AddReferenceDataResponseDto> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
     }
 }

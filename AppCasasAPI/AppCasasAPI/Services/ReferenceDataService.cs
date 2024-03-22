@@ -1,10 +1,6 @@
-﻿using AppCasasAPI.Controllers;
-using AppCasasAPI.Dto.Response;
-using AppCasasAPI.Repository;
+﻿using AppCasasAPI.Dto.Response;
 using AppCasasAPI.Repository.Interfaces;
 using AppCasasAPI.Services.Interface;
-using Npgsql;
-using System.Data.Common;
 
 namespace AppCasasAPI.Services
 {
@@ -18,8 +14,9 @@ namespace AppCasasAPI.Services
             _referenceDataRepository = referenceDataRepository;
         }
 
-        public Task<ReferenceDataRequestDto> AddReferenceDataAsync(string refDataType)
+        public async Task<AddReferenceDataResponseDto> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
+            AddReferenceDataResponseDto response = new();
 
             if (!string.IsNullOrWhiteSpace(refDataType))
             {
@@ -28,31 +25,31 @@ namespace AppCasasAPI.Services
                 {
                     case "typology":
 
-                        _referenceDataRepository.AddReferenceDataAsync(refDataType);
+                        response = await _referenceDataRepository.AddTypologyReferenceDataAsync(refDataType, refData);
 
                         break;
 
                     case "amenity":
 
+                        response = await _referenceDataRepository.AddAmenityReferenceDataAsync(refDataType, refData);
 
-
-                    break;
+                        break;
 
                     case "realestate_type":
 
+                        response = await _referenceDataRepository.AddRealEstateTypeReferenceDataAsync(refDataType, refData);
 
-
-                    break;
+                        break;
 
                     case "city":
 
+                        response = await _referenceDataRepository.AddCityReferenceDataAsync(refDataType, refData);
 
-
-                    break;
+                        break;
                 }
             }
 
-            return "Hello";
+            return response;
         }
     }
 }

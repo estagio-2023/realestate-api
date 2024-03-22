@@ -1,5 +1,6 @@
 using AppCasasAPI.Dto.Response;
 using AppCasasAPI.Repository.Interfaces;
+using AppCasasAPI.Services.Interface;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AppCasasAPI.Controllers
@@ -10,11 +11,13 @@ namespace AppCasasAPI.Controllers
     {
         private readonly ILogger<ReferenceDataController> _logger;
         private readonly IReferenceDataRepository _referenceDataRepository;
+        private readonly IReferenceDataService _referenceDataService;
 
-        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataRepository referenceDataRepository)
+        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataRepository referenceDataRepository, IReferenceDataService referenceDataService)
         {
             _logger = logger;
             _referenceDataRepository = referenceDataRepository;
+            _referenceDataService = referenceDataService;
         }
 
         [HttpGet(Name = "GetAllReferenceData")]
@@ -28,11 +31,9 @@ namespace AppCasasAPI.Controllers
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
 
         //referenceDataType is a variable that stores the parameter by the user
-        public async Task<ReferenceDataResponseDto> AddReferenceDataAsync(string referenceDataType)
+        public async Task<AddReferenceDataResponseDto> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
-            return await _referenceDataRepository.GetAllReferenceDataAsync();
-
+            return await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
         }
-
     }
 }
