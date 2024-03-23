@@ -17,6 +17,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
 
 builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
+
 builder.Services.AddScoped<IVendedorRepository, VendedorRepository>();
 builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
 var app = builder.Build();

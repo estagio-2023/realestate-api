@@ -88,7 +88,6 @@ namespace AppCasasAPI.Repository
             return refData;
         }
 
-
         async Task<ReferenceDataRequestDto> AddReferenceDataAsync(string refDataType, string refDataValue)
         {
             ReferenceDataRequestDto refData = new();
@@ -102,8 +101,7 @@ namespace AppCasasAPI.Repository
             return refData;
 
         }
-
-
+    
         public async Task<string?> GetUserName()
         {
             using (var conn = await _dataSource.OpenConnectionAsync())
@@ -176,7 +174,7 @@ namespace AppCasasAPI.Repository
         public async Task<AddReferenceDataResponseDto> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
-            using var query = new NpgsqlCommand(@"INSERT INTO amenity(description) amenity(@refDataDescription) returning id;", conn);
+            using var query = new NpgsqlCommand(@"INSERT INTO amenity(description) values(@refDataDescription) returning id;", conn);
 
             query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
 

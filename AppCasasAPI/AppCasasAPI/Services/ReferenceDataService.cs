@@ -20,35 +20,25 @@ namespace AppCasasAPI.Services
 
             if (!string.IsNullOrWhiteSpace(refDataType))
             {
-
                 switch (refDataType.ToLower())
                 {
                     case "typology":
-
                         response = await _referenceDataRepository.AddTypologyReferenceDataAsync(refDataType, refData);
-
                         break;
 
                     case "amenity":
-
                         response = await _referenceDataRepository.AddAmenityReferenceDataAsync(refDataType, refData);
-
                         break;
 
                     case "realestate_type":
-
                         response = await _referenceDataRepository.AddRealEstateTypeReferenceDataAsync(refDataType, refData);
-
                         break;
 
                     case "city":
-
                         response = await _referenceDataRepository.AddCityReferenceDataAsync(refDataType, refData);
-
                         break;
                 }
             }
-
             return response;
         }
     }

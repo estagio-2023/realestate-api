@@ -27,10 +27,8 @@ namespace AppCasasAPI.Controllers
 
         }
 
-
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
 
-        //referenceDataType is a variable that stores the parameter by the user
         public async Task<AddReferenceDataResponseDto> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
             return await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
