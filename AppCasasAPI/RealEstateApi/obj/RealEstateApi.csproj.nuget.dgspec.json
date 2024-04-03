@@ -1,30 +1,26 @@
 {
   "format": 1,
   "restore": {
-    "C:\\UcasRepos\\GitHub\\AppCasasApi\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj": {}
+    "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj": {}
   },
   "projects": {
-    "C:\\UcasRepos\\GitHub\\AppCasasApi\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj": {
+    "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\UcasRepos\\GitHub\\AppCasasApi\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj",
+        "projectUniqueName": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj",
         "projectName": "RealEstateApi",
-        "projectPath": "C:\\UcasRepos\\GitHub\\AppCasasApi\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj",
-        "packagesPath": "C:\\Users\\NunoS.ladm\\.nuget\\packages\\",
-        "outputPath": "C:\\UcasRepos\\GitHub\\AppCasasApi\\AppCasasAPI\\RealEstateApi\\obj\\",
+        "projectPath": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj",
+        "packagesPath": "C:\\Users\\nuno.silva\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\NunoS.ladm\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\nuno.silva\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\UcasRepos\\Golden_Ucas_Permissions\\NuGetPackage": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://ucasent.jfrog.io/artifactory/api/nuget/ucas-nuget-da-artifacts-virtual": {},
-          "https://ucasent.jfrog.io/artifactory/api/nuget/v3/ucas-nuget-da-artifacts-virtual/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
@@ -36,6 +32,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -70,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

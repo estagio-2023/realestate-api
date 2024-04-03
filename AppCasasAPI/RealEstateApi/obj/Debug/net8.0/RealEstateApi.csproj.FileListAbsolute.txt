@@ -33,3 +33,38 @@ C:\UcasRepos\GitHub\AppCasasApi\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\refin
 C:\UcasRepos\GitHub\AppCasasApi\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.pdb
 C:\UcasRepos\GitHub\AppCasasApi\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.genruntimeconfig.cache
 C:\UcasRepos\GitHub\AppCasasApi\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\ref\RealEstateApi.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\appsettings.Development.json
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\appsettings.json
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\Helpers\SecretsStructure.json
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\RealEstateApi.exe
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\RealEstateApi.deps.json
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\RealEstateApi.runtimeconfig.json
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\RealEstateApi.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\RealEstateApi.pdb
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\Npgsql.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.csproj.AssemblyReference.cache
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.AssemblyInfoInputs.cache
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.AssemblyInfo.cs
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.csproj.CoreCompileInputs.cache
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.sourcelink.json
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\staticwebassets.build.json
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\staticwebassets.development.json
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\staticwebassets\msbuild.RealEstateApi.Microsoft.AspNetCore.StaticWebAssets.props
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\staticwebassets\msbuild.build.RealEstateApi.props
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.RealEstateApi.props
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.RealEstateApi.props
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\staticwebassets.pack.json
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\scopedcss\bundle\RealEstateApi.styles.css
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEsta.27EDF7FD.Up2Date
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\refint\RealEstateApi.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.pdb
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.genruntimeconfig.cache
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\ref\RealEstateApi.dll
