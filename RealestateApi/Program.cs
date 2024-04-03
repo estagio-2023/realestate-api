@@ -1,6 +1,8 @@
-using RealEstateApi.Helpers;
-using RealEstateApi.Repository.Interfaces;
-using RealEstateApi.Repository;
+using AppCasasAPI.Helpers;
+using AppCasasAPI.Repository;
+using AppCasasAPI.Repository.Interfaces;
+using AppCasasAPI.Services;
+using AppCasasAPI.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +16,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
 
-builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
+builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
+builder.Services.AddScoped<IVendedorRepository, VendedorRepository>();
+builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,3 +36,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
