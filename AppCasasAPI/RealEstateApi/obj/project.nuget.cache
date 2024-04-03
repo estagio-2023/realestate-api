@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "rG4kDjsFPaMtlbnB8JIKpOgPoXCvQbMH6TeZl7Z2jC8ptO44CbpM1K/N5rlxUL0iC5ZIVaZWhDV8xzTdHKuQTw==",
+  "dgSpecHash": "b4ixAzIOE32jWrrdY+AFQ6tSo7d4TMEp33LCZKvsgwdRLetTHB3IBIO+JD6aUhF0dVHIPTvt3nGeL4iAOlYezA==",
   "success": true,
   "projectFilePath": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\nuno.silva\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\nuno.silva\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\nuno.silva\\.nuget\\packages\\npgsql\\8.0.2\\npgsql.8.0.2.nupkg.sha512",
+    "C:\\Users\\nuno.silva\\.nuget\\packages\\npgsql.dependencyinjection\\8.0.2\\npgsql.dependencyinjection.8.0.2.nupkg.sha512",
     "C:\\Users\\nuno.silva\\.nuget\\packages\\swashbuckle.aspnetcore\\6.4.0\\swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "C:\\Users\\nuno.silva\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.4.0\\swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "C:\\Users\\nuno.silva\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.4.0\\swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

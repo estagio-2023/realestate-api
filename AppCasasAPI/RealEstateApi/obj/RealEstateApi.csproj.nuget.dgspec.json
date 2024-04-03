@@ -47,6 +47,10 @@
               "target": "Package",
               "version": "[8.0.2, )"
             },
+            "Npgsql.DependencyInjection": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.4.0, )"

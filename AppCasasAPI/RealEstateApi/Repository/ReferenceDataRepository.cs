@@ -1,10 +1,11 @@
 ﻿using Npgsql;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
+using RealEstateApi.Repository.Interfaces;
 
 namespace RealEstateApi.Repository
 {
-    public class ReferenceDataRepository
+    public class ReferenceDataRepository : IReferenceDataRepository
     {
         private readonly NpgsqlDataSource _dataSource;
 

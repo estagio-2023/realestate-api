@@ -68,3 +68,4 @@ C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\App
 C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.pdb
 C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\RealEstateApi.genruntimeconfig.cache
 C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\obj\Debug\net8.0\ref\RealEstateApi.dll
+C:\Users\nuno.silva\Documents\Estágio 2023\GitHub\AppCasas-Api\appcasas-api\AppCasasAPI\RealEstateApi\bin\Debug\net8.0\Npgsql.DependencyInjection.dll

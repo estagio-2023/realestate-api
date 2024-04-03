@@ -77,6 +77,23 @@
           }
         }
       },
+      "Npgsql.DependencyInjection/8.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
+          "Npgsql": "8.0.2"
+        },
+        "compile": {
+          "lib/net7.0/Npgsql.DependencyInjection.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net7.0/Npgsql.DependencyInjection.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "Swashbuckle.AspNetCore/6.4.0": {
         "type": "package",
         "dependencies": {
@@ -519,6 +536,23 @@
         "postgresql.png"
       ]
     },
+    "Npgsql.DependencyInjection/8.0.2": {
+      "sha512": "tVsfeoz6RCJI9zkJO6h6UDLKAmkfPksprEGNfWG8rcLS65L6XS4bORscyhU3xxTnkUb3PIQdlK4LbgAq1Xm5Qg==",
+      "type": "package",
+      "path": "npgsql.dependencyinjection/8.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "lib/net7.0/Npgsql.DependencyInjection.dll",
+        "lib/net7.0/Npgsql.DependencyInjection.xml",
+        "lib/netstandard2.0/Npgsql.DependencyInjection.dll",
+        "lib/netstandard2.0/Npgsql.DependencyInjection.xml",
+        "npgsql.dependencyinjection.8.0.2.nupkg.sha512",
+        "npgsql.dependencyinjection.nuspec",
+        "postgresql.png"
+      ]
+    },
     "Swashbuckle.AspNetCore/6.4.0": {
       "sha512": "eUBr4TW0up6oKDA5Xwkul289uqSMgY0xGN4pnbOIBqCcN9VKGGaPvHX3vWaG/hvocfGDP+MGzMA0bBBKz2fkmQ==",
       "type": "package",
@@ -604,6 +638,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "Npgsql >= 8.0.2",
+      "Npgsql.DependencyInjection >= 8.0.2",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
   },
@@ -650,6 +685,10 @@
         "targetAlias": "net8.0",
         "dependencies": {
           "Npgsql": {
+            "target": "Package",
+            "version": "[8.0.2, )"
+          },
+          "Npgsql.DependencyInjection": {
             "target": "Package",
             "version": "[8.0.2, )"
           },

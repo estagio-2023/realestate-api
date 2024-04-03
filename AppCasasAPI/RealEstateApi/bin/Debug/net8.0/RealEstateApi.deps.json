@@ -9,6 +9,7 @@
       "RealEstateApi/1.0.0": {
         "dependencies": {
           "Npgsql": "8.0.2",
+          "Npgsql.DependencyInjection": "8.0.2",
           "Swashbuckle.AspNetCore": "6.4.0"
         },
         "runtime": {
@@ -36,6 +37,18 @@
         },
         "runtime": {
           "lib/net8.0/Npgsql.dll": {
+            "assemblyVersion": "8.0.2.0",
+            "fileVersion": "8.0.2.0"
+          }
+        }
+      },
+      "Npgsql.DependencyInjection/8.0.2": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
+          "Npgsql": "8.0.2"
+        },
+        "runtime": {
+          "lib/net7.0/Npgsql.DependencyInjection.dll": {
             "assemblyVersion": "8.0.2.0",
             "fileVersion": "8.0.2.0"
           }
@@ -121,6 +134,13 @@
       "sha512": "sha512-MuJzLoWCaQhQAR3oh66YR0Ir6mxuezncGX3f8wxvAc21g0+9HICktJQlqMoODhxztZKXE5k9GxRxqUAN+vPb4g==",
       "path": "npgsql/8.0.2",
       "hashPath": "npgsql.8.0.2.nupkg.sha512"
+    },
+    "Npgsql.DependencyInjection/8.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tVsfeoz6RCJI9zkJO6h6UDLKAmkfPksprEGNfWG8rcLS65L6XS4bORscyhU3xxTnkUb3PIQdlK4LbgAq1Xm5Qg==",
+      "path": "npgsql.dependencyinjection/8.0.2",
+      "hashPath": "npgsql.dependencyinjection.8.0.2.nupkg.sha512"
     },
     "Swashbuckle.AspNetCore/6.4.0": {
       "type": "package",

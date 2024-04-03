@@ -4,10 +4,12 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>b17d9689-b759-4d25-8c68-a4a222b88d57</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Npgsql" Version="8.0.2" />
+    <PackageReference Include="Npgsql.DependencyInjection" Version="8.0.2" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 

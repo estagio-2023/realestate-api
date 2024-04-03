@@ -12,9 +12,9 @@ configuration.AddUserSecrets<Program>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-//builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
+builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
 
-//builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
+builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
 
 var app = builder.Build();
 
