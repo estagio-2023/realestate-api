@@ -2,19 +2,14 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs/appcasas-api/FileContentIndex/d1db2605-9d8e-4def-82b6-88e5785681ea.vsidx
-/.vs/appcasas-api/v17/.wsuo
-/.vs/appcasas-api/v17/DocumentLayout.json
+/.vs/RealestateApi/FileContentIndex/d1db2605-9d8e-4def-82b6-88e5785681ea.vsidx
+/.vs/RealestateApi/v17/.wsuo
+/.vs/RealestateApi/v17/DocumentLayout.json
 /.vs/slnx.sqlite
 /.vs/VSWorkspaceState.json
 *.vsidx
-/AppCasasAPI/AppCasasAPI/obj/Debug/net8.0
-/AppCasasAPI/AppCasasAPI/obj
-
-/AppCasasAPI/.vs/AppCasasAPI/v17/.suo
-/AppCasasAPI/.vs/AppCasasAPI/v17/DocumentLayout.json
-/AppCasasAPI/AppCasasAPI/bin/Debug/net8.0
-/AppCasasAPI/.vs/AppCasasAPI/config
-/AppCasasAPI/.vs/AppCasasAPI/DesignTimeBuild
-/AppCasasAPI/.vs/AppCasasAPI/v17
-/AppCasasAPI/.vs/ProjectEvaluation
+/RealestateApi/RealestateApi/obj/*
+.vs/*
+RealestateApi/bin/*
+RealestateApi/obj/*
+/RealestateApi/.vs/RealEstateApi
