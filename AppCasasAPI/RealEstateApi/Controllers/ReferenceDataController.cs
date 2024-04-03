@@ -1,7 +1,6 @@
 ﻿using RealEstateApi.Dto.Response;
-using RealEstateApi.Repository.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Security;
+using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
 {
@@ -10,19 +9,18 @@ namespace RealEstateApi.Controllers
     public class ReferenceDataController : ControllerBase
     {
         private readonly ILogger<ReferenceDataController> _logger;
-        private readonly IReferenceDataRepository _referenceDataRepository;
+        private readonly IReferenceDataService _referenceDataService;
 
-        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataRepository referenceDataRepository)
+        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataService referenceDataService)
         {
             _logger = logger;
-            _referenceDataRepository = referenceDataRepository;
+            _referenceDataService = referenceDataService;
         }
 
         [HttpGet(Name = "GetAllReferenceData")]
         public async Task<ReferenceDataResponseDto> Get()
         {
-            return await _referenceDataRepository.GetAllReferenceDataAsync();
-
+            return await _referenceDataService.GetAllReferenceDataAsync();
         }
     }
 }
