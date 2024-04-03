@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "b4ixAzIOE32jWrrdY+AFQ6tSo7d4TMEp33LCZKvsgwdRLetTHB3IBIO+JD6aUhF0dVHIPTvt3nGeL4iAOlYezA==",
+  "dgSpecHash": "9l3id1DNNTG2wjS4WnZHvXVGeYEsnRF1M6uaRr120rHC6NaMmwoNxFv36185Up/HpAu+TdJKc7deugfxT1MvtQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj",
+  "projectFilePath": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\RealestateApi\\RealEstateApi\\RealEstateApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nuno.silva\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\nuno.silva\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",

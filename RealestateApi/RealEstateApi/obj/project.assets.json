@@ -648,11 +648,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj",
+      "projectUniqueName": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\RealestateApi\\RealEstateApi\\RealEstateApi.csproj",
       "projectName": "RealEstateApi",
-      "projectPath": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\RealEstateApi.csproj",
+      "projectPath": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\RealestateApi\\RealEstateApi\\RealEstateApi.csproj",
       "packagesPath": "C:\\Users\\nuno.silva\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\AppCasasAPI\\RealEstateApi\\obj\\",
+      "outputPath": "C:\\Users\\nuno.silva\\Documents\\Estágio 2023\\GitHub\\AppCasas-Api\\appcasas-api\\RealestateApi\\RealEstateApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nuno.silva\\AppData\\Roaming\\NuGet\\NuGet.Config"
