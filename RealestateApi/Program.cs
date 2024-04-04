@@ -1,6 +1,8 @@
 using RealEstateApi.Helpers;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Repository;
+using RealEstateApi.Service.Interfaces;
+using RealEstateApi.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,8 @@ configuration.AddUserSecrets<Program>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
+
+builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
 builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
 
