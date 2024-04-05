@@ -16,6 +16,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+    });
+});
+
 builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 
 builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
@@ -30,6 +38,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 
