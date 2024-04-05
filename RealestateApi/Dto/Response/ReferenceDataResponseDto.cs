@@ -4,9 +4,9 @@ namespace RealEstateApi.Dto.Response
 {
     public class ReferenceDataResponseDto
     {
-        public List<TypologyModel> TypologiesList { get; set; } = new();
-        public List<RealEstateTypeModel> RealEstateTypesList { get; set; } = new();
-        public List<CityModel> CitiesList { get; set; } = new();
-        public List<AmenitiesModel> AmenitiesList { get; set; } = new();
+        public List<TypologyModel> Typologies { get; set; } = new();
+        public List<RealEstateTypeModel> RealEstateTypes { get; set; } = new();
+        public List<CityModel> Cities { get; set; } = new();
+        public List<AmenitiesModel> Amenities { get; set; } = new();
     }
 }
