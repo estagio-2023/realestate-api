@@ -1,4 +1,6 @@
 ﻿using Npgsql;
+using NpgsqlTypes;
+using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
@@ -30,7 +32,7 @@ namespace RealEstateApi.Repository
                         Description = typologyReader["description"].ToString(),
                         Id = (int)typologyReader["id"]
                     };
-                    refData.TypologiesList.Add(typologyModel);
+                    refData.Typologies.Add(typologyModel);
                 }
 
                 typologyReader.Close();
@@ -45,7 +47,7 @@ namespace RealEstateApi.Repository
                         Description = realEstateTypeReader["description"].ToString(),
                         Id = (int)realEstateTypeReader["id"]
                     };
-                    refData.RealEstateTypesList.Add(realEstateTypeModel);
+                    refData.RealEstateTypes.Add(realEstateTypeModel);
                 }
 
                 realEstateTypeReader.Close();
@@ -60,7 +62,7 @@ namespace RealEstateApi.Repository
                         Description = cityReader["description"].ToString(),
                         Id = (int)cityReader["id"]
                     };
-                    refData.CitiesList.Add(citiesModel);
+                    refData.Cities.Add(citiesModel);
                 }
 
                 cityReader.Close();
@@ -75,7 +77,7 @@ namespace RealEstateApi.Repository
                         Description = amenitiesReader["description"].ToString(),
                         Id = (int)amenitiesReader["id"]
                     };
-                    refData.AmenitiesList.Add(amenitiesModel);
+                    refData.Amenities.Add(amenitiesModel);
                 }
 
                 amenitiesReader.Close();
@@ -85,6 +87,78 @@ namespace RealEstateApi.Repository
                 Console.WriteLine(ex.Message);
             }
             return refData;
+        }
+
+        public async Task<AddReferenceDataResponseDto> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+            using var query = new NpgsqlCommand(@"INSERT INTO typology(description) values(@refDataDescription) returning id;", conn);
+
+            query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
+
+            var result = await query.ExecuteScalarAsync();
+
+            AddReferenceDataResponseDto response = new()
+            {
+                Id = (int)result,
+                Description = refData.Description
+            };
+
+            return response;
+        }
+
+        public async Task<AddReferenceDataResponseDto> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+            using var query = new NpgsqlCommand(@"INSERT INTO realestate_type(description) values(@refDataDescription) returning id;", conn);
+
+            query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
+
+            var result = await query.ExecuteScalarAsync();
+
+            AddReferenceDataResponseDto response = new()
+            {
+                Id = (int)result,
+                Description = refData.Description
+            };
+
+            return response;
+        }
+
+        public async Task<AddReferenceDataResponseDto> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+            using var query = new NpgsqlCommand(@"INSERT INTO city(description) values(@refDataDescription) returning id;", conn);
+
+            query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
+
+            var result = await query.ExecuteScalarAsync();
+
+            AddReferenceDataResponseDto response = new()
+            {
+                Id = (int)result,
+                Description = refData.Description
+            };
+
+            return response;
+        }
+
+        public async Task<AddReferenceDataResponseDto> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+            using var query = new NpgsqlCommand(@"INSERT INTO amenity(description) values(@refDataDescription) returning id;", conn);
+
+            query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
+
+            var result = await query.ExecuteScalarAsync();
+
+            AddReferenceDataResponseDto response = new()
+            {
+                Id = (int)result,
+                Description = refData.Description
+            };
+
+            return response;
         }        
     }
 }
