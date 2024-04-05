@@ -1,6 +1,7 @@
 ﻿using RealEstateApi.Dto.Response;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Service.Interfaces;
+using RealEstateApi.Dto.Request;
 
 namespace RealEstateApi.Controllers
 {
@@ -21,6 +22,12 @@ namespace RealEstateApi.Controllers
         public async Task<ReferenceDataResponseDto> Get()
         {
             return await _referenceDataService.GetAllReferenceDataAsync();
+        }
+
+        [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
+        public async Task<AddReferenceDataResponseDto> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
+        {
+            return await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
         }
     }
 }
