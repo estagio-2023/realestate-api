@@ -31,7 +31,7 @@ namespace RealEstateApi.Repository
                     {
                         Id = (int)realestateReader["id"],
                         Title = (string)realestateReader["title"],
-                        Address = (string)realestateReader["adress"],
+                        Address = (string)realestateReader["address"],
                         ZipCode = (string)realestateReader["zip_code"],
                         Description = (string)realestateReader["description"],
                         Build_Date = (DateTime)realestateReader["build_date"],
