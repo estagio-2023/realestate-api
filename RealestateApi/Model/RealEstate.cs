@@ -10,7 +10,7 @@
         public DateTime Build_Date { get; set; }
         public decimal Price { get; set; }     
         public int SquareMeter { get; set; }
-        public required string EnergyClass { get; set; }
+        public string EnergyClass { get; set; } = null!;
         public int ClientId { get; set; }
         public int AgentId { get; set; }
         public int RealEstateTypeId { get; set; }

@@ -6,6 +6,5 @@ namespace RealEstateApi.Repository.Interfaces
     public interface IRealEstateRepository
     {
         Task<RealEstateResponseDto> GetRealEstateAsync();
-
     }
 }

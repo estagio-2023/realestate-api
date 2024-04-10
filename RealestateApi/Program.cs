@@ -19,6 +19,7 @@ builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(b
 
 builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 builder.Services.AddScoped<IRealEstateService, RealEstateService>();
+
 builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
 builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
 
