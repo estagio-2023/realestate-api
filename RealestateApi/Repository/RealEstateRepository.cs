@@ -1,7 +1,6 @@
 ﻿using Npgsql;
 using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
-using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 
@@ -15,38 +14,38 @@ namespace RealEstateApi.Repository
         {
             _dataSource = dataSource;
         }
-        
-        public async Task<RealEstateResponseDto> GetRealEstateAsync()
+
+        public async Task<List<RealEstate>> GetAllRealEstateAsync()
         {
-            RealEstateResponseDto realEstate = new();
+            List<RealEstate> realEstate = new();
             using var conn = await _dataSource.OpenConnectionAsync();
 
-            using var realestateQuerry = new NpgsqlCommand("SELECT * FROM realestate;", conn);
-            using var realestateReader = await realestateQuerry.ExecuteReaderAsync();
+            using var realEstateQuerry = new NpgsqlCommand("SELECT * FROM realestate;", conn);
+            using var realEstateReader = await realEstateQuerry.ExecuteReaderAsync();
             try
             {
-                while (realestateReader.Read())
+                while (realEstateReader.Read())
                 {
-                    var realestateModel = new RealEstate
+                    var realEstateModel = new RealEstate
                     {
-                        Id = (int)realestateReader["id"],
-                        Title = (string)realestateReader["title"],
-                        Address = (string)realestateReader["adress"],
-                        ZipCode = (string)realestateReader["zip_code"],
-                        Description = (string)realestateReader["description"],
-                        Build_Date = (DateTime)realestateReader["build_date"],
-                        Price = (decimal)realestateReader["price"],
-                        SquareMeter = (int)realestateReader["square_meter"],
-                        EnergyClass = (string)realestateReader["energy_class"],
-                        ClientId = (int)realestateReader["fk_client_id"],
-                        AgentId = (int)realestateReader["fk_agent_id"],
-                        RealEstateTypeId = (int)realestateReader["fk_realestate_type_id"],
-                        CityId = (int)realestateReader["fk_city_id"],
-                        TypologyId = (int)realestateReader["fk_typology_id"]
+                        Id = (int)realEstateReader["id"],
+                        Title = (string)realEstateReader["title"],
+                        Address = (string)realEstateReader["address"],
+                        ZipCode = (string)realEstateReader["zip_code"],
+                        Description = (string)realEstateReader["description"],
+                        Build_Date = (DateTime)realEstateReader["build_date"],
+                        Price = (decimal)realEstateReader["price"],
+                        SquareMeter = (int)realEstateReader["square_meter"],
+                        EnergyClass = (string)realEstateReader["energy_class"],
+                        ClientId = (int)realEstateReader["fk_client_id"],
+                        AgentId = (int)realEstateReader["fk_agent_id"],
+                        RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
+                        CityId = (int)realEstateReader["fk_city_id"],
+                        TypologyId = (int)realEstateReader["fk_typology_id"]
                     };
-                    realEstate.RealEstate.Add(realestateModel);
+                    realEstate.Add(realEstateModel);
                 }
-                realestateReader.Close();
+                realEstateReader.Close();
             }
             catch (Exception ex)
             {

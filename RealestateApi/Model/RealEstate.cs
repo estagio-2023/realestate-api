@@ -3,10 +3,10 @@
     public class RealEstate
     {
         public int Id { get; set; }
-        public string Title { get; set; }
-        public string Address { get; set; }
-        public string ZipCode { get; set; }
-        public string Description { get; set; }
+        public string Title { get; set; } = null!;
+        public string Address { get; set; } = null!;
+        public string ZipCode { get; set; } = null!;
+        public string Description { get; set; } = null!;
         public DateTime Build_Date { get; set; }
         public decimal Price { get; set; }     
         public int SquareMeter { get; set; }

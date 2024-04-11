@@ -1,6 +1,7 @@
-﻿using RealEstateApi.Dto.Response;
+﻿using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
+
 
 namespace RealEstateApi.Service
 {
@@ -13,9 +14,9 @@ namespace RealEstateApi.Service
             _realEstateRepository = realEstateRepository;
         }
 
-        public async Task<RealEstateResponseDto> GetRealEstateAsync()
+        public async Task<List<RealEstate>> GetAllRealEstateAsync()
         {
-            return await _realEstateRepository.GetRealEstateAsync();
+            return await _realEstateRepository.GetAllRealEstateAsync();
         }
     }
 }
