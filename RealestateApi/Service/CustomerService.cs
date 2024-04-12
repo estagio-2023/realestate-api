@@ -1,4 +1,4 @@
-﻿using RealEstateApi.Dto.Response;
+﻿using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -13,7 +13,7 @@ namespace RealEstateApi.Service
             _customerRepository = customerRepository;
         }
 
-        public async Task<CustomerResponseDto> GetAllCustomersAsync()
+        public async Task<List<ClientModel>> GetAllCustomersAsync()
         {
             return await _customerRepository.GetAllCustomersAsync();
         }

@@ -1,11 +1,10 @@
 ﻿using Npgsql;
-using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
-using RealEstateApi.Repository.Interfaces; 
+using RealEstateApi.Repository.Interfaces;
 
 namespace RealEstateApi.Repository
 {
-    public class CustomerRepository : ICustomerRepository 
+    public class CustomerRepository : ICustomerRepository
     {
         private readonly NpgsqlDataSource _dataSource;
 
@@ -14,9 +13,9 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
-        public async Task<CustomerResponseDto> GetAllCustomersAsync()
+        public async Task<List<ClientModel>> GetAllCustomersAsync()
         {
-            CustomerResponseDto customerData = new CustomerResponseDto(); 
+            List<ClientModel> customers = new List<ClientModel>();
             try
             {
                 using var conn = await _dataSource.OpenConnectionAsync();
@@ -27,21 +26,20 @@ namespace RealEstateApi.Repository
                 while (await customerReader.ReadAsync())
                 {
                     var customerModel = new ClientModel
-                    {   
-                        Id = customerReader.GetInt32(customerReader.GetOrdinal("id")),
-                        Name = customerReader.GetString(customerReader.GetOrdinal("name")),
-                        Email = customerReader.GetString(customerReader.GetOrdinal("email")),
-                        Password = customerReader.GetString(customerReader.GetOrdinal("password")),
+                    {
+                        Id = (int)customerReader["id"],
+                        Name = (string)customerReader["name"],
+                        Email = (string)customerReader["email"],
+                        Password = (string)customerReader["password"],
                     };
-                    customerData.Customers.Add(customerModel);
+                    customers.Add(customerModel);
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-
-            return customerData;
+            return customers;
         }
     }
 }

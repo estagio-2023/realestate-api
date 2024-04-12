@@ -1,10 +1,10 @@
-﻿using RealEstateApi.Dto.Response;
+﻿using RealEstateApi.Model;
 
 namespace RealEstateApi.Service.Interfaces
 {
     public interface ICustomerService
     {
-        Task<CustomerResponseDto> GetAllCustomersAsync();
+        Task<List<ClientModel>> GetAllCustomersAsync();
     }
 }
     

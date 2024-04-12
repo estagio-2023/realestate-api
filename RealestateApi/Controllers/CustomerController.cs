@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RealEstateApi.Dto.Response;
+using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -8,7 +8,6 @@ namespace RealEstateApi.Controllers
     [Route("[controller]")]
     public class CustomerController : ControllerBase
     {
-
         private readonly ILogger<CustomerController> _logger;
         private readonly ICustomerService _customerService;
 
@@ -19,7 +18,7 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllCustomers")]
-        public async Task<ActionResult<CustomerResponseDto>> GetAllCustomersAsync()
+        public async Task<ActionResult<List<ClientModel>>> GetAllCustomersAsync()
         {
             try
             {
