@@ -3,6 +3,7 @@ using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Repository;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Service;
+using RealEstateApi.Model;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,7 +27,9 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
+builder.Services.AddScoped<IRealEstateService, RealEstateService>();
 
+builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
 builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
 
 var app = builder.Build();
