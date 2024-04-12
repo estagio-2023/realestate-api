@@ -28,20 +28,20 @@ namespace RealEstateApi.Repository
                 {
                     var realEstateModel = new RealEstate
                     {
-                        Id = (int)realestateReader["id"],
-                        Title = (string)realestateReader["title"],
-                        Address = (string)realestateReader["adress"],
-                        ZipCode = (string)realestateReader["zip_code"],
-                        Description = (string)realestateReader["description"],
-                        Build_Date = (DateTime)realestateReader["build_date"],
-                        Price = (decimal)realestateReader["price"],
-                        SquareMeter = (int)realestateReader["square_meter"],
-                        EnergyClass = (string)realestateReader["energy_class"],
-                        ClientId = (int)realestateReader["fk_client_id"],
-                        AgentId = (int)realestateReader["fk_agent_id"],
-                        RealEstateTypeId = (int)realestateReader["fk_realestate_type_id"],
-                        CityId = (int)realestateReader["fk_city_id"],
-                        TypologyId = (int)realestateReader["fk_typology_id"]
+                        Id = (int)realEstateReader["id"],
+                        Title = (string)realEstateReader["title"],
+                        Address = (string)realEstateReader["address"],
+                        ZipCode = (string)realEstateReader["zip_code"],
+                        Description = (string)realEstateReader["description"],
+                        Build_Date = (DateTime)realEstateReader["build_date"],
+                        Price = (decimal)realEstateReader["price"],
+                        SquareMeter = (int)realEstateReader["square_meter"],
+                        EnergyClass = (string)realEstateReader["energy_class"],
+                        ClientId = (int)realEstateReader["fk_client_id"],
+                        AgentId = (int)realEstateReader["fk_agent_id"],
+                        RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
+                        CityId = (int)realEstateReader["fk_city_id"],
+                        TypologyId = (int)realEstateReader["fk_typology_id"]
                     };
                     realEstate.Add(realEstateModel);
                 }
