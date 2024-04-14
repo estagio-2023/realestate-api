@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RealEstateApi.Controllers
 {
@@ -18,17 +21,17 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllCustomers")]
-        public async Task<ActionResult<List<ClientModel>>> GetAllCustomersAsync()
+        public async Task<List<ClientModel>> GetAllCustomersAsync()
         {
             try
             {
                 var customers = await _customerService.GetAllCustomersAsync();
-                return Ok(customers);
+                return customers;
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while retrieving customers.");
-                return StatusCode(500, "Internal server error");
+                throw;
             }
         }
     }
