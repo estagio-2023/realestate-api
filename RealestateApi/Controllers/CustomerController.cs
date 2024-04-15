@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 using System;
@@ -33,6 +35,11 @@ namespace RealEstateApi.Controllers
                 _logger.LogError(ex, "An error occurred while retrieving customers.");
                 throw;
             }
+        }
+        [HttpPost(Name = "AddCustomer")]
+        public async Task<AddCustomDto> AddCustomerAsync(CustomDto customerData)
+        {
+            return await _customerService.AddCustomersAsync(customerData);
         }
     }
 }

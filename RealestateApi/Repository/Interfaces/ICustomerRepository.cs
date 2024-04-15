@@ -1,9 +1,12 @@
-﻿using RealEstateApi.Model;
+﻿using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
+using RealEstateApi.Model;
 
 namespace RealEstateApi.Repository.Interfaces
 {
     public interface ICustomerRepository
     {
         Task<List<ClientModel>> GetAllCustomersAsync();
+        Task<AddCustomDto> AddCustomersAsync(CustomDto customerData);
     }
 }
