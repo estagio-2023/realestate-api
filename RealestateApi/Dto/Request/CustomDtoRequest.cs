@@ -1,6 +1,6 @@
 ﻿namespace RealEstateApi.Dto.Request
 {
-    public class CustomDto
+    public class CustomDtoRequest
     {
         public string Name { get; set; }
         public string Email { get; set; }

@@ -1,6 +1,6 @@
 ﻿namespace RealEstateApi.Dto.Response
 {
-    public class AddCustomDto
+    public class AddCustomDtoResponse
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;
