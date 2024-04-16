@@ -1,5 +1,7 @@
-﻿using RealEstateApi.Dto.Request;
+﻿using Microsoft.Extensions.Logging;
+using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
+using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -45,6 +47,31 @@ namespace RealEstateApi.Service
                 }
             }
             return response;
-        }     
+        }
+        
+        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        {
+            ReferenceDataResponseDto response = new();
+
+            switch (refDataType.ToLower())
+            {
+                case "typology":
+                    response = await _referenceDataRepository.DeleteTypologyReferenceDataAsync(refDataType, refDataId);
+                    break;
+
+                case "realestate_type":
+                    response = await _referenceDataRepository.DeleteRealEstateTypeReferenceDataAsync(refDataType, refDataId);
+                    break;
+
+                case "city":
+                    response = await _referenceDataRepository.DeleteCityReferenceDataAsync(refDataType, refDataId);
+                    break;
+
+                case "amenity":
+                    response = await _referenceDataRepository.DeleteAmenityReferenceDataAsync(refDataType, refDataId);
+                    break;
+            }
+            return response;
+        }
     }
 }
