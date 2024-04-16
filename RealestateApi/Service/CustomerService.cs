@@ -19,12 +19,12 @@ namespace RealEstateApi.Service
         {
             return await _customerRepository.GetAllCustomersAsync();
         }
-        public async Task<AddCustomDtoResponse> AddCustomersAsync(CustomDtoRequest customerData)
+        public async Task<List<ClientModel>> AddCustomerAsync(CustomerRequestDto customerData)
         {
-            AddCustomDtoResponse response = new();
+            List<ClientModel> response = new();
 
             if (customerData != null) { 
-                response = await _customerRepository.AddCustomersAsync(customerData);
+                response = await _customerRepository.AddCustomerAsync(customerData);
             }
             return response;
         }

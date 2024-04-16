@@ -37,9 +37,9 @@ namespace RealEstateApi.Controllers
             }
         }
         [HttpPost(Name = "AddCustomer")]
-        public async Task<AddCustomDtoResponse> AddCustomerAsync(CustomDtoRequest customerData)
+        public async Task<List<ClientModel>> AddCustomerAsync(CustomerRequestDto customerData)
         {
-            return await _customerService.AddCustomersAsync(customerData);
+            return await _customerService.AddCustomerAsync(customerData);
         }
     }
 }

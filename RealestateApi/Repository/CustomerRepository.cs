@@ -45,8 +45,10 @@ namespace RealEstateApi.Repository
             return customers;
         }
 
-        public async Task<AddCustomDtoResponse> AddCustomersAsync(CustomDtoRequest customerData)
+        public async Task<List<ClientModel>> AddCustomerAsync(CustomerRequestDto customerData) 
         {
+            List<ClientModel> response = new List<ClientModel>();
+
             using var conn = await _dataSource.OpenConnectionAsync();
             using var query = new NpgsqlCommand(@"INSERT INTO client (name, email, password) VALUES (@customerName, @customerEmail, @customerPassword) returning id", conn);
 
@@ -55,13 +57,14 @@ namespace RealEstateApi.Repository
             query.Parameters.Add(new NpgsqlParameter("@customerPassword", NpgsqlDbType.Text) { Value = customerData.Password });
             var result = await query.ExecuteScalarAsync();
 
-            AddCustomDtoResponse response = new()
+            ClientModel customerResponse = new()
             {
                 Id = (int)result,
                 Name = customerData.Name,
                 Email = customerData.Email,
                 Password = customerData.Password
             };
+            response.Add(customerResponse);
 
             return response;
         }
