@@ -1,5 +1,6 @@
 ﻿using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
+using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -19,9 +20,9 @@ namespace RealEstateApi.Service
             return await _referenceDataRepository.GetAllReferenceDataAsync();
         }
 
-        public async Task<AddReferenceDataResponseDto> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
-            AddReferenceDataResponseDto response = new();
+            ReferenceDataModel response = new();
 
             if (!string.IsNullOrWhiteSpace(refDataType))
             {
@@ -44,6 +45,7 @@ namespace RealEstateApi.Service
                         break;
                 }
             }
+            
             return response;
         }     
     }

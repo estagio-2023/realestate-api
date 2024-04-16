@@ -1,5 +1,6 @@
 ﻿using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
+using RealEstateApi.Model;
 
 namespace RealEstateApi.Service.Interfaces
 {
@@ -7,6 +8,6 @@ namespace RealEstateApi.Service.Interfaces
     {
         Task<ReferenceDataResponseDto> GetAllReferenceDataAsync();
 
-        Task<AddReferenceDataResponseDto> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+        Task<ReferenceDataModel> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
     }
 }
