@@ -89,7 +89,7 @@ namespace RealEstateApi.Repository
             return refData;
         }
 
-        public async Task<AddReferenceDataResponseDto> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
             using var query = new NpgsqlCommand(@"INSERT INTO typology(description) values(@refDataDescription) returning id;", conn);
@@ -98,7 +98,7 @@ namespace RealEstateApi.Repository
 
             var result = await query.ExecuteScalarAsync();
 
-            AddReferenceDataResponseDto response = new()
+            ReferenceDataModel response = new()
             {
                 Id = (int)result,
                 Description = refData.Description
@@ -107,7 +107,7 @@ namespace RealEstateApi.Repository
             return response;
         }
 
-        public async Task<AddReferenceDataResponseDto> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
             using var query = new NpgsqlCommand(@"INSERT INTO realestate_type(description) values(@refDataDescription) returning id;", conn);
@@ -116,7 +116,7 @@ namespace RealEstateApi.Repository
 
             var result = await query.ExecuteScalarAsync();
 
-            AddReferenceDataResponseDto response = new()
+            ReferenceDataModel response = new()
             {
                 Id = (int)result,
                 Description = refData.Description
@@ -125,7 +125,7 @@ namespace RealEstateApi.Repository
             return response;
         }
 
-        public async Task<AddReferenceDataResponseDto> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
             using var query = new NpgsqlCommand(@"INSERT INTO city(description) values(@refDataDescription) returning id;", conn);
@@ -134,7 +134,7 @@ namespace RealEstateApi.Repository
 
             var result = await query.ExecuteScalarAsync();
 
-            AddReferenceDataResponseDto response = new()
+            ReferenceDataModel response = new()
             {
                 Id = (int)result,
                 Description = refData.Description
@@ -143,7 +143,7 @@ namespace RealEstateApi.Repository
             return response;
         }
 
-        public async Task<AddReferenceDataResponseDto> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
             using var query = new NpgsqlCommand(@"INSERT INTO amenity(description) values(@refDataDescription) returning id;", conn);
@@ -152,7 +152,7 @@ namespace RealEstateApi.Repository
 
             var result = await query.ExecuteScalarAsync();
 
-            AddReferenceDataResponseDto response = new()
+            ReferenceDataModel response = new()
             {
                 Id = (int)result,
                 Description = refData.Description
