@@ -161,6 +161,7 @@ namespace RealEstateApi.Repository
 
             return response;
         }
+
         public async Task<ReferenceDataResponseDto> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
