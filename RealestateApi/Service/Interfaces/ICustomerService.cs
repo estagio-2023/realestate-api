@@ -7,6 +7,6 @@ namespace RealEstateApi.Service.Interfaces
     public interface ICustomerService
     {
         Task<List<ClientModel>> GetAllCustomersAsync();
-        Task<List<ClientModel>> AddCustomerAsync(CustomerRequestDto customerData);
+        Task<ClientModel> AddCustomerAsync(CustomerRequestDto customerData);
     }
 }
