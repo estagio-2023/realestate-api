@@ -1,14 +1,15 @@
-﻿namespace RealEstateApi.Model
+﻿using RealEstateApi.Model;
+
+namespace RealEstateApi.Dto.Request
 {
-    public class RealEstate
+    public class AddRealEstateRequestDto
     {
-        public int Id { get; set; }
         public string Title { get; set; } = null!;
         public string Address { get; set; } = null!;
         public string ZipCode { get; set; } = null!;
         public string Description { get; set; } = null!;
         public DateTime Build_Date { get; set; }
-        public decimal Price { get; set; }     
+        public decimal Price { get; set; }
         public int SquareMeter { get; set; }
         public char EnergyClass { get; set; } 
         public int ClientId { get; set; }
@@ -18,3 +19,4 @@
         public int TypologyId { get; set; }
     }
 }
+
