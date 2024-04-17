@@ -23,7 +23,7 @@ namespace RealEstateApi.Repository
             {
                 using var conn = await _dataSource.OpenConnectionAsync();
 
-                using var customerQuery = new NpgsqlCommand("SELECT * FROM client;", conn);
+                using var customerQuery = new NpgsqlCommand("SELECT * FROM customer;", conn);
                 using var customerReader = await customerQuery.ExecuteReaderAsync();
 
                 while (await customerReader.ReadAsync())
@@ -49,7 +49,7 @@ namespace RealEstateApi.Repository
         {
 
             using var conn = await _dataSource.OpenConnectionAsync();
-            using var query = new NpgsqlCommand(@"INSERT INTO client (name, email, password) VALUES (@customerName, @customerEmail, @customerPassword) returning id", conn);
+            using var query = new NpgsqlCommand(@"INSERT INTO customer (name, email, password) VALUES (@customerName, @customerEmail, @customerPassword) returning id", conn);
 
             query.Parameters.Add(new NpgsqlParameter("@customerName", NpgsqlDbType.Text) { Value = customerData.Name });
             query.Parameters.Add(new NpgsqlParameter("@customerEmail", NpgsqlDbType.Text) { Value = customerData.Email });
