@@ -1,4 +1,7 @@
 ﻿using Npgsql;
+using NpgsqlTypes;
+using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 
@@ -40,6 +43,28 @@ namespace RealEstateApi.Repository
                 Console.WriteLine(ex.Message);
             }
             return customers;
+        }
+
+        public async Task<ClientModel> AddCustomerAsync(CustomerRequestDto customerData) 
+        {
+
+            using var conn = await _dataSource.OpenConnectionAsync();
+            using var query = new NpgsqlCommand(@"INSERT INTO client (name, email, password) VALUES (@customerName, @customerEmail, @customerPassword) returning id", conn);
+
+            query.Parameters.Add(new NpgsqlParameter("@customerName", NpgsqlDbType.Text) { Value = customerData.Name });
+            query.Parameters.Add(new NpgsqlParameter("@customerEmail", NpgsqlDbType.Text) { Value = customerData.Email });
+            query.Parameters.Add(new NpgsqlParameter("@customerPassword", NpgsqlDbType.Text) { Value = customerData.Password });
+            var result = await query.ExecuteScalarAsync();
+
+            ClientModel response = new()
+            {
+                Id = (int)result,
+                Name = customerData.Name,
+                Email = customerData.Email,
+                Password = customerData.Password
+            };
+            
+            return response;
         }
     }
 }
