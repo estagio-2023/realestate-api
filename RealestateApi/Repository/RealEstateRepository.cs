@@ -37,7 +37,7 @@ namespace RealEstateApi.Repository
                         Price = (decimal)realEstateReader["price"],
                         SquareMeter = (int)realEstateReader["square_meter"],
                         EnergyClass = (char)realEstateReader["energy_class"],
-                        CustomerId = (int)realEstateReader["fk_client_id"],
+                        CustomerId = (int)realEstateReader["fk_customer_id"],
                         AgentId = (int)realEstateReader["fk_agent_id"],
                         RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
                         CityId = (int)realEstateReader["fk_city_id"],
@@ -57,7 +57,7 @@ namespace RealEstateApi.Repository
         {
             List<RealEstate> response = new List<RealEstate>();
             using var conn = await _dataSource.OpenConnectionAsync();
-            using var query = new NpgsqlCommand(@"INSERT INTO realestate(title, address, zip_code, description, build_date, price, square_meter, energy_class, fk_client_id, fk_agent_id, fk_realestate_type_id, fk_city_id, fk_typology_id) VALUES (@realEstateTitle, @realEstateAddress, @realEstateZipcode, @realEstateDescription, @realEstateBuild_Date, @realEstatePrice, @realEstateSquareMeter, @realEstateEnergyClass, @realEstateClientId, @realEstateAgentId, @realEstateRealEstateTypeId, @realEstateCityId, @realEstateTypologyId) returning id;", conn);
+            using var query = new NpgsqlCommand(@"INSERT INTO realestate(title, address, zip_code, description, build_date, price, square_meter, energy_class, fk_customer_id, fk_agent_id, fk_realestate_type_id, fk_city_id, fk_typology_id) VALUES (@realEstateTitle, @realEstateAddress, @realEstateZipcode, @realEstateDescription, @realEstateBuild_Date, @realEstatePrice, @realEstateSquareMeter, @realEstateEnergyClass, @realEstateCustomerId, @realEstateAgentId, @realEstateRealEstateTypeId, @realEstateCityId, @realEstateTypologyId) returning id;", conn);
 
             query.Parameters.Add(new NpgsqlParameter("@realEstateTitle", NpgsqlDbType.Text) { Value = realEstateData.Title });
             query.Parameters.Add(new NpgsqlParameter("@realEstateAddress", NpgsqlDbType.Text) { Value = realEstateData.Address });
@@ -67,7 +67,7 @@ namespace RealEstateApi.Repository
             query.Parameters.Add(new NpgsqlParameter("@realEstatePrice", NpgsqlDbType.Numeric) { Value = realEstateData.Price });
             query.Parameters.Add(new NpgsqlParameter("@realEstateSquareMeter", NpgsqlDbType.Integer) { Value = realEstateData.SquareMeter });
             query.Parameters.Add(new NpgsqlParameter("@realEstateEnergyClass", NpgsqlDbType.Char) { Value = realEstateData.EnergyClass });
-            query.Parameters.Add(new NpgsqlParameter("@realEstateClientId", NpgsqlDbType.Integer) { Value = realEstateData.ClientId });
+            query.Parameters.Add(new NpgsqlParameter("@realEstateCustomerId", NpgsqlDbType.Integer) { Value = realEstateData.CustomerId });
             query.Parameters.Add(new NpgsqlParameter("@realEstateAgentId", NpgsqlDbType.Integer) { Value = realEstateData.AgentId });
             query.Parameters.Add(new NpgsqlParameter("@realEstateRealEstateTypeId", NpgsqlDbType.Integer) { Value = realEstateData.RealEstateTypeId });
             query.Parameters.Add(new NpgsqlParameter("@realEstateCityId", NpgsqlDbType.Integer) { Value = realEstateData.CityId });
@@ -81,12 +81,18 @@ namespace RealEstateApi.Repository
                 Title = realEstateData.Title,
                 Address = realEstateData.Address,
                 ZipCode = realEstateData.ZipCode, 
-                Description = realEstateData.Description, 
+                Description = realEstateData.Description,
+                Build_Date = realEstateData.Build_Date,
+                Price = realEstateData.Price,
                 EnergyClass = realEstateData.EnergyClass, 
-                SquareMeter = realEstateData.SquareMeter, 
-                Build_Date = realEstateData.Build_Date, 
-                Price = realEstateData.Price, 
-                AgentId = realEstateData.AgentId
+                SquareMeter = realEstateData.SquareMeter,
+                CustomerId = realEstateData.CustomerId,
+                AgentId = realEstateData.AgentId,
+                RealEstateTypeId = realEstateData.RealEstateTypeId,
+                CityId = realEstateData.CityId,
+                TypologyId = realEstateData.TypologyId,
+
+
             };
             response.Add(realEstateResponse);
 
