@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using Microsoft.Extensions.Logging;
+using Npgsql;
 using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
@@ -159,6 +160,58 @@ namespace RealEstateApi.Repository
             };
 
             return response;
-        }        
+        }
+
+        public async Task<ReferenceDataResponseDto> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+            using var delete = new NpgsqlCommand("DELETE FROM typology WHERE id = @RefDataId", conn);
+            delete.Parameters.AddWithValue("@RefDataId", refDataId);
+
+            var result = await delete.ExecuteScalarAsync();
+
+            var response = await GetAllReferenceDataAsync();
+
+            return response;
+        }
+
+        public async Task<ReferenceDataResponseDto> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+            using var delete = new NpgsqlCommand("DELETE FROM realestate_type WHERE id = @RefDataId", conn);
+            delete.Parameters.AddWithValue("@RefDataId", refDataId);
+
+            var result = await delete.ExecuteScalarAsync();
+
+            var response = await GetAllReferenceDataAsync();
+
+            return response;
+        }
+
+        public async Task<ReferenceDataResponseDto> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+            using var delete = new NpgsqlCommand("DELETE FROM city WHERE id = @RefDataId", conn);
+            delete.Parameters.AddWithValue("@RefDataId", refDataId);
+
+            var result = await delete.ExecuteScalarAsync();
+
+            var response = await GetAllReferenceDataAsync();
+
+            return response;
+        }
+
+        public async Task<ReferenceDataResponseDto> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+            using var delete = new NpgsqlCommand("DELETE FROM amenity WHERE id = @RefDataId", conn);
+            delete.Parameters.AddWithValue("@RefDataId", refDataId);
+
+            var result = await delete.ExecuteScalarAsync();
+
+            var response = await GetAllReferenceDataAsync();
+
+            return response;
+        }
     }
 }

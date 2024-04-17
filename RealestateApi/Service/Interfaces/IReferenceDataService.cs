@@ -9,5 +9,7 @@ namespace RealEstateApi.Service.Interfaces
         Task<ReferenceDataResponseDto> GetAllReferenceDataAsync();
 
         Task<ReferenceDataModel> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+
+        Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId);
     }
 }

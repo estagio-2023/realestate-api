@@ -30,5 +30,19 @@ namespace RealEstateApi.Controllers
         {
             return await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
         }
+
+        [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
+        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        {
+            try
+            {
+                return await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving reference data.");
+                throw;
+            }
+        }
     }
 }

@@ -23,6 +23,7 @@ builder.Services.AddCors(options =>
     {
         builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
         builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
     });
 });
 
