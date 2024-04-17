@@ -23,14 +23,17 @@ builder.Services.AddCors(options =>
     {
         builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
         builder.AllowAnyHeader();
+        builder.AllowAnyMethod();
     });
 });
 
 builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 builder.Services.AddScoped<IRealEstateService, RealEstateService>();
+builder.Services.AddScoped<ICustomerService, CustomerService>();
 
 builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
 builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
 
@@ -42,7 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+    
 app.UseCors();
 
 app.UseAuthorization();

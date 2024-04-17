@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Model;
 
 namespace RealEstateApi.Controllers
 {
@@ -25,9 +26,23 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
-        public async Task<AddReferenceDataResponseDto> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
             return await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
+        }
+
+        [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
+        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        {
+            try
+            {
+                return await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving reference data.");
+                throw;
+            }
         }
     }
 }

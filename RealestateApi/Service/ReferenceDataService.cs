@@ -1,5 +1,8 @@
-﻿using RealEstateApi.Dto.Request;
+﻿using Microsoft.Extensions.Logging;
+using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
+using RealEstateApi.Model;
+using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -19,9 +22,9 @@ namespace RealEstateApi.Service
             return await _referenceDataRepository.GetAllReferenceDataAsync();
         }
 
-        public async Task<AddReferenceDataResponseDto> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
-            AddReferenceDataResponseDto response = new();
+            ReferenceDataModel response = new();
 
             if (!string.IsNullOrWhiteSpace(refDataType))
             {
@@ -44,7 +47,33 @@ namespace RealEstateApi.Service
                         break;
                 }
             }
+            
             return response;
-        }     
+        }
+        
+        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        {
+            ReferenceDataResponseDto response = new();
+
+            switch (refDataType.ToLower())
+            {
+                case "typology":
+                    response = await _referenceDataRepository.DeleteTypologyReferenceDataAsync(refDataType, refDataId);
+                    break;
+
+                case "realestate_type":
+                    response = await _referenceDataRepository.DeleteRealEstateTypeReferenceDataAsync(refDataType, refDataId);
+                    break;
+
+                case "city":
+                    response = await _referenceDataRepository.DeleteCityReferenceDataAsync(refDataType, refDataId);
+                    break;
+
+                case "amenity":
+                    response = await _referenceDataRepository.DeleteAmenityReferenceDataAsync(refDataType, refDataId);
+                    break;
+            }
+            return response;
+        }
     }
 }
