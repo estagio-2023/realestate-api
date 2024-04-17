@@ -37,7 +37,7 @@ namespace RealEstateApi.Repository
                         Price = (decimal)realEstateReader["price"],
                         SquareMeter = (int)realEstateReader["square_meter"],
                         EnergyClass = (char)realEstateReader["energy_class"],
-                        ClientId = (int)realEstateReader["fk_client_id"],
+                        CustomerId = (int)realEstateReader["fk_client_id"],
                         AgentId = (int)realEstateReader["fk_agent_id"],
                         RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
                         CityId = (int)realEstateReader["fk_city_id"],
