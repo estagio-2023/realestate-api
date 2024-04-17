@@ -23,7 +23,7 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllCustomers")]
-        public async Task<List<ClientModel>> GetAllCustomersAsync()
+        public async Task<List<CustomerModel>> GetAllCustomersAsync()
         {
             try
             {
@@ -37,7 +37,7 @@ namespace RealEstateApi.Controllers
             }
         }
         [HttpPost(Name = "AddCustomer")]
-        public async Task<ClientModel> AddCustomerAsync(CustomerRequestDto customerData)
+        public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData)
         {
             return await _customerService.AddCustomerAsync(customerData);
         }

@@ -16,9 +16,9 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
-        public async Task<List<ClientModel>> GetAllCustomersAsync()
+        public async Task<List<CustomerModel>> GetAllCustomersAsync()
         {
-            List<ClientModel> customers = new List<ClientModel>();
+            List<CustomerModel> customers = new List<CustomerModel>();
             try
             {
                 using var conn = await _dataSource.OpenConnectionAsync();
@@ -28,7 +28,7 @@ namespace RealEstateApi.Repository
 
                 while (await customerReader.ReadAsync())
                 {
-                    var customerModel = new ClientModel
+                    var customerModel = new CustomerModel
                     {
                         Id = (int)customerReader["id"],
                         Name = (string)customerReader["name"],
@@ -45,7 +45,7 @@ namespace RealEstateApi.Repository
             return customers;
         }
 
-        public async Task<ClientModel> AddCustomerAsync(CustomerRequestDto customerData) 
+        public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData) 
         {
 
             using var conn = await _dataSource.OpenConnectionAsync();
@@ -56,7 +56,7 @@ namespace RealEstateApi.Repository
             query.Parameters.Add(new NpgsqlParameter("@customerPassword", NpgsqlDbType.Text) { Value = customerData.Password });
             var result = await query.ExecuteScalarAsync();
 
-            ClientModel response = new()
+            CustomerModel response = new()
             {
                 Id = (int)result,
                 Name = customerData.Name,

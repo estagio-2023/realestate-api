@@ -15,13 +15,13 @@ namespace RealEstateApi.Service
             _customerRepository = customerRepository;
         }
 
-        public async Task<List<ClientModel>> GetAllCustomersAsync()
+        public async Task<List<CustomerModel>> GetAllCustomersAsync()
         {
             return await _customerRepository.GetAllCustomersAsync();
         }
-        public async Task<ClientModel> AddCustomerAsync(CustomerRequestDto customerData)
+        public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData)
         {
-            ClientModel response = new();
+            CustomerModel response = new();
 
             if (customerData != null) { 
                 response = await _customerRepository.AddCustomerAsync(customerData);
