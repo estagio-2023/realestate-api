@@ -15,9 +15,9 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
-        public async Task<List<RealEstateMoodel>> GetAllRealEstateAsync()
+        public async Task<List<RealEstateModel>> GetAllRealEstateAsync()
         {
-            List<RealEstateMoodel> realEstate = new();
+            List<RealEstateModel> realEstate = new();
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var realEstateQuerry = new NpgsqlCommand("SELECT * FROM realestate;", conn);
@@ -26,7 +26,7 @@ namespace RealEstateApi.Repository
             {
                 while (realEstateReader.Read())
                 {
-                    var realEstateModel = new RealEstateMoodel
+                    var realEstateModel = new RealEstateModel
                     {
                         Id = (int)realEstateReader["id"],
                         Title = (string)realEstateReader["title"],
