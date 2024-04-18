@@ -19,9 +19,9 @@ namespace RealEstateApi.Service
         {
             return await _realEstateRepository.GetAllRealEstateAsync();
         }
-        public async Task<List<RealEstate>> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
+        public async Task<RealEstate> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
         {
-            List<RealEstate> response = new();
+            RealEstate response = new();
 
             if (realEstateData != null)
             {

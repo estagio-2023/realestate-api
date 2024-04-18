@@ -26,7 +26,7 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpPost(Name = "AddRealEstate")]
-        public async Task<List<RealEstate>> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
+        public async Task<RealEstate> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
         {
             return await _realEstateService.AddRealEstateAsync(realEstateData);
         }

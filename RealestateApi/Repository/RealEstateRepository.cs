@@ -36,7 +36,7 @@ namespace RealEstateApi.Repository
                         Build_Date = (DateTime)realEstateReader["build_date"],
                         Price = (decimal)realEstateReader["price"],
                         SquareMeter = (int)realEstateReader["square_meter"],
-                        EnergyClass = (char)realEstateReader["energy_class"],
+                        EnergyClass = (string)realEstateReader["energy_class"],
                         CustomerId = (int)realEstateReader["fk_customer_id"],
                         AgentId = (int)realEstateReader["fk_agent_id"],
                         RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
@@ -53,9 +53,8 @@ namespace RealEstateApi.Repository
             }
             return realEstate;
         }
-        public async Task<List<RealEstate>> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
+        public async Task<RealEstate> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
         {
-            List<RealEstate> response = new List<RealEstate>();
             using var conn = await _dataSource.OpenConnectionAsync();
             using var query = new NpgsqlCommand(@"INSERT INTO realestate(title, address, zip_code, description, build_date, price, square_meter, energy_class, fk_customer_id, fk_agent_id, fk_realestate_type_id, fk_city_id, fk_typology_id) VALUES (@realEstateTitle, @realEstateAddress, @realEstateZipcode, @realEstateDescription, @realEstateBuild_Date, @realEstatePrice, @realEstateSquareMeter, @realEstateEnergyClass, @realEstateCustomerId, @realEstateAgentId, @realEstateRealEstateTypeId, @realEstateCityId, @realEstateTypologyId) returning id;", conn);
 
@@ -66,7 +65,7 @@ namespace RealEstateApi.Repository
             query.Parameters.Add(new NpgsqlParameter("@realEstateBuild_Date", NpgsqlDbType.Date) { Value = realEstateData.Build_Date });
             query.Parameters.Add(new NpgsqlParameter("@realEstatePrice", NpgsqlDbType.Numeric) { Value = realEstateData.Price });
             query.Parameters.Add(new NpgsqlParameter("@realEstateSquareMeter", NpgsqlDbType.Integer) { Value = realEstateData.SquareMeter });
-            query.Parameters.Add(new NpgsqlParameter("@realEstateEnergyClass", NpgsqlDbType.Char) { Value = realEstateData.EnergyClass });
+            query.Parameters.Add(new NpgsqlParameter("@realEstateEnergyClass", NpgsqlDbType.Text) { Value = realEstateData.EnergyClass });
             query.Parameters.Add(new NpgsqlParameter("@realEstateCustomerId", NpgsqlDbType.Integer) { Value = realEstateData.CustomerId });
             query.Parameters.Add(new NpgsqlParameter("@realEstateAgentId", NpgsqlDbType.Integer) { Value = realEstateData.AgentId });
             query.Parameters.Add(new NpgsqlParameter("@realEstateRealEstateTypeId", NpgsqlDbType.Integer) { Value = realEstateData.RealEstateTypeId });
@@ -75,7 +74,7 @@ namespace RealEstateApi.Repository
 
         var result = await query.ExecuteScalarAsync();
 
-            RealEstate realEstateResponse = new()
+            RealEstate response = new()
             {
                 Id = (int)result,
                 Title = realEstateData.Title,
@@ -92,7 +91,7 @@ namespace RealEstateApi.Repository
                 CityId = realEstateData.CityId,
                 TypologyId = realEstateData.TypologyId,
             };
-            response.Add(realEstateResponse);
+            
 
             return response;
         }
