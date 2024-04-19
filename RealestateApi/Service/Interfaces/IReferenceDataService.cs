@@ -12,6 +12,6 @@ namespace RealEstateApi.Service.Interfaces
 
         Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId);
 
-        Task<ReferenceDataModel> GetReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataModel> GetReferenceDataByIdAsync(string refDataType, int refDataId);
     }
 }

@@ -76,7 +76,7 @@ namespace RealEstateApi.Service
             return response;
         }
 
-        public async Task<ReferenceDataModel> GetReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
             ReferenceDataModel response = new();
 
