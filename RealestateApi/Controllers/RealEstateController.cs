@@ -3,7 +3,6 @@ using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 
-
 namespace RealEstateApi.Controllers
 {
     [ApiController]
@@ -26,9 +25,9 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpPost(Name = "AddRealEstate")]
-        public async Task<RealEstate> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
+        public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
-            return await _realEstateService.AddRealEstateAsync(realEstateData);
+            return await _realEstateService.AddRealEstateAsync(realEstateDto);
         }
     }
 }

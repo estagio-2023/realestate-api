@@ -1,10 +1,11 @@
-﻿using RealEstateApi.Model;
+﻿using RealEstateApi.Dto.Request;
+using RealEstateApi.Model;
 
 namespace RealEstateApi.Service.Interfaces
 {
     public interface IRealEstateService
     {
-        Task<List<RealEstate>> GetAllRealEstateAsync();
-        Task<RealEstate> AddRealEstateAsync(AddRealEstateRequestDto realEstateData);
+        Task<List<RealEstateModel>> GetAllRealEstateAsync();
+        Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto);
     }
 }

@@ -3,7 +3,6 @@ using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
-
 namespace RealEstateApi.Service
 {
     public class RealEstateService : IRealEstateService
@@ -19,13 +18,13 @@ namespace RealEstateApi.Service
         {
             return await _realEstateRepository.GetAllRealEstateAsync();
         }
-        public async Task<RealEstate> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
+        public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
-            RealEstate response = new();
+            RealEstateModel response = new();
 
-            if (realEstateData != null)
+            if (realEstateDto != null)
             {
-                response = await _realEstateRepository.AddRealEstateAsync(realEstateData);
+                response = await _realEstateRepository.AddRealEstateAsync(realEstateDto);
             }
             return response;
         }

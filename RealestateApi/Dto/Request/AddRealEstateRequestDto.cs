@@ -1,5 +1,4 @@
-﻿using RealEstateApi.Model;
-
+﻿
 namespace RealEstateApi.Dto.Request
 {
     public class AddRealEstateRequestDto
