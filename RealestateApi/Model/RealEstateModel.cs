@@ -1,6 +1,6 @@
 ﻿namespace RealEstateApi.Model
 {
-    public class RealEstate
+    public class RealEstateModel
     {
         public int Id { get; set; }
         public string Title { get; set; } = null!;

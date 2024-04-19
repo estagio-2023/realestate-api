@@ -1,5 +1,4 @@
-﻿using RealEstateApi.Dto.Request;
-using RealEstateApi.Model;
+﻿using RealEstateApi.Model;
 
 namespace RealEstateApi.Service.Interfaces
 {
