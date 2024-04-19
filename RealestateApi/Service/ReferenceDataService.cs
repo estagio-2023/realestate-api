@@ -75,5 +75,27 @@ namespace RealEstateApi.Service
             }
             return response;
         }
+
+        public async Task<ReferenceDataModel> GetReferenceDataAsync(string refDataType, int refDataId)
+        {
+            ReferenceDataModel response = new();
+
+            switch (refDataType.ToLower())
+            {
+                case "typology":
+                    response = await _referenceDataRepository.GetTypologyReferenceDataAsync(refDataType, refDataId);
+                    break;
+                case "city":
+                    response = await _referenceDataRepository.GetCityReferenceDataAsync(refDataType, refDataId);
+                    break;
+                case "realestate":
+                    response = await _referenceDataRepository.GetRealEstateReferenceDataAsync(refDataType, refDataId);
+                    break;
+                case "amenity":
+                    response = await _referenceDataRepository.GetAmenityReferenceDataAsync(refDataType, refDataId);
+                    break;
+            }
+            return response;
+        }
     }
 }
