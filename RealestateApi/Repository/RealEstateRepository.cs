@@ -91,7 +91,6 @@ namespace RealEstateApi.Repository
                 CityId = realEstateData.CityId,
                 TypologyId = realEstateData.TypologyId,
             };
-            
 
             return response;
         }
