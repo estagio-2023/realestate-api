@@ -216,90 +216,119 @@ namespace RealEstateApi.Repository
 
         public async Task<ReferenceDataModel> GetTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
+            ReferenceDataModel response = new();
+
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var typologyQuery = new NpgsqlCommand("SELECT * FROM typology WHERE id = @RefDataId;", conn);
             typologyQuery.Parameters.AddWithValue("@RefDataId", refDataId);
             using var typologyReader = await typologyQuery.ExecuteReaderAsync();
 
-            while (typologyReader.Read())
+            try
             {
-                ReferenceDataModel response = new()
+                while (typologyReader.Read())
                 {
-                    Id = (int)typologyReader["id"],
-                    Description = (string)typologyReader["description"],
-                };
-
-                return response;
+                    response = new ReferenceDataModel
+                    {
+                        Id = (int)typologyReader["id"],
+                        Description = (string)typologyReader["description"],
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
-            return null;
+            return response;
         }
 
         public async Task<ReferenceDataModel> GetCityReferenceDataAsync(string refDataType, int refDataId)
         {
+            ReferenceDataModel response = new();
+
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var cityQuery = new NpgsqlCommand("SELECT * FROM city WHERE id = @RefDataId;", conn);
             cityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
             using var cityReader = await cityQuery.ExecuteReaderAsync();
 
-            while (cityReader.Read())
+            try
             {
-                ReferenceDataModel response = new()
+                while (cityReader.Read())
                 {
-                    Id = (int)cityReader["id"],
-                    Description = (string)cityReader["description"],
-                };
-
-                return response;
+                    response = new ReferenceDataModel
+                    {
+                        Id = (int)cityReader["id"],
+                        Description = (string)cityReader["description"],
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
-            return null;
+            return response;
         }
 
         public async Task<ReferenceDataModel> GetRealEstateReferenceDataAsync(string refDataType, int refDataId)
         {
+            ReferenceDataModel response = new();
+
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var realEstateQuery = new NpgsqlCommand("SELECT * FROM realestate_type WHERE id = @RefDataId;", conn);
             realEstateQuery.Parameters.AddWithValue("@RefDataId", refDataId);
             using var realEstateReader = await realEstateQuery.ExecuteReaderAsync();
 
-            while (realEstateReader.Read())
+            try
             {
-                ReferenceDataModel response = new()
+                while (realEstateReader.Read())
                 {
-                    Id = (int)realEstateReader["id"],
-                    Description = (string)realEstateReader["description"],
-                };
-
-                return response;
+                    response = new ReferenceDataModel
+                    {
+                        Id = (int)realEstateReader["id"],
+                        Description = (string)realEstateReader["description"],
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
-            return null;
+            return response;
         }
 
         public async Task<ReferenceDataModel> GetAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
+            ReferenceDataModel response = new();
+
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var amenityQuery = new NpgsqlCommand("SELECT * FROM amenity WHERE id = @RefDataId;", conn);
             amenityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
             using var amenityReader = await amenityQuery.ExecuteReaderAsync();
 
-            while (amenityReader.Read())
+            try
             {
-                ReferenceDataModel response = new()
+                while (amenityReader.Read())
                 {
-                    Id = (int)amenityReader["id"],
-                    Description = (string)amenityReader["description"],
-                };
-
-                return response;
+                    response = new ReferenceDataModel
+                    {
+                        Id = (int)amenityReader["id"],
+                        Description = (string)amenityReader["description"],
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
-            return null;
+            return response;
         }
+
     }
 }
