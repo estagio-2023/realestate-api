@@ -18,4 +18,3 @@ namespace RealEstateApi.Dto.Request
         public int TypologyId { get; set; }
     }
 }
-
