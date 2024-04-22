@@ -2,7 +2,6 @@
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
-
 namespace RealEstateApi.Service
 {
     public class RealEstateService : IRealEstateService
