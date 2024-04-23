@@ -16,9 +16,9 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
-        public async Task<List<RealEstateModel>> GetAllRealEstateAsync()
+        public async Task<List<RealEstateRequestDto>> GetAllRealEstateAsync()
         {
-            List<RealEstateModel> realEstate = new();
+            List<RealEstateRequestDto> realEstate = new();
            
             try
             {
@@ -47,6 +47,7 @@ namespace RealEstateApi.Repository
 
             return realEstate;
         }
+
         public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
             RealEstateModel response = new();
