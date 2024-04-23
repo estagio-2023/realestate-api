@@ -329,6 +329,5 @@ namespace RealEstateApi.Repository
 
             return response;
         }
-
     }
 }
