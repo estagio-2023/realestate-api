@@ -5,7 +5,7 @@ namespace RealEstateApi.Service.Interfaces
 {
     public interface IRealEstateService
     {
-        Task<List<RealEstateModel>> GetAllRealEstateAsync();
+        Task<List<RealEstateRequestDto>> GetAllRealEstateAsync();
         Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto);
     }
 }
