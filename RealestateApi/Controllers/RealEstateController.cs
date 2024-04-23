@@ -21,7 +21,7 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllRealEstate")]
-        public async Task<List<RealEstateModel>> GetAllRealEstate()
+        public async Task<List<RealEstateRequestDto>> GetAllRealEstate()
         {
             return await _realEstateService.GetAllRealEstateAsync();
         }
