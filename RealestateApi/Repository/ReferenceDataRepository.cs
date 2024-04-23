@@ -213,5 +213,121 @@ namespace RealEstateApi.Repository
 
             return response;
         }
+
+        public async Task<ReferenceDataModel> GetTypologyReferenceDataAsync(string refDataType, int refDataId)
+        {
+            ReferenceDataModel response = new();
+
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var typologyQuery = new NpgsqlCommand("SELECT * FROM typology WHERE id = @RefDataId;", conn);
+            typologyQuery.Parameters.AddWithValue("@RefDataId", refDataId);
+            using var typologyReader = await typologyQuery.ExecuteReaderAsync();
+
+            try
+            {
+                while (typologyReader.Read())
+                {
+                    response = new ReferenceDataModel
+                    {
+                        Id = (int)typologyReader["id"],
+                        Description = (string)typologyReader["description"],
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return response;
+        }
+
+        public async Task<ReferenceDataModel> GetCityReferenceDataAsync(string refDataType, int refDataId)
+        {
+            ReferenceDataModel response = new();
+
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var cityQuery = new NpgsqlCommand("SELECT * FROM city WHERE id = @RefDataId;", conn);
+            cityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
+            using var cityReader = await cityQuery.ExecuteReaderAsync();
+
+            try
+            {
+                while (cityReader.Read())
+                {
+                    response = new ReferenceDataModel
+                    {
+                        Id = (int)cityReader["id"],
+                        Description = (string)cityReader["description"],
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return response;
+        }
+
+        public async Task<ReferenceDataModel> GetRealEstateReferenceDataAsync(string refDataType, int refDataId)
+        {
+            ReferenceDataModel response = new();
+
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var realEstateQuery = new NpgsqlCommand("SELECT * FROM realestate_type WHERE id = @RefDataId;", conn);
+            realEstateQuery.Parameters.AddWithValue("@RefDataId", refDataId);
+            using var realEstateReader = await realEstateQuery.ExecuteReaderAsync();
+
+            try
+            {
+                while (realEstateReader.Read())
+                {
+                    response = new ReferenceDataModel
+                    {
+                        Id = (int)realEstateReader["id"],
+                        Description = (string)realEstateReader["description"],
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return response;
+        }
+
+        public async Task<ReferenceDataModel> GetAmenityReferenceDataAsync(string refDataType, int refDataId)
+        {
+            ReferenceDataModel response = new();
+
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var amenityQuery = new NpgsqlCommand("SELECT * FROM amenity WHERE id = @RefDataId;", conn);
+            amenityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
+            using var amenityReader = await amenityQuery.ExecuteReaderAsync();
+
+            try
+            {
+                while (amenityReader.Read())
+                {
+                    response = new ReferenceDataModel
+                    {
+                        Id = (int)amenityReader["id"],
+                        Description = (string)amenityReader["description"],
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return response;
+        }
     }
 }

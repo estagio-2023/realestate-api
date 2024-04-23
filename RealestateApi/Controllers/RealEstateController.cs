@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
-using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
-
 
 namespace RealEstateApi.Controllers
 {
@@ -24,6 +22,12 @@ namespace RealEstateApi.Controllers
         public async Task<List<RealEstateRequestDto>> GetAllRealEstate()
         {
             return await _realEstateService.GetAllRealEstateAsync();
+        }
+
+        [HttpPost(Name = "AddRealEstate")]
+        public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
+        {
+            return await _realEstateService.AddRealEstateAsync(realEstateDto);
         }
     }
 }

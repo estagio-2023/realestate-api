@@ -15,5 +15,9 @@ namespace RealEstateApi.Repository.Interfaces
         Task<ReferenceDataResponseDto> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId);
         Task<ReferenceDataResponseDto> DeleteCityReferenceDataAsync(string refDataType, int refDataId);
         Task<ReferenceDataResponseDto> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataModel> GetTypologyReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataModel> GetCityReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataModel> GetRealEstateReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataModel> GetAmenityReferenceDataAsync(string refDataType, int refDataId);
     }
 }
