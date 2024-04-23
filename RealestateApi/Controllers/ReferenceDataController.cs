@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
+using FluentValidation;
+using RealEstateApi.Validators;
 
 namespace RealEstateApi.Controllers
 {
@@ -12,11 +14,13 @@ namespace RealEstateApi.Controllers
     {
         private readonly ILogger<ReferenceDataController> _logger;
         private readonly IReferenceDataService _referenceDataService;
+        private readonly IValidator<ReferenceDataRequestDto> _referencDataRequestValidatorDto;
 
-        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataService referenceDataService)
+        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataService referenceDataService, IValidator<ReferenceDataRequestDto> referenceDataRequestValidatorDto)
         {
             _logger = logger;
             _referenceDataService = referenceDataService;
+            _referencDataRequestValidatorDto = referenceDataRequestValidatorDto;
         }
 
         [HttpGet(Name = "GetAllReferenceData")]
