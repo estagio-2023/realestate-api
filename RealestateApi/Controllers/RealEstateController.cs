@@ -29,5 +29,11 @@ namespace RealEstateApi.Controllers
         {
             return await _realEstateService.AddRealEstateAsync(realEstateDto);
         }
+
+        [HttpGet("{realEstateId}", Name = "GetAllRealEstateById")]
+        public async Task<RealEstateModel> GetAllRealEstateById(int realEstateId)
+        {
+            return await _realEstateService.GetRealEstateByIdAsync(realEstateId);
+        }
     }
 }
