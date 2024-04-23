@@ -14,7 +14,7 @@ namespace RealEstateApi.Service
             _realEstateRepository = realEstateRepository;
         }
 
-        public async Task<List<RealEstateModel>> GetAllRealEstateAsync()
+        public async Task<List<RealEstateRequestDto>> GetAllRealEstateAsync()
         {
             return await _realEstateRepository.GetAllRealEstateAsync();
         }

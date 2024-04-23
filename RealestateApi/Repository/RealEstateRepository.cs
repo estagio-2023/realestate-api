@@ -19,7 +19,7 @@ namespace RealEstateApi.Repository
         public async Task<List<RealEstateModel>> GetAllRealEstateAsync()
         {
             List<RealEstateModel> realEstate = new();
-            
+           
             try
             {
                 using var conn = await _dataSource.OpenConnectionAsync();
@@ -29,24 +29,14 @@ namespace RealEstateApi.Repository
 
                 while (realEstateReader.Read())
                 {
-                    var realEstateModel = new RealEstateModel
+                    var RealEstateRequestDto = new RealEstateRequestDto
                     {
                         Id = (int)realEstateReader["id"],
                         Title = (string)realEstateReader["title"],
-                        Address = (string)realEstateReader["address"],
-                        ZipCode = (string)realEstateReader["zip_code"],
-                        Description = (string)realEstateReader["description"],
-                        Build_Date = (DateTime)realEstateReader["build_date"],
-                        Price = (decimal)realEstateReader["price"],
-                        SquareMeter = (int)realEstateReader["square_meter"],
-                        EnergyClass = (string)realEstateReader["energy_class"],
-                        CustomerId = (int)realEstateReader["fk_customer_id"],
-                        AgentId = (int)realEstateReader["fk_agent_id"],
-                        RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
                         CityId = (int)realEstateReader["fk_city_id"],
                         TypologyId = (int)realEstateReader["fk_typology_id"]
                     };
-                    realEstate.Add(realEstateModel);
+                    realEstate.Add(RealEstateRequestDto);
                 }
                 realEstateReader.Close();
             }
