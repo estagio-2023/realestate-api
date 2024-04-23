@@ -8,5 +8,6 @@ namespace RealEstateApi.Repository.Interfaces
     {
         Task<List<CustomerModel>> GetAllCustomersAsync();
         Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData);
+        Task<CustomerModel> GetCustomerByIdAsync(int customerId);
     }
 }

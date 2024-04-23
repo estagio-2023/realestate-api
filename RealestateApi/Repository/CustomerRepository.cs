@@ -76,5 +76,36 @@ namespace RealEstateApi.Repository
 
             return response;
         }
+
+        public async Task<CustomerModel> GetCustomerByIdAsync(int customerId)
+        {
+            CustomerModel response = new();
+
+            try
+            {
+                using var conn = await _dataSource.OpenConnectionAsync();
+
+                using var customerQuery = new NpgsqlCommand("SELECT * FROM customer WHERE id = @customerId;", conn);
+                customerQuery.Parameters.AddWithValue("@customerId", customerId);
+                using var customerReader = await customerQuery.ExecuteReaderAsync();
+               
+                while(await customerReader.ReadAsync())
+                {
+                    response = new CustomerModel
+                    {
+                        Id = (int)customerReader["id"],
+                        Name = (string)customerReader["name"],
+                        Email = (string)customerReader["email"],
+                        Password = (string)customerReader["password"],
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return response;
+        }
     }
 }
