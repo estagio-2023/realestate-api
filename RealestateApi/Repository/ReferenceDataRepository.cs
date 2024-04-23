@@ -5,6 +5,7 @@ using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
+using System.Net.NetworkInformation;
 
 namespace RealEstateApi.Repository
 {
@@ -20,12 +21,14 @@ namespace RealEstateApi.Repository
         public async Task<ReferenceDataResponseDto> GetAllReferenceDataAsync()
         {
             ReferenceDataResponseDto refData = new();
-            using var conn = await _dataSource.OpenConnectionAsync();
-
-            using var typologyQuerry = new NpgsqlCommand("SELECT * FROM typology;", conn);
-            using var typologyReader = await typologyQuerry.ExecuteReaderAsync();
+          
             try
             {
+                using var conn = await _dataSource.OpenConnectionAsync();
+
+                using var typologyQuerry = new NpgsqlCommand("SELECT * FROM typology;", conn);
+                using var typologyReader = await typologyQuerry.ExecuteReaderAsync();
+
                 while (typologyReader.Read())
                 {
                     var typologyModel = new TypologyModel
@@ -87,130 +90,204 @@ namespace RealEstateApi.Repository
             {
                 Console.WriteLine(ex.Message);
             }
+
             return refData;
         }
 
         public async Task<ReferenceDataModel> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var query = new NpgsqlCommand(@"INSERT INTO typology(description) values(@refDataDescription) returning id;", conn);
+            ReferenceDataModel response = new();
 
-            query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
-
-            var result = await query.ExecuteScalarAsync();
-
-            ReferenceDataModel response = new()
+            try
             {
-                Id = (int)result,
-                Description = refData.Description
-            };
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var query = new NpgsqlCommand(@"INSERT INTO typology(description) values(@refDataDescription) returning id;", conn);
+
+                query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
+
+                var result = await query.ExecuteScalarAsync();
+
+                response = new ReferenceDataModel
+                {
+                    Id = (int)result,
+                    Description = refData.Description
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return response;
         }
 
         public async Task<ReferenceDataModel> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var query = new NpgsqlCommand(@"INSERT INTO realestate_type(description) values(@refDataDescription) returning id;", conn);
+            ReferenceDataModel response = new();
 
-            query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
-
-            var result = await query.ExecuteScalarAsync();
-
-            ReferenceDataModel response = new()
+            try
             {
-                Id = (int)result,
-                Description = refData.Description
-            };
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var query = new NpgsqlCommand(@"INSERT INTO realestate_type(description) values(@refDataDescription) returning id;", conn);
+
+                query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
+
+                var result = await query.ExecuteScalarAsync();
+
+                response = new ReferenceDataModel
+                {
+                    Id = (int)result,
+                    Description = refData.Description
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return response;
         }
 
         public async Task<ReferenceDataModel> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var query = new NpgsqlCommand(@"INSERT INTO city(description) values(@refDataDescription) returning id;", conn);
+            ReferenceDataModel response = new();
 
-            query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
-
-            var result = await query.ExecuteScalarAsync();
-
-            ReferenceDataModel response = new()
+            try
             {
-                Id = (int)result,
-                Description = refData.Description
-            };
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var query = new NpgsqlCommand(@"INSERT INTO city(description) values(@refDataDescription) returning id;", conn);
 
+                query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
+
+                var result = await query.ExecuteScalarAsync();
+
+                response = new ReferenceDataModel
+                {
+                    Id = (int)result,
+                    Description = refData.Description
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+           
             return response;
         }
 
         public async Task<ReferenceDataModel> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var query = new NpgsqlCommand(@"INSERT INTO amenity(description) values(@refDataDescription) returning id;", conn);
+            ReferenceDataModel response = new();
 
-            query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
-
-            var result = await query.ExecuteScalarAsync();
-
-            ReferenceDataModel response = new()
+            try
             {
-                Id = (int)result,
-                Description = refData.Description
-            };
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var query = new NpgsqlCommand(@"INSERT INTO amenity(description) values(@refDataDescription) returning id;", conn);
+
+                query.Parameters.AddWithValue("@refDataDescription", NpgsqlDbType.Text, refData.Description);
+
+                var result = await query.ExecuteScalarAsync();
+
+                response = new ReferenceDataModel
+                {
+                    Id = (int)result,
+                    Description = refData.Description
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return response;
         }
 
         public async Task<ReferenceDataResponseDto> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var delete = new NpgsqlCommand("DELETE FROM typology WHERE id = @RefDataId", conn);
-            delete.Parameters.AddWithValue("@RefDataId", refDataId);
+            ReferenceDataResponseDto response = new();
 
-            var result = await delete.ExecuteScalarAsync();
+            try
+            {
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var delete = new NpgsqlCommand("DELETE FROM typology WHERE id = @RefDataId", conn);
+                delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
-            var response = await GetAllReferenceDataAsync();
+                var result = await delete.ExecuteScalarAsync();
 
+                response = await GetAllReferenceDataAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+   
             return response;
         }
 
         public async Task<ReferenceDataResponseDto> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
         {
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var delete = new NpgsqlCommand("DELETE FROM realestate_type WHERE id = @RefDataId", conn);
-            delete.Parameters.AddWithValue("@RefDataId", refDataId);
+            ReferenceDataResponseDto response = new();
 
-            var result = await delete.ExecuteScalarAsync();
+            try
+            {
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var delete = new NpgsqlCommand("DELETE FROM realestate_type WHERE id = @RefDataId", conn);
+                delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
-            var response = await GetAllReferenceDataAsync();
+                var result = await delete.ExecuteScalarAsync();
+
+                response = await GetAllReferenceDataAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return response;
         }
 
         public async Task<ReferenceDataResponseDto> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
         {
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var delete = new NpgsqlCommand("DELETE FROM city WHERE id = @RefDataId", conn);
-            delete.Parameters.AddWithValue("@RefDataId", refDataId);
+            ReferenceDataResponseDto response = new();
 
-            var result = await delete.ExecuteScalarAsync();
+            try
+            {
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var delete = new NpgsqlCommand("DELETE FROM city WHERE id = @RefDataId", conn);
+                delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
-            var response = await GetAllReferenceDataAsync();
+                var result = await delete.ExecuteScalarAsync();
+
+                response = await GetAllReferenceDataAsync();
+
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return response;
         }
 
         public async Task<ReferenceDataResponseDto> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var delete = new NpgsqlCommand("DELETE FROM amenity WHERE id = @RefDataId", conn);
-            delete.Parameters.AddWithValue("@RefDataId", refDataId);
+            ReferenceDataResponseDto response = new();
+            try
+            {
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var delete = new NpgsqlCommand("DELETE FROM amenity WHERE id = @RefDataId", conn);
+                delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
-            var result = await delete.ExecuteScalarAsync();
+                var result = await delete.ExecuteScalarAsync();
 
-            var response = await GetAllReferenceDataAsync();
+                response = await GetAllReferenceDataAsync();
 
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+           
             return response;
         }
 
@@ -218,14 +295,14 @@ namespace RealEstateApi.Repository
         {
             ReferenceDataModel response = new();
 
-            using var conn = await _dataSource.OpenConnectionAsync();
-
-            using var typologyQuery = new NpgsqlCommand("SELECT * FROM typology WHERE id = @RefDataId;", conn);
-            typologyQuery.Parameters.AddWithValue("@RefDataId", refDataId);
-            using var typologyReader = await typologyQuery.ExecuteReaderAsync();
-
             try
             {
+                using var conn = await _dataSource.OpenConnectionAsync();
+
+                using var typologyQuery = new NpgsqlCommand("SELECT * FROM typology WHERE id = @RefDataId;", conn);
+                typologyQuery.Parameters.AddWithValue("@RefDataId", refDataId);
+                using var typologyReader = await typologyQuery.ExecuteReaderAsync();
+
                 while (typologyReader.Read())
                 {
                     response = new ReferenceDataModel
@@ -247,14 +324,14 @@ namespace RealEstateApi.Repository
         {
             ReferenceDataModel response = new();
 
-            using var conn = await _dataSource.OpenConnectionAsync();
-
-            using var cityQuery = new NpgsqlCommand("SELECT * FROM city WHERE id = @RefDataId;", conn);
-            cityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
-            using var cityReader = await cityQuery.ExecuteReaderAsync();
-
             try
             {
+                using var conn = await _dataSource.OpenConnectionAsync();
+
+                using var cityQuery = new NpgsqlCommand("SELECT * FROM city WHERE id = @RefDataId;", conn);
+                cityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
+                using var cityReader = await cityQuery.ExecuteReaderAsync();
+
                 while (cityReader.Read())
                 {
                     response = new ReferenceDataModel
@@ -276,14 +353,14 @@ namespace RealEstateApi.Repository
         {
             ReferenceDataModel response = new();
 
-            using var conn = await _dataSource.OpenConnectionAsync();
-
-            using var realEstateQuery = new NpgsqlCommand("SELECT * FROM realestate_type WHERE id = @RefDataId;", conn);
-            realEstateQuery.Parameters.AddWithValue("@RefDataId", refDataId);
-            using var realEstateReader = await realEstateQuery.ExecuteReaderAsync();
-
             try
             {
+                using var conn = await _dataSource.OpenConnectionAsync();
+
+                using var realEstateQuery = new NpgsqlCommand("SELECT * FROM realestate_type WHERE id = @RefDataId;", conn);
+                realEstateQuery.Parameters.AddWithValue("@RefDataId", refDataId);
+                using var realEstateReader = await realEstateQuery.ExecuteReaderAsync();
+
                 while (realEstateReader.Read())
                 {
                     response = new ReferenceDataModel
@@ -305,14 +382,14 @@ namespace RealEstateApi.Repository
         {
             ReferenceDataModel response = new();
 
-            using var conn = await _dataSource.OpenConnectionAsync();
-
-            using var amenityQuery = new NpgsqlCommand("SELECT * FROM amenity WHERE id = @RefDataId;", conn);
-            amenityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
-            using var amenityReader = await amenityQuery.ExecuteReaderAsync();
-
             try
             {
+                using var conn = await _dataSource.OpenConnectionAsync();
+
+                using var amenityQuery = new NpgsqlCommand("SELECT * FROM amenity WHERE id = @RefDataId;", conn);
+                amenityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
+                using var amenityReader = await amenityQuery.ExecuteReaderAsync();
+
                 while (amenityReader.Read())
                 {
                     response = new ReferenceDataModel

@@ -19,6 +19,7 @@ namespace RealEstateApi.Repository
         public async Task<List<CustomerModel>> GetAllCustomersAsync()
         {
             List<CustomerModel> customers = new List<CustomerModel>();
+
             try
             {
                 using var conn = await _dataSource.OpenConnectionAsync();
@@ -42,28 +43,37 @@ namespace RealEstateApi.Repository
             {
                 Console.WriteLine(ex.Message);
             }
+
             return customers;
         }
 
         public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData) 
         {
+            CustomerModel response = new();
 
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var query = new NpgsqlCommand(@"INSERT INTO customer (name, email, password) VALUES (@customerName, @customerEmail, @customerPassword) returning id", conn);
-
-            query.Parameters.Add(new NpgsqlParameter("@customerName", NpgsqlDbType.Text) { Value = customerData.Name });
-            query.Parameters.Add(new NpgsqlParameter("@customerEmail", NpgsqlDbType.Text) { Value = customerData.Email });
-            query.Parameters.Add(new NpgsqlParameter("@customerPassword", NpgsqlDbType.Text) { Value = customerData.Password });
-            var result = await query.ExecuteScalarAsync();
-
-            CustomerModel response = new()
+            try
             {
-                Id = (int)result,
-                Name = customerData.Name,
-                Email = customerData.Email,
-                Password = customerData.Password
-            };
-            
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var query = new NpgsqlCommand(@"INSERT INTO customer (name, email, password) VALUES (@customerName, @customerEmail, @customerPassword) returning id", conn);
+
+                query.Parameters.Add(new NpgsqlParameter("@customerName", NpgsqlDbType.Text) { Value = customerData.Name });
+                query.Parameters.Add(new NpgsqlParameter("@customerEmail", NpgsqlDbType.Text) { Value = customerData.Email });
+                query.Parameters.Add(new NpgsqlParameter("@customerPassword", NpgsqlDbType.Text) { Value = customerData.Password });
+                var result = await query.ExecuteScalarAsync();
+
+                response = new CustomerModel
+                {
+                    Id = (int)result,
+                    Name = customerData.Name,
+                    Email = customerData.Email,
+                    Password = customerData.Password
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
             return response;
         }
     }
