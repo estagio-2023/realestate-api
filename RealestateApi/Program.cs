@@ -6,7 +6,6 @@ using RealEstateApi.Service;
 using FluentValidation.AspNetCore;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Validators;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);

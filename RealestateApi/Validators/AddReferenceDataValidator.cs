@@ -7,8 +7,7 @@ namespace RealEstateApi.Validators
     {
         public AddReferenceDataValidator() 
         {
-            RuleFor(x => x.Description).NotNull().WithMessage("This is a test");
-            
+            RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required.");
         }
     }
 }

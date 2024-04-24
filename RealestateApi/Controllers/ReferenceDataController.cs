@@ -4,7 +4,6 @@ using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using FluentValidation;
-using RealEstateApi.Validators;
 
 namespace RealEstateApi.Controllers
 {
@@ -32,6 +31,13 @@ namespace RealEstateApi.Controllers
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
         public async Task<ReferenceDataModel> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
+            var validationResult = _referencDataRequestValidatorDto.Validate(refData);
+
+            if (!validationResult.IsValid)
+            {
+                return new ReferenceDataModel();
+            }
+
             return await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
         }
 
