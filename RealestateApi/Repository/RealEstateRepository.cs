@@ -93,6 +93,7 @@ namespace RealEstateApi.Repository
             using var realEstateQuerry = new NpgsqlCommand("SELECT * FROM realestate WHERE id = @RealEstateId;", conn);
             realEstateQuerry.Parameters.AddWithValue("@RealEstateId", realEstateId);
             using var realEstateReader = await realEstateQuerry.ExecuteReaderAsync();
+
             try
             {
                 while (realEstateReader.Read())
@@ -122,6 +123,7 @@ namespace RealEstateApi.Repository
             {
                 Console.WriteLine(ex.Message);
             }
+
             return realEstate;
         }
     }
