@@ -32,6 +32,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IValidator<ReferenceDataRequestDto>, AddReferenceDataValidator>();
+builder.Services.AddScoped<IValidator<CustomerRequestDto>, AddCustomerValidator>();
 
 builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 builder.Services.AddScoped<IRealEstateService, RealEstateService>();
@@ -51,7 +52,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-    
+
 app.UseCors();
 
 app.UseAuthorization();

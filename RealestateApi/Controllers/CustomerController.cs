@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
@@ -16,11 +17,13 @@ namespace RealEstateApi.Controllers
     {
         private readonly ILogger<CustomerController> _logger;
         private readonly ICustomerService _customerService;
+        private readonly IValidator<CustomerRequestDto> _customerRequestValidatorDto;
 
-        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService)
+        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService, IValidator<CustomerRequestDto> customerRequestValidatorDto)
         {
             _logger = logger;
             _customerService = customerService;
+            _customerRequestValidatorDto = customerRequestValidatorDto;
         }
 
         [HttpGet(Name = "GetAllCustomers")]
@@ -41,6 +44,13 @@ namespace RealEstateApi.Controllers
         [HttpPost(Name = "AddCustomer")]
         public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData)
         {
+            var validationResult = _customerRequestValidatorDto.Validate(customerData);
+
+            if (!validationResult.IsValid)
+            {
+                return new CustomerModel();
+            }
+
             return await _customerService.AddCustomerAsync(customerData);
         }
 
