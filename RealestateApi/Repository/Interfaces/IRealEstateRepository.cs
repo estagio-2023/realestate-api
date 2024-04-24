@@ -7,5 +7,6 @@ namespace RealEstateApi.Repository.Interfaces
     {
         Task<List<RealEstateRequestDto>> GetAllRealEstateAsync();
         Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto);
+        Task<RealEstateModel> GetRealEstateByIdAsync(int realEstateId);
     }
 }

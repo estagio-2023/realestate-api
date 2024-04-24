@@ -28,5 +28,10 @@ namespace RealEstateApi.Service
             }
             return response;
         }
+
+        public async Task<RealEstateModel> GetRealEstateByIdAsync(int realEstateId)
+        {
+            return await _realEstateRepository.GetRealEstateByIdAsync(realEstateId);
+        }
     }
 }
