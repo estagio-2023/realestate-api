@@ -2,6 +2,7 @@
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
+using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -36,10 +37,17 @@ namespace RealEstateApi.Controllers
                 throw;
             }
         }
+
         [HttpPost(Name = "AddCustomer")]
         public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData)
         {
             return await _customerService.AddCustomerAsync(customerData);
+        }
+
+        [HttpGet("{customerId}", Name = "GetCustomerById")]
+        public async Task<CustomerModel> GetCustomerByIdAsync(int customerId)
+        {
+            return await _customerService.GetCustomerByIdAsync(customerId);
         }
     }
 }
