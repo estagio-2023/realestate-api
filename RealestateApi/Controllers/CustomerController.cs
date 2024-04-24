@@ -24,12 +24,12 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllCustomers")]
-        public async Task<List<CustomerModel>> GetAllCustomersAsync()
+        public async Task<ActionResult<List<CustomerModel>>> GetAllCustomersAsync()
         {
             try
             {
                 var customers = await _customerService.GetAllCustomersAsync();
-                return customers;
+                return customers.IsSuccess ? Ok(customers.Result) : Problem(customers.ProblemType, customers.AdditionalInformation.ToString());
             }
             catch (Exception ex)
             {

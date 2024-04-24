@@ -2,8 +2,10 @@
 using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
+using RealEstateApi.Helpers;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
+using RealEstateApi.Service;
 
 namespace RealEstateApi.Repository
 {
@@ -16,9 +18,10 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
-        public async Task<List<CustomerModel>> GetAllCustomersAsync()
+        public async Task<ServiceResult<List<CustomerModel>>> GetAllCustomersAsync()
         {
             List<CustomerModel> customers = new List<CustomerModel>();
+            var result = new ServiceResult<List<CustomerModel>>();
 
             try
             {
@@ -38,13 +41,18 @@ namespace RealEstateApi.Repository
                     };
                     customers.Add(customerModel);
                 }
+
+                result.IsSuccess = true;
+                result.Result = customers;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                result.IsSuccess = false;
+                result.AdditionalInformation.Add(ex.Message);
             }
 
-            return customers;
+            return result;
         }
 
         public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData) 
