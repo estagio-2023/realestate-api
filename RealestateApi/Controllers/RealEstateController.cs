@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
+using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -19,15 +20,17 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllRealEstate")]
-        public async Task<List<RealEstateRequestDto>> GetAllRealEstate()
+        public async Task<ServiceResult<List<RealEstateRequestDto>>> GetAllRealEstate()
         {
             return await _realEstateService.GetAllRealEstateAsync();
         }
 
         [HttpPost(Name = "AddRealEstate")]
-        public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
+        public async Task<ActionResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
-            return await _realEstateService.AddRealEstateAsync(realEstateDto);
+            var addRealEstate = await _realEstateService.AddRealEstateAsync(realEstateDto);
+            return addRealEstate.IsSuccess ? Ok(addRealEstate.Result) : Problem(addRealEstate.ProblemType, addRealEstate.AdditionalInformation.ToString());
+
         }
     }
 }
