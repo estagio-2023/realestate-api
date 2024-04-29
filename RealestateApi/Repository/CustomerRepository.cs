@@ -55,9 +55,10 @@ namespace RealEstateApi.Repository
             return result;
         }
 
-        public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData) 
+        public async Task<ServiceResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData) 
         {
             CustomerModel response = new();
+            var serviceResult = new ServiceResult<CustomerModel>();
 
             try
             {
@@ -76,18 +77,24 @@ namespace RealEstateApi.Repository
                     Email = customerData.Email,
                     Password = customerData.Password
                 };
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return response;
+            return serviceResult;
         }
 
-        public async Task<CustomerModel> GetCustomerByIdAsync(int customerId)
+        public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
         {
             CustomerModel response = new();
+            var result = new ServiceResult<CustomerModel>();
 
             try
             {
@@ -106,14 +113,19 @@ namespace RealEstateApi.Repository
                         Email = (string)customerReader["email"],
                         Password = (string)customerReader["password"],
                     };
+
+                    result.IsSuccess = true;
+                    result.Result = response;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                result.IsSuccess = false;
+                result.AdditionalInformation.Add(ex.Message);
             }
 
-            return response;
+            return result;
         }
     }
 }

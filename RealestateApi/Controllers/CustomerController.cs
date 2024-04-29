@@ -39,13 +39,14 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpPost(Name = "AddCustomer")]
-        public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData)
+        public async Task<ActionResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
         {
-            return await _customerService.AddCustomerAsync(customerData);
+            var addCustomer = await _customerService.AddCustomerAsync(customerData);
+            return addCustomer.IsSuccess ? Ok(addCustomer.Result) : Problem(addCustomer.ProblemType, addCustomer.AdditionalInformation.ToString());
         }
 
         [HttpGet("{customerId}", Name = "GetCustomerById")]
-        public async Task<CustomerModel> GetCustomerByIdAsync(int customerId)
+        public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
         {
             return await _customerService.GetCustomerByIdAsync(customerId);
         }

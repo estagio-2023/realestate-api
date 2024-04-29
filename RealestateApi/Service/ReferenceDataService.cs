@@ -73,6 +73,7 @@ namespace RealEstateApi.Service
                     response = await _referenceDataRepository.DeleteAmenityReferenceDataAsync(refDataType, refDataId);
                     break;
             }
+
             return response;
         }
 
