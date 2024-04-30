@@ -110,5 +110,47 @@ namespace RealEstateApi.Repository
 
             return serviceResult;
         }
+
+        public async Task<RealEstateModel> GetRealEstateByIdAsync(int realEstateId)
+        {
+            RealEstateModel realEstate = new();
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var realEstateQuerry = new NpgsqlCommand("SELECT * FROM realestate WHERE id = @RealEstateId;", conn);
+            realEstateQuerry.Parameters.AddWithValue("@RealEstateId", realEstateId);
+            using var realEstateReader = await realEstateQuerry.ExecuteReaderAsync();
+
+            try
+            {
+                while (realEstateReader.Read())
+                {
+                    var realEstateModel = new RealEstateModel
+                    {
+                        Id = (int)realEstateReader["id"],
+                        Title = (string)realEstateReader["title"],
+                        Address = (string)realEstateReader["address"],
+                        ZipCode = (string)realEstateReader["zip_code"],
+                        Description = (string)realEstateReader["description"],
+                        Build_Date = (DateTime)realEstateReader["build_date"],
+                        Price = (decimal)realEstateReader["price"],
+                        SquareMeter = (int)realEstateReader["square_meter"],
+                        EnergyClass = (string)realEstateReader["energy_class"],
+                        CustomerId = (int)realEstateReader["fk_customer_id"],
+                        AgentId = (int)realEstateReader["fk_agent_id"],
+                        RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
+                        CityId = (int)realEstateReader["fk_city_id"],
+                        TypologyId = (int)realEstateReader["fk_typology_id"]
+                    };
+                    realEstate = realEstateModel;
+                }
+                realEstateReader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return realEstate;
+        }
     }
 }

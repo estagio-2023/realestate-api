@@ -3,13 +3,17 @@ using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Repository;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Service;
-using RealEstateApi.Model;
+using FluentValidation.AspNetCore;
+using RealEstateApi.Dto.Request;
+using RealEstateApi.Validators;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddFluentValidation();
+
 var configuration = builder.Configuration;
 configuration.AddUserSecrets<Program>();
 
@@ -26,6 +30,8 @@ builder.Services.AddCors(options =>
         builder.AllowAnyMethod();
     });
 });
+
+builder.Services.AddScoped<IValidator<ReferenceDataRequestDto>, AddReferenceDataValidator>();
 
 builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 builder.Services.AddScoped<IRealEstateService, RealEstateService>();

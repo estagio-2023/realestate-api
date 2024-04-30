@@ -23,5 +23,10 @@ namespace RealEstateApi.Service
         {
             return await _realEstateRepository.AddRealEstateAsync(realEstateDto);
         }
+
+        public async Task<RealEstateModel> GetRealEstateByIdAsync(int realEstateId)
+        {
+            return await _realEstateRepository.GetRealEstateByIdAsync(realEstateId);
+        }
     }
 }
