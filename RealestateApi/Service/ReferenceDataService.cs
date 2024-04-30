@@ -53,7 +53,7 @@ namespace RealEstateApi.Service
 
         public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
-            ServiceResult<ReferenceDataResponseDto> response = new ServiceResult<ReferenceDataResponseDto>(); 
+            ServiceResult<ReferenceDataResponseDto> response = new(); 
 
             switch (refDataType.ToLower())
             {
@@ -78,9 +78,9 @@ namespace RealEstateApi.Service
         }
 
 
-        public async Task<ReferenceDataModel> GetReferenceDataByIdAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
-            ReferenceDataModel response = new();
+            ServiceResult<ReferenceDataModel> response = new();
 
             switch (refDataType.ToLower())
             {
@@ -97,6 +97,7 @@ namespace RealEstateApi.Service
                     response = await _referenceDataRepository.GetAmenityReferenceDataAsync(refDataType, refDataId);
                     break;
             }
+
             return response;
         }
     }

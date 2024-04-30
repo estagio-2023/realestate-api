@@ -331,9 +331,10 @@ namespace RealEstateApi.Repository
             return serviceResult;
         }
 
-        public async Task<ReferenceDataModel> GetTypologyReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> GetTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
             ReferenceDataModel response = new();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -351,18 +352,24 @@ namespace RealEstateApi.Repository
                         Description = (string)typologyReader["description"],
                     };
                 }
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return response;
+            return serviceResult;
         }
 
-        public async Task<ReferenceDataModel> GetCityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> GetCityReferenceDataAsync(string refDataType, int refDataId)
         {
             ReferenceDataModel response = new();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -380,18 +387,24 @@ namespace RealEstateApi.Repository
                         Description = (string)cityReader["description"],
                     };
                 }
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return response;
+            return serviceResult;
         }
 
-        public async Task<ReferenceDataModel> GetRealEstateReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> GetRealEstateReferenceDataAsync(string refDataType, int refDataId)
         {
             ReferenceDataModel response = new();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -409,18 +422,24 @@ namespace RealEstateApi.Repository
                         Description = (string)realEstateReader["description"],
                     };
                 }
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return response;
+            return serviceResult;
         }
 
-        public async Task<ReferenceDataModel> GetAmenityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> GetAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
             ReferenceDataModel response = new();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -438,13 +457,18 @@ namespace RealEstateApi.Repository
                         Description = (string)amenityReader["description"],
                     };
                 }
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return response;
+            return serviceResult;
         }
     }
 }

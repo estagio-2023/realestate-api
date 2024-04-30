@@ -47,7 +47,7 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet("{refDataType}/{refDataId}", Name = "ReferenceData")]
-        public async Task<ReferenceDataModel> GetReferenceDataByIdAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
             return await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
         }
