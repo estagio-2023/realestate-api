@@ -17,7 +17,7 @@ namespace RealEstateApi.Service
             _referenceDataRepository = referenceDataRepository;
         }
 
-        public async Task<ReferenceDataResponseDto> GetAllReferenceDataAsync()
+        public async Task<ServiceResult<ReferenceDataResponseDto>> GetAllReferenceDataAsync()
         {
             return await _referenceDataRepository.GetAllReferenceDataAsync();
         }
@@ -50,10 +50,10 @@ namespace RealEstateApi.Service
             
             return response;
         }
-        
-        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
+
+        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
-            ReferenceDataResponseDto response = new();
+            ServiceResult<ReferenceDataResponseDto> response = new ServiceResult<ReferenceDataResponseDto>(); 
 
             switch (refDataType.ToLower())
             {
@@ -76,6 +76,7 @@ namespace RealEstateApi.Service
 
             return response;
         }
+
 
         public async Task<ReferenceDataModel> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
+using RealEstateApi.Service;
 
 namespace RealEstateApi.Controllers
 {
@@ -20,7 +21,7 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllReferenceData")]
-        public async Task<ReferenceDataResponseDto> Get()
+        public async Task<ServiceResult<ReferenceDataResponseDto>> Get()
         {
             return await _referenceDataService.GetAllReferenceDataAsync();
         }
@@ -32,7 +33,7 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
-        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
             try
             {
