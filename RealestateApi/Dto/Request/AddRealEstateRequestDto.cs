@@ -1,4 +1,5 @@
-﻿namespace RealEstateApi.Dto.Request
+﻿
+namespace RealEstateApi.Dto.Request
 {
     public class AddRealEstateRequestDto
     {

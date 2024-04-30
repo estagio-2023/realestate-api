@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RealEstateApi.Controllers
 {
@@ -20,12 +24,12 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllCustomers")]
-        public async Task<ActionResult<List<CustomerModel>>> GetAllCustomersAsync()
+        public async Task<List<CustomerModel>> GetAllCustomersAsync()
         {
             try
             {
                 var customers = await _customerService.GetAllCustomersAsync();
-                return customers.IsSuccess ? Ok(customers.Result) : Problem(customers.ProblemType, customers.AdditionalInformation.ToString());
+                return customers;
             }
             catch (Exception ex)
             {
@@ -35,17 +39,15 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpPost(Name = "AddCustomer")]
-        public async Task<ActionResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
+        public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData)
         {
-            var addCustomer = await _customerService.AddCustomerAsync(customerData);
-            return addCustomer.IsSuccess ? Ok(addCustomer.Result) : Problem(addCustomer.ProblemType, addCustomer.AdditionalInformation.ToString());
+            return await _customerService.AddCustomerAsync(customerData);
         }
 
         [HttpGet("{customerId}", Name = "GetCustomerById")]
-        public async Task<ActionResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
+        public async Task<CustomerModel> GetCustomerByIdAsync(int customerId)
         {
-            var getCustomerById = await _customerService.GetCustomerByIdAsync(customerId);
-            return getCustomerById.IsSuccess ? Ok(getCustomerById.Result) : Problem(getCustomerById.ProblemType, getCustomerById.AdditionalInformation.ToString());
+            return await _customerService.GetCustomerByIdAsync(customerId);
         }
     }
 }

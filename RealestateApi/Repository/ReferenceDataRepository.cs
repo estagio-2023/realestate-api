@@ -1,10 +1,11 @@
-﻿using Npgsql;
+﻿using Microsoft.Extensions.Logging;
+using Npgsql;
 using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
-using RealEstateApi.Service;
+using System.Net.NetworkInformation;
 
 namespace RealEstateApi.Repository
 {
@@ -17,11 +18,10 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
-        public async Task<ServiceResult<ReferenceDataResponseDto>> GetAllReferenceDataAsync()
+        public async Task<ReferenceDataResponseDto> GetAllReferenceDataAsync()
         {
             ReferenceDataResponseDto refData = new();
-            var result = new ServiceResult<ReferenceDataResponseDto>();
-
+          
             try
             {
                 using var conn = await _dataSource.OpenConnectionAsync();
@@ -85,24 +85,18 @@ namespace RealEstateApi.Repository
                 }
 
                 amenitiesReader.Close();
-
-                result.IsSuccess = true;
-                result.Result = refData;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                result.IsSuccess = false;
-                result.AdditionalInformation.Add(ex.Message);
             }
 
-            return result;
+            return refData;
         }
 
-        public async Task<ServiceResult<ReferenceDataModel>> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             ReferenceDataModel response = new();
-            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -118,24 +112,18 @@ namespace RealEstateApi.Repository
                     Id = (int)result,
                     Description = refData.Description
                 };
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return serviceResult;
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataModel>> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             ReferenceDataModel response = new();
-            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -151,24 +139,18 @@ namespace RealEstateApi.Repository
                     Id = (int)result,
                     Description = refData.Description
                 };
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return serviceResult;
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataModel>> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             ReferenceDataModel response = new();
-            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -184,24 +166,18 @@ namespace RealEstateApi.Repository
                     Id = (int)result,
                     Description = refData.Description
                 };
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
-
-            return serviceResult;
+           
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataModel>> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             ReferenceDataModel response = new();
-            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -217,23 +193,18 @@ namespace RealEstateApi.Repository
                     Id = (int)result,
                     Description = refData.Description
                 };
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return serviceResult;
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataResponseDto> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            ReferenceDataResponseDto response = new();
 
             try
             {
@@ -243,25 +214,19 @@ namespace RealEstateApi.Repository
 
                 var result = await delete.ExecuteScalarAsync();
 
-                var response = await GetAllReferenceDataAsync();
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response.Result; 
+                response = await GetAllReferenceDataAsync();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
-
-            return serviceResult;
+   
+            return response;
         }
 
-
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataResponseDto> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            ReferenceDataResponseDto response = new();
 
             try
             {
@@ -271,24 +236,19 @@ namespace RealEstateApi.Repository
 
                 var result = await delete.ExecuteScalarAsync();
 
-                var response = await GetAllReferenceDataAsync();
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response.Result;
+                response = await GetAllReferenceDataAsync();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return serviceResult;
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataResponseDto> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            ReferenceDataResponseDto response = new();
 
             try
             {
@@ -298,25 +258,20 @@ namespace RealEstateApi.Repository
 
                 var result = await delete.ExecuteScalarAsync();
 
-                var response = await GetAllReferenceDataAsync();
+                response = await GetAllReferenceDataAsync();
 
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response.Result;
-            }
+            } 
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return serviceResult;
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataResponseDto> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
-
+            ReferenceDataResponseDto response = new();
             try
             {
                 using var conn = await _dataSource.OpenConnectionAsync();
@@ -325,25 +280,20 @@ namespace RealEstateApi.Repository
 
                 var result = await delete.ExecuteScalarAsync();
 
-                var response = await GetAllReferenceDataAsync();
+                response = await GetAllReferenceDataAsync();
 
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response.Result;
-            }
+            } 
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
-
-            return serviceResult;
+           
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataModel>> GetTypologyReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel> GetTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
             ReferenceDataModel response = new();
-            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -361,24 +311,18 @@ namespace RealEstateApi.Repository
                         Description = (string)typologyReader["description"],
                     };
                 }
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return serviceResult;
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataModel>> GetCityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel> GetCityReferenceDataAsync(string refDataType, int refDataId)
         {
             ReferenceDataModel response = new();
-            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -396,24 +340,18 @@ namespace RealEstateApi.Repository
                         Description = (string)cityReader["description"],
                     };
                 }
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return serviceResult;
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataModel>> GetRealEstateReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel> GetRealEstateReferenceDataAsync(string refDataType, int refDataId)
         {
             ReferenceDataModel response = new();
-            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -431,24 +369,18 @@ namespace RealEstateApi.Repository
                         Description = (string)realEstateReader["description"],
                     };
                 }
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return serviceResult;
+            return response;
         }
 
-        public async Task<ServiceResult<ReferenceDataModel>> GetAmenityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel> GetAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
             ReferenceDataModel response = new();
-            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -466,18 +398,13 @@ namespace RealEstateApi.Repository
                         Description = (string)amenityReader["description"],
                     };
                 }
-
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
-                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return serviceResult;
+            return response;
         }
     }
 }
