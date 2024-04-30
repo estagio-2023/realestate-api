@@ -22,9 +22,9 @@ namespace RealEstateApi.Service
             return await _referenceDataRepository.GetAllReferenceDataAsync();
         }
 
-        public async Task<ReferenceDataModel> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ServiceResult<ReferenceDataModel>> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
-            ReferenceDataModel response = new();
+            ServiceResult<ReferenceDataModel> response = new();
 
             if (!string.IsNullOrWhiteSpace(refDataType))
             {
