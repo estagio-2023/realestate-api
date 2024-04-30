@@ -14,22 +14,17 @@ namespace RealEstateApi.Service
             _realEstateRepository = realEstateRepository;
         }
 
-        public async Task<List<RealEstateRequestDto>> GetAllRealEstateAsync()
+        public async Task<ServiceResult<List<RealEstateRequestDto>>> GetAllRealEstateAsync()
         {
             return await _realEstateRepository.GetAllRealEstateAsync();
         }
-        public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
-        {
-            RealEstateModel response = new();
 
-            if (realEstateDto != null)
-            {
-                response = await _realEstateRepository.AddRealEstateAsync(realEstateDto);
-            }
-            return response;
+        public async Task<ServiceResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
+        {
+            return await _realEstateRepository.AddRealEstateAsync(realEstateDto);
         }
 
-        public async Task<RealEstateModel> GetRealEstateByIdAsync(int realEstateId)
+        public async Task<ServiceResult<RealEstateModel>> GetRealEstateByIdAsync(int realEstateId)
         {
             return await _realEstateRepository.GetRealEstateByIdAsync(realEstateId);
         }
