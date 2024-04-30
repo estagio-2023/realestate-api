@@ -110,9 +110,11 @@ namespace RealEstateApi.Repository
             return serviceResult;
         }
 
-        public async Task<RealEstateModel> GetRealEstateByIdAsync(int realEstateId)
+        public async Task<ServiceResult<RealEstateModel>> GetRealEstateByIdAsync(int realEstateId)
         {
             RealEstateModel realEstate = new();
+            var serviceResult = new ServiceResult<RealEstateModel>();
+
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var realEstateQuerry = new NpgsqlCommand("SELECT * FROM realestate WHERE id = @RealEstateId;", conn);
@@ -143,13 +145,18 @@ namespace RealEstateApi.Repository
                     realEstate = realEstateModel;
                 }
                 realEstateReader.Close();
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = realEstate;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return realEstate;
+            return serviceResult;
         }
     }
 }

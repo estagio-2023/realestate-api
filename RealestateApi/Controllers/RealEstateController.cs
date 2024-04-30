@@ -30,11 +30,10 @@ namespace RealEstateApi.Controllers
         {
             var addRealEstate = await _realEstateService.AddRealEstateAsync(realEstateDto);
             return addRealEstate.IsSuccess ? Ok(addRealEstate.Result) : Problem(addRealEstate.ProblemType, addRealEstate.AdditionalInformation.ToString());
-
         }
 
         [HttpGet("{realEstateId}", Name = "GetAllRealEstateById")]
-        public async Task<RealEstateModel> GetAllRealEstateById(int realEstateId)
+        public async Task<ServiceResult<RealEstateModel>> GetAllRealEstateById(int realEstateId)
         {
             return await _realEstateService.GetRealEstateByIdAsync(realEstateId);
         }
