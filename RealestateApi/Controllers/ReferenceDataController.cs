@@ -32,9 +32,6 @@ namespace RealEstateApi.Controllers
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
         public async Task<ActionResult<ReferenceDataModel>> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
-            var addRefData = await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
-            return addRefData.IsSuccess ? Ok(addRefData.Result) : Problem(addRefData.ProblemType, addRefData.AdditionalInformation.ToString());
-            
             var validationResult = _referencDataRequestValidatorDto.Validate(refData);
 
             if (!validationResult.IsValid)
@@ -42,7 +39,8 @@ namespace RealEstateApi.Controllers
                 return new ReferenceDataModel();
             }
 
-            return await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
+            var addRefData = await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
+            return addRefData.IsSuccess ? Ok(addRefData.Result) : Problem(addRefData.ProblemType, addRefData.AdditionalInformation.ToString());
         }
 
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
