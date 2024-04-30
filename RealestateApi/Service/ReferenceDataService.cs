@@ -1,6 +1,8 @@
-﻿using RealEstateApi.Dto.Request;
+﻿using Microsoft.Extensions.Logging;
+using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
+using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -15,14 +17,14 @@ namespace RealEstateApi.Service
             _referenceDataRepository = referenceDataRepository;
         }
 
-        public async Task<ServiceResult<ReferenceDataResponseDto>> GetAllReferenceDataAsync()
+        public async Task<ReferenceDataResponseDto> GetAllReferenceDataAsync()
         {
             return await _referenceDataRepository.GetAllReferenceDataAsync();
         }
 
-        public async Task<ServiceResult<ReferenceDataModel>> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
-            ServiceResult<ReferenceDataModel> response = new();
+            ReferenceDataModel response = new();
 
             if (!string.IsNullOrWhiteSpace(refDataType))
             {
@@ -48,10 +50,10 @@ namespace RealEstateApi.Service
             
             return response;
         }
-
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        
+        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
-            ServiceResult<ReferenceDataResponseDto> response = new(); 
+            ReferenceDataResponseDto response = new();
 
             switch (refDataType.ToLower())
             {
@@ -71,14 +73,12 @@ namespace RealEstateApi.Service
                     response = await _referenceDataRepository.DeleteAmenityReferenceDataAsync(refDataType, refDataId);
                     break;
             }
-
             return response;
         }
 
-
-        public async Task<ServiceResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
-            ServiceResult<ReferenceDataModel> response = new();
+            ReferenceDataModel response = new();
 
             switch (refDataType.ToLower())
             {
@@ -95,7 +95,6 @@ namespace RealEstateApi.Service
                     response = await _referenceDataRepository.GetAmenityReferenceDataAsync(refDataType, refDataId);
                     break;
             }
-
             return response;
         }
     }

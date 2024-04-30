@@ -1,4 +1,5 @@
 ﻿using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
@@ -14,17 +15,22 @@ namespace RealEstateApi.Service
             _customerRepository = customerRepository;
         }
 
-        public async Task<ServiceResult<List<CustomerModel>>> GetAllCustomersAsync()
+        public async Task<List<CustomerModel>> GetAllCustomersAsync()
         {
             return await _customerRepository.GetAllCustomersAsync();
         }
 
-        public async Task<ServiceResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
+        public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData)
         {
-            return await _customerRepository.AddCustomerAsync(customerData);
+            CustomerModel response = new();
+
+            if (customerData != null) { 
+                response = await _customerRepository.AddCustomerAsync(customerData);
+            }
+            return response;
         }
 
-        public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
+        public async Task<CustomerModel> GetCustomerByIdAsync(int customerId)
         {
             return await _customerRepository.GetCustomerByIdAsync(customerId);
         }
