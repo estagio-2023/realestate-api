@@ -24,9 +24,10 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllReferenceData")]
-        public async Task<ServiceResult<ReferenceDataResponseDto>> Get()
+        public async Task<ActionResult<ReferenceDataResponseDto>> Get()
         {
-            return await _referenceDataService.GetAllReferenceDataAsync();
+            var getAllReferenceData = await _referenceDataService.GetAllReferenceDataAsync();
+            return getAllReferenceData.IsSuccess ? Ok(getAllReferenceData.Result) : Problem(getAllReferenceData.ProblemType, getAllReferenceData.AdditionalInformation.ToString());
         }
 
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
@@ -44,11 +45,12 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ActionResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
             try
             {
-                return await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+                var deleteRefData = await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+                return deleteRefData.IsSuccess ? Ok(deleteRefData.Result) : Problem(deleteRefData.ProblemType, deleteRefData.AdditionalInformation.ToString());
             }
             catch (Exception ex)
             {
@@ -58,9 +60,10 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet("{refDataType}/{refDataId}", Name = "ReferenceData")]
-        public async Task<ServiceResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
+        public async Task<ActionResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
-            return await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
+            var getRefDataById = await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
+            return getRefDataById.IsSuccess ? Ok(getRefDataById.Result) : Problem(getRefDataById.ProblemType, getRefDataById.AdditionalInformation.ToString());
         }
     }
 }

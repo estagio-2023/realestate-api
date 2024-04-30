@@ -20,9 +20,10 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllRealEstate")]
-        public async Task<ServiceResult<List<RealEstateRequestDto>>> GetAllRealEstate()
+        public async Task<ActionResult<List<RealEstateRequestDto>>> GetAllRealEstate()
         {
-            return await _realEstateService.GetAllRealEstateAsync();
+            var getAllRealEstate = await _realEstateService.GetAllRealEstateAsync();
+            return getAllRealEstate.IsSuccess ? Ok(getAllRealEstate.Result) : Problem(getAllRealEstate.ProblemType, getAllRealEstate.AdditionalInformation.ToString());
         }
 
         [HttpPost(Name = "AddRealEstate")]
@@ -33,9 +34,10 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet("{realEstateId}", Name = "GetAllRealEstateById")]
-        public async Task<ServiceResult<RealEstateModel>> GetAllRealEstateById(int realEstateId)
+        public async Task<ActionResult<RealEstateModel>> GetAllRealEstateById(int realEstateId)
         {
-            return await _realEstateService.GetRealEstateByIdAsync(realEstateId);
+            var getAllRealEstateById = await _realEstateService.GetRealEstateByIdAsync(realEstateId);
+            return getAllRealEstateById.IsSuccess ? Ok(getAllRealEstateById.Result) : Problem(getAllRealEstateById.ProblemType, getAllRealEstateById.AdditionalInformation.ToString());
         }
     }
 }
