@@ -233,7 +233,6 @@ namespace RealEstateApi.Repository
 
         public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
-            ReferenceDataResponseDto response = new();
             var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
 
             try
@@ -244,12 +243,10 @@ namespace RealEstateApi.Repository
 
                 var result = await delete.ExecuteScalarAsync();
 
-                var getAllResult = await GetAllReferenceDataAsync();
-                response = getAllResult.Result;
-
+                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
+                serviceResult.Result = response.Result; 
             }
             catch (Exception ex)
             {
@@ -261,9 +258,9 @@ namespace RealEstateApi.Repository
             return serviceResult;
         }
 
+
         public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
         {
-            ReferenceDataResponseDto response = new();
             var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
 
             try
@@ -274,12 +271,10 @@ namespace RealEstateApi.Repository
 
                 var result = await delete.ExecuteScalarAsync();
 
-                var getAllResult = await GetAllReferenceDataAsync();
-                response = getAllResult.Result;
-
+                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
+                serviceResult.Result = response.Result;
             }
             catch (Exception ex)
             {
@@ -291,11 +286,9 @@ namespace RealEstateApi.Repository
             return serviceResult;
         }
 
-            public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
         {
-            ReferenceDataResponseDto response = new();
             var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
-
 
             try
             {
@@ -305,12 +298,10 @@ namespace RealEstateApi.Repository
 
                 var result = await delete.ExecuteScalarAsync();
 
-                var getAllResult = await GetAllReferenceDataAsync();
-                response = getAllResult.Result; 
-
+                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
+                serviceResult.Result = response.Result;
             }
             catch (Exception ex)
             {
@@ -324,7 +315,6 @@ namespace RealEstateApi.Repository
 
         public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
-            ReferenceDataResponseDto response = new();
             var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
 
             try
@@ -335,12 +325,10 @@ namespace RealEstateApi.Repository
 
                 var result = await delete.ExecuteScalarAsync();
 
-                var getAllResult = await GetAllReferenceDataAsync();
-                response = getAllResult.Result;
-
+                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
+                serviceResult.Result = response.Result;
             }
             catch (Exception ex)
             {
