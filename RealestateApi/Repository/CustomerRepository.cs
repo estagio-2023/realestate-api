@@ -1,8 +1,6 @@
 ﻿using Npgsql;
 using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
-using RealEstateApi.Dto.Response;
-using RealEstateApi.Helpers;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service;

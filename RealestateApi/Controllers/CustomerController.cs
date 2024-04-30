@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
-using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 namespace RealEstateApi.Controllers
 {

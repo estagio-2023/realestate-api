@@ -1,13 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using Npgsql;
+﻿using Npgsql;
 using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service;
-using System.Net.NetworkInformation;
-using System.Xml;
 
 namespace RealEstateApi.Repository
 {

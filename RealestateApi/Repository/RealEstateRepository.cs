@@ -4,7 +4,6 @@ using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service;
-using System;
 
 namespace RealEstateApi.Repository
 {
