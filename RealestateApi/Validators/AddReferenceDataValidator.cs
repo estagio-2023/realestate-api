@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
 using RealEstateApi.Dto.Request;
-using RealEstateApi.Enums;
-using RealEstateApi.Model;
 
 namespace RealEstateApi.Validators
 {
