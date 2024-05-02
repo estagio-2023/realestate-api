@@ -17,14 +17,14 @@ namespace RealEstateApi.Controllers
         private readonly ILogger<ReferenceDataController> _logger;
         private readonly IReferenceDataService _referenceDataService;
         private readonly IValidator<ReferenceDataRequestDto> _referencDataRequestValidatorDto;
-        private readonly IValidator<DeleteRefDataRequestDto> _deleteReferenceDataRequestValidatorDto;
+        
 
-        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataService referenceDataService, IValidator<ReferenceDataRequestDto> referenceDataRequestValidatorDto, IValidator<DeleteRefDataRequestDto> deleteReferenceDataRequestValidatorDto)
+        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataService referenceDataService, IValidator<ReferenceDataRequestDto> referenceDataRequestValidatorDto)
         {
             _logger = logger;
             _referenceDataService = referenceDataService;
             _referencDataRequestValidatorDto = referenceDataRequestValidatorDto;
-            _deleteReferenceDataRequestValidatorDto = deleteReferenceDataRequestValidatorDto;
+            
         }
 
         [HttpGet(Name = "GetAllReferenceData")]
@@ -53,22 +53,22 @@ namespace RealEstateApi.Controllers
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
         public async Task<ActionResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
-            try
-            {
-                var validationResult = _deleteReferenceDataRequestValidatorDto.Validate(delRefData);
+             var referenceDataTypeValidator = Enum.IsDefined(typeof(RefDataEnum), refDataType);
 
-                if (!validationResult.IsValid)
-                {
-                    return new ReferenceDataResponseDto();
-                }
+             if (!referenceDataTypeValidator)
+             {
+                 return Problem(ProblemTypes.InvalidType, "Invalid Reference Data Type",(int)HttpCodesEnum.BadRequest);
+             }
 
-                return await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
-            }
-            catch (Exception ex)
+             var existingReferenceData = await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
+
+            if (existingReferenceData.Result == null)
             {
-                _logger.LogError(ex, "An error occurred while retrieving reference data.");
-                throw;
+                return Problem(ProblemTypes.ResourceNotFound, $"Reference Data Type {refDataType} Reference Data ID {refDataId} Doesn't Exist", (int)HttpCodesEnum.BadRequest);
             }
+
+             var deleteRefData = await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+             return deleteRefData.IsSuccess ? Ok(deleteRefData.Result) : Problem(deleteRefData.ProblemType, deleteRefData.AdditionalInformation.ToString());
         }
 
         [HttpGet("{refDataType}/{refDataId}", Name = "ReferenceData")]
