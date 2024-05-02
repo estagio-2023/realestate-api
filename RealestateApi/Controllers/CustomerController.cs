@@ -19,6 +19,17 @@ namespace RealEstateApi.Controllers
             _customerService = customerService;
         }
 
+        /// <summary>
+        /// 
+        /// Https Get Method to gather a List of all Customers
+        /// 
+        /// </summary>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET /api/Customer
+        /// 
+        /// <returns> List<CustomerModel> </returns>
         [HttpGet(Name = "GetAllCustomers")]
         public async Task<ActionResult<List<CustomerModel>>> GetAllCustomersAsync()
         {
@@ -34,6 +45,18 @@ namespace RealEstateApi.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// Https Post Method to create a Customer
+        /// 
+        /// </summary>
+        /// <param name="customerData"> Customer Data to be created </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     POST /api/Customer
+        ///     
+        /// <returns> CustomerModel </returns>
         [HttpPost(Name = "AddCustomer")]
         public async Task<ActionResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
         {
@@ -41,6 +64,18 @@ namespace RealEstateApi.Controllers
             return addCustomer.IsSuccess ? Ok(addCustomer.Result) : Problem(addCustomer.ProblemType, addCustomer.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// Https Get Method to get a Customer by Id
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// 
+        ///  Sample Request:
+        /// 
+        ///     GET api/Customer/{customerId}
+        ///     
+        /// <returns> CustomerModel </returns>
         [HttpGet("{customerId}", Name = "GetCustomerById")]
         public async Task<ActionResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
         {

@@ -25,6 +25,12 @@ namespace RealEstateApi.Controllers
             _referencDataRequestValidatorDto = referenceDataRequestValidatorDto;
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet(Name = "GetAllReferenceData")]
         public async Task<ActionResult<ReferenceDataResponseDto>> Get()
         {
@@ -32,6 +38,14 @@ namespace RealEstateApi.Controllers
             return getAllReferenceData.IsSuccess ? Ok(getAllReferenceData.Result) : Problem(getAllReferenceData.ProblemType, getAllReferenceData.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="referenceDataType"></param>
+        /// <param name="refData"></param>
+        /// <returns></returns>
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
         public async Task<ActionResult<ReferenceDataModel>> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
@@ -48,6 +62,14 @@ namespace RealEstateApi.Controllers
             return addRefData.IsSuccess ? Ok(addRefData.Result) : Problem(addRefData.ProblemType, addRefData.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="refDataType"></param>
+        /// <param name="refDataId"></param>
+        /// <returns></returns>
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
         public async Task<ActionResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
@@ -63,6 +85,14 @@ namespace RealEstateApi.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="refDataType"></param>
+        /// <param name="refDataId"></param>
+        /// <returns></returns>
         [HttpGet("{refDataType}/{refDataId}", Name = "ReferenceData")]
         public async Task<ActionResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
