@@ -4,6 +4,7 @@ using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using FluentValidation;
+using RealEstateApi.Enums;
 
 namespace RealEstateApi.Controllers
 {
@@ -31,9 +32,10 @@ namespace RealEstateApi.Controllers
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
         public async Task<ReferenceDataModel> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
+            var referenceDataTypeValidator = Enum.IsDefined(typeof(RefDataEnum), referenceDataType);
             var validationResult = _referencDataRequestValidatorDto.Validate(refData);
 
-            if (!validationResult.IsValid)
+            if (!validationResult.IsValid && !referenceDataTypeValidator)
             {
                 return new ReferenceDataModel();
             }
