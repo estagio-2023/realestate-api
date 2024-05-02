@@ -15,11 +15,25 @@ namespace RealEstateApi.Service
             _referenceDataRepository = referenceDataRepository;
         }
 
+        //// <summary>
+        /// 
+        /// Gather a List of all Reference Data
+        /// 
+        /// </summary>
+        /// <returns> ReferenceDataResponseDto </returns>
         public async Task<ServiceResult<ReferenceDataResponseDto>> GetAllReferenceDataAsync()
         {
             return await _referenceDataRepository.GetAllReferenceDataAsync();
         }
 
+        /// <summary>
+        /// 
+        /// Creates a Reference Data
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refData"> Data to be saved </param>
+        /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
         {
             ServiceResult<ReferenceDataModel> response = new();
@@ -49,6 +63,14 @@ namespace RealEstateApi.Service
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// Delete Reference Data
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a Reference Data </param>
+        /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
             ServiceResult<ReferenceDataResponseDto> response = new(); 
@@ -75,6 +97,14 @@ namespace RealEstateApi.Service
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// Gets a Reference Data by Id
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to get Reference Data </param>
+        /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
             ServiceResult<ReferenceDataModel> response = new();
