@@ -3,7 +3,7 @@ using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
-using System;
+using RealEstateApi.Service;
 
 namespace RealEstateApi.Repository
 {
@@ -16,10 +16,11 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
-        public async Task<List<RealEstateRequestDto>> GetAllRealEstateAsync()
+        public async Task<ServiceResult<List<RealEstateRequestDto>>> GetAllRealEstateAsync()
         {
             List<RealEstateRequestDto> realEstate = new();
-           
+            var serviceResult = new ServiceResult<List<RealEstateRequestDto>>();
+
             try
             {
                 using var conn = await _dataSource.OpenConnectionAsync();
@@ -29,28 +30,33 @@ namespace RealEstateApi.Repository
 
                 while (realEstateReader.Read())
                 {
-                    var RealEstateRequestDto = new RealEstateRequestDto
+                    var realEstateRequestDto = new RealEstateRequestDto
                     {
                         Id = (int)realEstateReader["id"],
                         Title = (string)realEstateReader["title"],
                         CityId = (int)realEstateReader["fk_city_id"],
                         TypologyId = (int)realEstateReader["fk_typology_id"]
                     };
-                    realEstate.Add(RealEstateRequestDto);
+                    realEstate.Add(realEstateRequestDto);
                 }
-                realEstateReader.Close();
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = realEstate;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return realEstate;
+            return serviceResult;
         }
 
-        public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
+        public async Task<ServiceResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
             RealEstateModel response = new();
+            var serviceResult = new ServiceResult<RealEstateModel>();
 
             try
             {
@@ -90,18 +96,25 @@ namespace RealEstateApi.Repository
                     CityId = realEstateDto.CityId,
                     TypologyId = realEstateDto.TypologyId,
                 };
-            } 
-            catch (Exception ex) 
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response;
+            }
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return response;
+            return serviceResult;
         }
 
-        public async Task<RealEstateModel> GetRealEstateByIdAsync(int realEstateId)
+        public async Task<ServiceResult<RealEstateModel>> GetRealEstateByIdAsync(int realEstateId)
         {
             RealEstateModel realEstate = new();
+            var serviceResult = new ServiceResult<RealEstateModel>();
+
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var realEstateQuerry = new NpgsqlCommand("SELECT * FROM realestate WHERE id = @RealEstateId;", conn);
@@ -132,13 +145,18 @@ namespace RealEstateApi.Repository
                     realEstate = realEstateModel;
                 }
                 realEstateReader.Close();
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = realEstate;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return realEstate;
+            return serviceResult;
         }
     }
 }
