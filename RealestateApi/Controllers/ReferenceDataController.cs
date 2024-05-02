@@ -6,6 +6,7 @@ using RealEstateApi.Model;
 using RealEstateApi.Service;
 using FluentValidation;
 using RealEstateApi.Enums;
+using RealEstateApi.Helpers;
 
 namespace RealEstateApi.Controllers
 {
@@ -35,12 +36,13 @@ namespace RealEstateApi.Controllers
         public async Task<ActionResult<ReferenceDataModel>> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
             var referenceDataTypeValidator = Enum.IsDefined(typeof(RefDataEnum), referenceDataType);
-            var validationResult = _referencDataRequestValidatorDto.Validate(refData);
 
-            if (!validationResult.IsValid && !referenceDataTypeValidator)
+            if (!referenceDataTypeValidator)
             {
-                return new ReferenceDataModel();
+                return Problem(ProblemTypes.InvalidType,"Invalid Reference Data Type",(int)HttpCodesEnum.BadRequest);
             }
+
+            _referencDataRequestValidatorDto.Validate(refData);
 
             var addRefData = await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
             return addRefData.IsSuccess ? Ok(addRefData.Result) : Problem(addRefData.ProblemType, addRefData.AdditionalInformation.ToString());

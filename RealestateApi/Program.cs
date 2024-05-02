@@ -33,6 +33,8 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IValidator<ReferenceDataRequestDto>, AddReferenceDataValidator>();
 
+ValidatorOptions.Global.CascadeMode = CascadeMode.Stop;
+
 builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 builder.Services.AddScoped<IRealEstateService, RealEstateService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
