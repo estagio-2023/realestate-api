@@ -6,12 +6,9 @@ namespace RealEstateApi.Service.Interfaces
 {
     public interface IReferenceDataService
     {
-        Task<ReferenceDataResponseDto> GetAllReferenceDataAsync();
-
-        Task<ReferenceDataModel> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
-
-        Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId);
-
-        Task<ReferenceDataModel> GetReferenceDataByIdAsync(string refDataType, int refDataId);
+        Task<ServiceResult<ReferenceDataResponseDto>> GetAllReferenceDataAsync();
+        Task<ServiceResult<ReferenceDataModel>> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+        Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId);
+        Task<ServiceResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId);
     }
 }

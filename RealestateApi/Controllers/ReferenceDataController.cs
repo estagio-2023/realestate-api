@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
+using RealEstateApi.Service;
 using FluentValidation;
 
 namespace RealEstateApi.Controllers
@@ -23,13 +24,14 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet(Name = "GetAllReferenceData")]
-        public async Task<ReferenceDataResponseDto> Get()
+        public async Task<ActionResult<ReferenceDataResponseDto>> Get()
         {
-            return await _referenceDataService.GetAllReferenceDataAsync();
+            var getAllReferenceData = await _referenceDataService.GetAllReferenceDataAsync();
+            return getAllReferenceData.IsSuccess ? Ok(getAllReferenceData.Result) : Problem(getAllReferenceData.ProblemType, getAllReferenceData.AdditionalInformation.ToString());
         }
 
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
-        public async Task<ReferenceDataModel> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
+        public async Task<ActionResult<ReferenceDataModel>> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
             var validationResult = _referencDataRequestValidatorDto.Validate(refData);
 
@@ -38,15 +40,17 @@ namespace RealEstateApi.Controllers
                 return new ReferenceDataModel();
             }
 
-            return await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
+            var addRefData = await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
+            return addRefData.IsSuccess ? Ok(addRefData.Result) : Problem(addRefData.ProblemType, addRefData.AdditionalInformation.ToString());
         }
 
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
-        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ActionResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
             try
             {
-                return await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+                var deleteRefData = await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+                return deleteRefData.IsSuccess ? Ok(deleteRefData.Result) : Problem(deleteRefData.ProblemType, deleteRefData.AdditionalInformation.ToString());
             }
             catch (Exception ex)
             {
@@ -56,9 +60,10 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet("{refDataType}/{refDataId}", Name = "ReferenceData")]
-        public async Task<ReferenceDataModel> GetReferenceDataByIdAsync(string refDataType, int refDataId)
+        public async Task<ActionResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
-            return await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
+            var getRefDataById = await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
+            return getRefDataById.IsSuccess ? Ok(getRefDataById.Result) : Problem(getRefDataById.ProblemType, getRefDataById.AdditionalInformation.ToString());
         }
     }
 }
