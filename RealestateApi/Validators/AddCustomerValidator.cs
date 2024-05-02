@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using RealEstateApi.Dto.Request;
 
-
 namespace RealEstateApi.Validators
 {
     public class AddCustomerValidator : AbstractValidator<CustomerRequestDto>
