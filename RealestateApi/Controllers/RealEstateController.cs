@@ -20,7 +20,7 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
-        /// Https get method to gather a list of all real estates
+        /// Https Get Method to gather a List of all Real Estates
         /// 
         /// </summary>
         /// 
@@ -28,7 +28,7 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/RealEstate
         /// 
-        /// <returns><List<RealEstateRequestDto></returns>
+        /// <returns> List<RealEstateRequestDto </returns>
         [HttpGet(Name = "GetAllRealEstate")]
         public async Task<ActionResult<List<RealEstateRequestDto>>> GetAllRealEstate()
         {
@@ -38,10 +38,10 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
-        /// Https post method to create a real estate
+        /// Https Post Method to create a Real Estate
         /// 
         /// </summary>
-        /// <param name="realEstateDto"> Real estate data to be saved </param>
+        /// <param name="realEstateDto"> Real Estate Data to be created </param>
         /// 
         /// Sample Request:
         /// 
@@ -57,10 +57,10 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
-        /// Https get method to get real estates by Id
+        /// Https Get Method to get a Real Estate by Id
         /// 
         /// </summary>
-        /// <param name="realEstateId"> Id to get real estate </param>
+        /// <param name="realEstateId"> Id to get Real Estate </param>
         /// 
         /// Sample Request:
         /// 

@@ -19,16 +19,16 @@ namespace RealEstateApi.Repository.Interfaces
         /// Save a Real Estate
         /// 
         /// </summary>
-        /// <param name="realEstateDto"> Real estate data to be saved </param>
+        /// <param name="realEstateDto"> Real Estate Data to be Saved </param>
         /// <returns> RealEstateModel </returns>
         Task<ServiceResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto);
 
         /// <summary>
         /// 
-        /// Gathers Real Eatates by Id
+        /// Gets a Real Estates by Id
         /// 
         /// </summary>
-        /// <param name="realEstateId"> Id to get real estate </param>
+        /// <param name="realEstateId"> Id to get Real Estate </param>
         /// <returns> RealEstateModel </returns>
         Task<ServiceResult<RealEstateModel>> GetRealEstateByIdAsync(int realEstateId);
     }

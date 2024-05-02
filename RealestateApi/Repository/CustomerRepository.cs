@@ -16,6 +16,12 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
+        /// <summary>
+        /// 
+        ///  Gets all the Customers from the Database
+        /// 
+        /// </summary>
+        /// <returns> List<CustomerModel> </returns>
         public async Task<ServiceResult<List<CustomerModel>>> GetAllCustomersAsync()
         {
             List<CustomerModel> customers = new List<CustomerModel>();
@@ -53,6 +59,13 @@ namespace RealEstateApi.Repository
             return result;
         }
 
+        /// <summary>
+        /// 
+        /// Adds a Customer to the Database
+        /// 
+        /// </summary>
+        /// <param name="customerData"> Customer Data to be created </param>
+        /// <returns> CustomerModel </returns>
         public async Task<ServiceResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData) 
         {
             CustomerModel response = new();
@@ -89,6 +102,13 @@ namespace RealEstateApi.Repository
             return serviceResult;
         }
 
+        /// <summary>
+        /// 
+        /// Gets a Customer by Id from the Database
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// <returns> CustomerModel </returns>
         public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
         {
             CustomerModel response = new();

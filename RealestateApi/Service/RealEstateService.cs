@@ -27,10 +27,10 @@ namespace RealEstateApi.Service
 
         /// <summary>
         /// 
-        /// Create a real estate
+        /// Creates a Real Estate
         /// 
         /// </summary>
-        /// <param name="realEstateDto"> Real estate data to be saved </param>
+        /// <param name="realEstateDto"> Real Estate Data to be saved </param>
         /// <returns> RealEstateModel </returns>
         public async Task<ServiceResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
@@ -39,8 +39,10 @@ namespace RealEstateApi.Service
 
         /// <summary>
         /// 
+        /// Gets a Real Estate by Id
+        /// 
         /// </summary>
-        /// <param name="realEstateId"> Id to get real estate </param>
+        /// <param name="realEstateId"> Id to get Real Estate </param>
         /// <returns> RealEstateModel </returns>
         public async Task<ServiceResult<RealEstateModel>> GetRealEstateByIdAsync(int realEstateId)
         {

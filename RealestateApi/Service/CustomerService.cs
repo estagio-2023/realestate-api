@@ -14,16 +14,36 @@ namespace RealEstateApi.Service
             _customerRepository = customerRepository;
         }
 
+        /// <summary>
+        /// 
+        /// Gather a List of all Customers
+        /// 
+        /// </summary>
+        /// <returns> List<CustomerModel> </returns>
         public async Task<ServiceResult<List<CustomerModel>>> GetAllCustomersAsync()
         {
             return await _customerRepository.GetAllCustomersAsync();
         }
 
+        /// <summary>
+        /// 
+        /// Creates a Customer
+        /// 
+        /// </summary>
+        /// <param name="customerData"></param>
+        /// <returns> CustomerModel </returns>
         public async Task<ServiceResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
         {
             return await _customerRepository.AddCustomerAsync(customerData);
         }
 
+        /// <summary>
+        /// 
+        /// Gets a Customer by Id
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// <returns> CustomerModel </returns>
         public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
         {
             return await _customerRepository.GetCustomerByIdAsync(customerId);
