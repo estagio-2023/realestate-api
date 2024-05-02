@@ -14,12 +14,14 @@ namespace RealEstateApi.Controllers
         private readonly ILogger<ReferenceDataController> _logger;
         private readonly IReferenceDataService _referenceDataService;
         private readonly IValidator<ReferenceDataRequestDto> _referencDataRequestValidatorDto;
+        private readonly IValidator<DeleteRefDataRequestDto> _deleteReferenceDataRequestValidatorDto;
 
-        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataService referenceDataService, IValidator<ReferenceDataRequestDto> referenceDataRequestValidatorDto)
+        public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataService referenceDataService, IValidator<ReferenceDataRequestDto> referenceDataRequestValidatorDto, IValidator<DeleteRefDataRequestDto> deleteReferenceDataRequestValidatorDto)
         {
             _logger = logger;
             _referenceDataService = referenceDataService;
             _referencDataRequestValidatorDto = referenceDataRequestValidatorDto;
+            _deleteReferenceDataRequestValidatorDto = deleteReferenceDataRequestValidatorDto;
         }
 
         [HttpGet(Name = "GetAllReferenceData")]
@@ -42,10 +44,17 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
-        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId, DeleteRefDataRequestDto delRefData)
         {
             try
             {
+                var validationResult = _deleteReferenceDataRequestValidatorDto.Validate(delRefData);
+
+                if (!validationResult.IsValid)
+                {
+                    return new ReferenceDataResponseDto();
+                }
+
                 return await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
             }
             catch (Exception ex)

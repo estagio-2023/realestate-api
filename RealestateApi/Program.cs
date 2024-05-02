@@ -32,6 +32,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IValidator<ReferenceDataRequestDto>, AddReferenceDataValidator>();
+builder.Services.AddScoped<IValidator<DeleteRefDataRequestDto>, DeleteRefDataValidator>();
 
 builder.Services.AddScoped<IReferenceDataService, ReferenceDataService>();
 builder.Services.AddScoped<IRealEstateService, RealEstateService>();
