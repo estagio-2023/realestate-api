@@ -16,6 +16,12 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
+        /// <summary>
+        /// 
+        /// Gets all the real estates from the database
+        /// 
+        /// </summary>
+        /// <returns> List<RealEstateRequestDto> </returns>
         public async Task<ServiceResult<List<RealEstateRequestDto>>> GetAllRealEstateAsync()
         {
             List<RealEstateRequestDto> realEstate = new();
@@ -53,6 +59,13 @@ namespace RealEstateApi.Repository
             return serviceResult;
         }
 
+        /// <summary>
+        /// 
+        /// Adds a real estate to the database
+        /// 
+        /// </summary>
+        /// <param name="realEstateDto"> Real estate data to be saved </param>
+        /// <returns> RealEstateModel </returns>
         public async Task<ServiceResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
             RealEstateModel response = new();
@@ -110,6 +123,13 @@ namespace RealEstateApi.Repository
             return serviceResult;
         }
 
+        /// <summary>
+        /// 
+        /// Gets the real estate by id
+        /// 
+        /// </summary>
+        /// <param name="realEstateId"> Id to get real estate </param>
+        /// <returns> RealEstateModel </returns>
         public async Task<ServiceResult<RealEstateModel>> GetRealEstateByIdAsync(int realEstateId)
         {
             RealEstateModel realEstate = new();

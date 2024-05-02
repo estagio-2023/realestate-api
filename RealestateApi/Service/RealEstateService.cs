@@ -14,16 +14,34 @@ namespace RealEstateApi.Service
             _realEstateRepository = realEstateRepository;
         }
 
+        /// <summary>
+        /// 
+        /// Gather a List of all Real Estate
+        /// 
+        /// </summary>
+        /// <returns> List<RealEstateRequestDto> </returns>
         public async Task<ServiceResult<List<RealEstateRequestDto>>> GetAllRealEstateAsync()
         {
             return await _realEstateRepository.GetAllRealEstateAsync();
         }
 
+        /// <summary>
+        /// 
+        /// Create a real estate
+        /// 
+        /// </summary>
+        /// <param name="realEstateDto"> Real estate data to be saved </param>
+        /// <returns> RealEstateModel </returns>
         public async Task<ServiceResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
             return await _realEstateRepository.AddRealEstateAsync(realEstateDto);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="realEstateId"> Id to get real estate </param>
+        /// <returns> RealEstateModel </returns>
         public async Task<ServiceResult<RealEstateModel>> GetRealEstateByIdAsync(int realEstateId)
         {
             return await _realEstateRepository.GetRealEstateByIdAsync(realEstateId);

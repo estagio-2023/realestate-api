@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
-using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -19,6 +18,17 @@ namespace RealEstateApi.Controllers
             _realEstateService = realEstateService;
         }
 
+        /// <summary>
+        /// 
+        /// Https get method to gather a list of all real estates
+        /// 
+        /// </summary>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET /api/RealEstate
+        /// 
+        /// <returns><List<RealEstateRequestDto></returns>
         [HttpGet(Name = "GetAllRealEstate")]
         public async Task<ActionResult<List<RealEstateRequestDto>>> GetAllRealEstate()
         {
@@ -26,6 +36,18 @@ namespace RealEstateApi.Controllers
             return getAllRealEstate.IsSuccess ? Ok(getAllRealEstate.Result) : Problem(getAllRealEstate.ProblemType, getAllRealEstate.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// Https post method to create a real estate
+        /// 
+        /// </summary>
+        /// <param name="realEstateDto"> Real estate data to be saved </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     POST /api/RealEstate
+        /// 
+        /// <returns> RealEstateModel </returns>
         [HttpPost(Name = "AddRealEstate")]
         public async Task<ActionResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
@@ -33,11 +55,23 @@ namespace RealEstateApi.Controllers
             return addRealEstate.IsSuccess ? Ok(addRealEstate.Result) : Problem(addRealEstate.ProblemType, addRealEstate.AdditionalInformation.ToString());
         }
 
-        [HttpGet("{realEstateId}", Name = "GetAllRealEstateById")]
-        public async Task<ActionResult<RealEstateModel>> GetAllRealEstateById(int realEstateId)
+        /// <summary>
+        /// 
+        /// Https get method to get real estates by Id
+        /// 
+        /// </summary>
+        /// <param name="realEstateId"> Id to get real estate </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET api/RealEstate/{realEstateId}
+        /// 
+        /// <returns> RealEstateModel </returns>
+        [HttpGet("{realEstateId}", Name = "GetRealEstateById")]
+        public async Task<ActionResult<RealEstateModel>> GetRealEstateById(int realEstateId)
         {
-            var getAllRealEstateById = await _realEstateService.GetRealEstateByIdAsync(realEstateId);
-            return getAllRealEstateById.IsSuccess ? Ok(getAllRealEstateById.Result) : Problem(getAllRealEstateById.ProblemType, getAllRealEstateById.AdditionalInformation.ToString());
+            var getRealEstateById = await _realEstateService.GetRealEstateByIdAsync(realEstateId);
+            return getRealEstateById.IsSuccess ? Ok(getRealEstateById.Result) : Problem(getRealEstateById.ProblemType, getRealEstateById.AdditionalInformation.ToString());
         }
     }
 }
