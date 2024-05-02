@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
@@ -11,11 +12,13 @@ namespace RealEstateApi.Controllers
     {
         private readonly ILogger<RealEstateController> _logger;
         private readonly IRealEstateService _realEstateService;
+        private readonly IValidator<AddRealEstateRequestDto> _realEstateRequestValidatorDto;
 
-        public RealEstateController(ILogger<RealEstateController> logger, IRealEstateService realEstateService)
+        public RealEstateController(ILogger<RealEstateController> logger, IRealEstateService realEstateService, IValidator<AddRealEstateRequestDto> realEstateRequestValidatorDto)
         {
             _logger = logger;
             _realEstateService = realEstateService;
+            _realEstateRequestValidatorDto = realEstateRequestValidatorDto;
         }
 
         [HttpGet(Name = "GetAllRealEstate")]
@@ -27,6 +30,13 @@ namespace RealEstateApi.Controllers
         [HttpPost(Name = "AddRealEstate")]
         public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
+            var validationResult = _realEstateRequestValidatorDto.Validate(realEstateDto);
+
+            if (!validationResult.IsValid)
+            {
+                return new RealEstateModel();
+            }
+
             return await _realEstateService.AddRealEstateAsync(realEstateDto);
         }
 
