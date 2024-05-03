@@ -1,9 +1,9 @@
 ﻿using Npgsql;
 using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
-using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
+using RealEstateApi.Service;
 
 namespace RealEstateApi.Repository
 {
@@ -16,9 +16,16 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
-        public async Task<List<CustomerModel>> GetAllCustomersAsync()
+        /// <summary>
+        /// 
+        ///  Gets all the Customers from the Database
+        /// 
+        /// </summary>
+        /// <returns> List<CustomerModel> </returns>
+        public async Task<ServiceResult<List<CustomerModel>>> GetAllCustomersAsync()
         {
             List<CustomerModel> customers = new List<CustomerModel>();
+            var result = new ServiceResult<List<CustomerModel>>();
 
             try
             {
@@ -38,18 +45,31 @@ namespace RealEstateApi.Repository
                     };
                     customers.Add(customerModel);
                 }
+
+                result.IsSuccess = true;
+                result.Result = customers;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                result.IsSuccess = false;
+                result.AdditionalInformation.Add(ex.Message);
             }
 
-            return customers;
+            return result;
         }
 
-        public async Task<CustomerModel> AddCustomerAsync(CustomerRequestDto customerData) 
+        /// <summary>
+        /// 
+        /// Adds a Customer to the Database
+        /// 
+        /// </summary>
+        /// <param name="customerData"> Customer Data to be created </param>
+        /// <returns> CustomerModel </returns>
+        public async Task<ServiceResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData) 
         {
             CustomerModel response = new();
+            var serviceResult = new ServiceResult<CustomerModel>();
 
             try
             {
@@ -68,18 +88,31 @@ namespace RealEstateApi.Repository
                     Email = customerData.Email,
                     Password = customerData.Password
                 };
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
             }
 
-            return response;
+            return serviceResult;
         }
 
-        public async Task<CustomerModel> GetCustomerByIdAsync(int customerId)
+        /// <summary>
+        /// 
+        /// Gets a Customer by Id from the Database
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// <returns> CustomerModel </returns>
+        public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
         {
             CustomerModel response = new();
+            var result = new ServiceResult<CustomerModel>();
 
             try
             {
@@ -98,14 +131,19 @@ namespace RealEstateApi.Repository
                         Email = (string)customerReader["email"],
                         Password = (string)customerReader["password"],
                     };
+
+                    result.IsSuccess = true;
+                    result.Result = response;
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                result.IsSuccess = false;
+                result.AdditionalInformation.Add(ex.Message);
             }
 
-            return response;
+            return result;
         }
     }
 }
