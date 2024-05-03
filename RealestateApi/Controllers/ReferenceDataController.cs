@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
+using RealEstateApi.Service;
 using FluentValidation;
+using RealEstateApi.Enums;
+using RealEstateApi.Helpers;
 
 namespace RealEstateApi.Controllers
 {
@@ -22,31 +25,58 @@ namespace RealEstateApi.Controllers
             _referencDataRequestValidatorDto = referenceDataRequestValidatorDto;
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet(Name = "GetAllReferenceData")]
-        public async Task<ReferenceDataResponseDto> Get()
+        public async Task<ActionResult<ReferenceDataResponseDto>> Get()
         {
-            return await _referenceDataService.GetAllReferenceDataAsync();
+            var getAllReferenceData = await _referenceDataService.GetAllReferenceDataAsync();
+            return getAllReferenceData.IsSuccess ? Ok(getAllReferenceData.Result) : Problem(getAllReferenceData.ProblemType, getAllReferenceData.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="referenceDataType"></param>
+        /// <param name="refData"></param>
+        /// <returns></returns>
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
-        public async Task<ReferenceDataModel> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
+        public async Task<ActionResult<ReferenceDataModel>> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
-            var validationResult = _referencDataRequestValidatorDto.Validate(refData);
+            var referenceDataTypeValidator = Enum.IsDefined(typeof(RefDataEnum), referenceDataType);
 
-            if (!validationResult.IsValid)
+            if (!referenceDataTypeValidator)
             {
-                return new ReferenceDataModel();
+                return Problem(ProblemTypes.InvalidType,"Invalid Reference Data Type",(int)HttpCodesEnum.BadRequest);
             }
 
-            return await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
+            _referencDataRequestValidatorDto.Validate(refData);
+
+            var addRefData = await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
+            return addRefData.IsSuccess ? Ok(addRefData.Result) : Problem(addRefData.ProblemType, addRefData.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="refDataType"></param>
+        /// <param name="refDataId"></param>
+        /// <returns></returns>
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
-        public async Task<ReferenceDataResponseDto> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ActionResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
             try
             {
-                return await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+                var deleteRefData = await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+                return deleteRefData.IsSuccess ? Ok(deleteRefData.Result) : Problem(deleteRefData.ProblemType, deleteRefData.AdditionalInformation.ToString());
             }
             catch (Exception ex)
             {
@@ -55,10 +85,19 @@ namespace RealEstateApi.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="refDataType"></param>
+        /// <param name="refDataId"></param>
+        /// <returns></returns>
         [HttpGet("{refDataType}/{refDataId}", Name = "ReferenceData")]
-        public async Task<ReferenceDataModel> GetReferenceDataByIdAsync(string refDataType, int refDataId)
+        public async Task<ActionResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
-            return await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
+            var getRefDataById = await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
+            return getRefDataById.IsSuccess ? Ok(getRefDataById.Result) : Problem(getRefDataById.ProblemType, getRefDataById.AdditionalInformation.ToString());
         }
     }
 }

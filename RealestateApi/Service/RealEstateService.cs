@@ -14,22 +14,37 @@ namespace RealEstateApi.Service
             _realEstateRepository = realEstateRepository;
         }
 
-        public async Task<List<RealEstateRequestDto>> GetAllRealEstateAsync()
+        /// <summary>
+        /// 
+        /// Gather a List of all Real Estate
+        /// 
+        /// </summary>
+        /// <returns> List<RealEstateRequestDto> </returns>
+        public async Task<ServiceResult<List<RealEstateRequestDto>>> GetAllRealEstateAsync()
         {
             return await _realEstateRepository.GetAllRealEstateAsync();
         }
-        public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
-        {
-            RealEstateModel response = new();
 
-            if (realEstateDto != null)
-            {
-                response = await _realEstateRepository.AddRealEstateAsync(realEstateDto);
-            }
-            return response;
+        /// <summary>
+        /// 
+        /// Creates a Real Estate
+        /// 
+        /// </summary>
+        /// <param name="realEstateDto"> Real Estate Data to be saved </param>
+        /// <returns> RealEstateModel </returns>
+        public async Task<ServiceResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
+        {
+            return await _realEstateRepository.AddRealEstateAsync(realEstateDto);
         }
 
-        public async Task<RealEstateModel> GetRealEstateByIdAsync(int realEstateId)
+        /// <summary>
+        /// 
+        /// Gets a Real Estate by Id
+        /// 
+        /// </summary>
+        /// <param name="realEstateId"> Id to get Real Estate </param>
+        /// <returns> RealEstateModel </returns>
+        public async Task<ServiceResult<RealEstateModel>> GetRealEstateByIdAsync(int realEstateId)
         {
             return await _realEstateRepository.GetRealEstateByIdAsync(realEstateId);
         }

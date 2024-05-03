@@ -21,14 +21,38 @@ namespace RealEstateApi.Controllers
             _realEstateRequestValidatorDto = realEstateRequestValidatorDto;
         }
 
+        /// <summary>
+        /// 
+        /// Https Get Method to gather a List of all Real Estates
+        /// 
+        /// </summary>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET /api/RealEstate
+        /// 
+        /// <returns> List<RealEstateRequestDto </returns>
         [HttpGet(Name = "GetAllRealEstate")]
-        public async Task<List<RealEstateRequestDto>> GetAllRealEstate()
+        public async Task<ActionResult<List<RealEstateRequestDto>>> GetAllRealEstate()
         {
-            return await _realEstateService.GetAllRealEstateAsync();
+            var getAllRealEstate = await _realEstateService.GetAllRealEstateAsync();
+            return getAllRealEstate.IsSuccess ? Ok(getAllRealEstate.Result) : Problem(getAllRealEstate.ProblemType, getAllRealEstate.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// Https Post Method to create a Real Estate
+        /// 
+        /// </summary>
+        /// <param name="realEstateDto"> Real Estate Data to be created </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     POST /api/RealEstate
+        /// 
+        /// <returns> RealEstateModel </returns>
         [HttpPost(Name = "AddRealEstate")]
-        public async Task<RealEstateModel> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
+        public async Task<ActionResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
             var validationResult = _realEstateRequestValidatorDto.Validate(realEstateDto);
 
@@ -37,13 +61,27 @@ namespace RealEstateApi.Controllers
                 return new RealEstateModel();
             }
 
-            return await _realEstateService.AddRealEstateAsync(realEstateDto);
+            var addRealEstate = await _realEstateService.AddRealEstateAsync(realEstateDto);
+            return addRealEstate.IsSuccess ? Ok(addRealEstate.Result) : Problem(addRealEstate.ProblemType, addRealEstate.AdditionalInformation.ToString());
         }
 
-        [HttpGet("{realEstateId}", Name = "GetAllRealEstateById")]
-        public async Task<RealEstateModel> GetAllRealEstateById(int realEstateId)
+        /// <summary>
+        /// 
+        /// Https Get Method to get a Real Estate by Id
+        /// 
+        /// </summary>
+        /// <param name="realEstateId"> Id to get Real Estate </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET api/RealEstate/{realEstateId}
+        /// 
+        /// <returns> RealEstateModel </returns>
+        [HttpGet("{realEstateId}", Name = "GetRealEstateById")]
+        public async Task<ActionResult<RealEstateModel>> GetRealEstateById(int realEstateId)
         {
-            return await _realEstateService.GetRealEstateByIdAsync(realEstateId);
+            var getRealEstateById = await _realEstateService.GetRealEstateByIdAsync(realEstateId);
+            return getRealEstateById.IsSuccess ? Ok(getRealEstateById.Result) : Problem(getRealEstateById.ProblemType, getRealEstateById.AdditionalInformation.ToString());
         }
     }
 }
