@@ -276,7 +276,7 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataResponseDto </returns>
+        /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
             var serviceResult = new ServiceResult<ReferenceDataModel>();
@@ -310,7 +310,7 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataResponseDto </returns>
+        /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
         {
             var serviceResult = new ServiceResult<ReferenceDataModel>();
@@ -344,7 +344,7 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataResponseDto </returns>
+        /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
         {
             var serviceResult = new ServiceResult<ReferenceDataModel>();
@@ -378,7 +378,7 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataResponseDto </returns>
+        /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
             var serviceResult = new ServiceResult<ReferenceDataModel>();

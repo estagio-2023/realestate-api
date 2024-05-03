@@ -32,7 +32,7 @@ namespace RealEstateApi.Service.Interfaces
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a Reference Data </param>
         /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId);
+        Task<ServiceResult<ReferenceDataModel>> DeleteReferenceDataAsync(string refDataType, int refDataId);
 
         /// <summary>
         /// 
