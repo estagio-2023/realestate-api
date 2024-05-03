@@ -71,9 +71,9 @@ namespace RealEstateApi.Service
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a Reference Data </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
-            ServiceResult<ReferenceDataResponseDto> response = new(); 
+            ServiceResult<ReferenceDataModel> response = new(); 
 
             switch (refDataType.ToLower())
             {
@@ -114,12 +114,15 @@ namespace RealEstateApi.Service
                 case "typology":
                     response = await _referenceDataRepository.GetTypologyReferenceDataAsync(refDataType, refDataId);
                     break;
+
                 case "city":
                     response = await _referenceDataRepository.GetCityReferenceDataAsync(refDataType, refDataId);
                     break;
-                case "realestate":
+
+                case "realestate_type":
                     response = await _referenceDataRepository.GetRealEstateReferenceDataAsync(refDataType, refDataId);
                     break;
+
                 case "amenity":
                     response = await _referenceDataRepository.GetAmenityReferenceDataAsync(refDataType, refDataId);
                     break;

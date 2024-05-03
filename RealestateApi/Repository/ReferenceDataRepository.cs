@@ -277,9 +277,9 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataResponseDto </returns>
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -287,9 +287,8 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM typology WHERE id = @RefDataId", conn);
                 delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
+                var response = await GetTypologyReferenceDataAsync(refDataType, refDataId);
                 var result = await delete.ExecuteScalarAsync();
-
-                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result; 
@@ -312,9 +311,9 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataResponseDto </returns>
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -322,9 +321,8 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM realestate_type WHERE id = @RefDataId", conn);
                 delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
+                var response = await GetRealEstateReferenceDataAsync(refDataType, refDataId);
                 var result = await delete.ExecuteScalarAsync();
-
-                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result;
@@ -347,9 +345,9 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataResponseDto </returns>
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -357,9 +355,8 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM city WHERE id = @RefDataId", conn);
                 delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
+                var response = await GetCityReferenceDataAsync(refDataType, refDataId);
                 var result = await delete.ExecuteScalarAsync();
-
-                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result;
@@ -382,9 +379,9 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataResponseDto </returns>
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ServiceResult<ReferenceDataModel>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -392,9 +389,8 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM amenity WHERE id = @RefDataId", conn);
                 delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
-                var result = await delete.ExecuteScalarAsync();
-
-                var response = await GetAllReferenceDataAsync();
+                var response = await GetAmenityReferenceDataAsync(refDataType, refDataId);
+                var result = await delete.ExecuteScalarAsync();             
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result;

@@ -17,12 +17,14 @@ namespace RealEstateApi.Controllers
         private readonly ILogger<ReferenceDataController> _logger;
         private readonly IReferenceDataService _referenceDataService;
         private readonly IValidator<ReferenceDataRequestDto> _referencDataRequestValidatorDto;
+        
 
         public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataService referenceDataService, IValidator<ReferenceDataRequestDto> referenceDataRequestValidatorDto)
         {
             _logger = logger;
             _referenceDataService = referenceDataService;
             _referencDataRequestValidatorDto = referenceDataRequestValidatorDto;
+            
         }
 
         /// <summary>
@@ -73,16 +75,22 @@ namespace RealEstateApi.Controllers
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
         public async Task<ActionResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
-            try
+             var referenceDataTypeValidator = Enum.IsDefined(typeof(RefDataEnum), refDataType);
+
+             if (!referenceDataTypeValidator)
+             {
+                 return Problem(ProblemTypes.InvalidType, "Invalid Reference Data Type",(int)HttpCodesEnum.BadRequest);
+             }
+
+             var existingReferenceData = await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
+
+            if (existingReferenceData.Result == null)
             {
-                var deleteRefData = await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
-                return deleteRefData.IsSuccess ? Ok(deleteRefData.Result) : Problem(deleteRefData.ProblemType, deleteRefData.AdditionalInformation.ToString());
+                return Problem(ProblemTypes.ResourceNotFound, $"Reference Data Type {refDataType} Reference Data ID {refDataId} Doesn't Exist", (int)HttpCodesEnum.BadRequest);
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while retrieving reference data.");
-                throw;
-            }
+
+             var deleteRefData = await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
+             return deleteRefData.IsSuccess ? Ok(deleteRefData.Result) : Problem(deleteRefData.ProblemType, deleteRefData.AdditionalInformation.ToString());
         }
 
         /// <summary>
