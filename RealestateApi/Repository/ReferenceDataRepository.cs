@@ -384,13 +384,20 @@ namespace RealEstateApi.Repository
                 cityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
                 using var cityReader = await cityQuery.ExecuteReaderAsync();
 
-                while (cityReader.Read())
+                if (cityReader.HasRows)
                 {
-                    response = new ReferenceDataModel
+                    while (cityReader.Read())
                     {
-                        Id = (int)cityReader["id"],
-                        Description = (string)cityReader["description"],
-                    };
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)cityReader["id"],
+                            Description = (string)cityReader["description"],
+                        };
+                    }
+                } else
+                {
+                    serviceResult.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                    return serviceResult;
                 }
 
                 serviceResult.IsSuccess = true;
