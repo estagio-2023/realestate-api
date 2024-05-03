@@ -299,7 +299,7 @@ namespace RealEstateApi.Repository
                 var result = await delete.ExecuteScalarAsync();
 
                 var response = await GetAllReferenceDataAsync();
-
+                var result = await delete.ExecuteScalarAsync();
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result;
             }
