@@ -32,6 +32,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IValidator<ReferenceDataRequestDto>, AddReferenceDataValidator>();
+builder.Services.AddScoped<IValidator<CustomerRequestDto>, AddCustomerValidator>();
 
 ValidatorOptions.Global.CascadeMode = CascadeMode.Stop;
 
@@ -53,7 +54,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-    
+
 app.UseCors();
 
 app.UseAuthorization();
