@@ -294,7 +294,6 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM city WHERE id = @RefDataId", conn);
                 delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
-
                 var response = await GetCityReferenceDataAsync(refDataType, refDataId);
                 var result = await delete.ExecuteScalarAsync();
 

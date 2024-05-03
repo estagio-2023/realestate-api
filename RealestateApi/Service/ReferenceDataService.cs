@@ -59,7 +59,7 @@ namespace RealEstateApi.Service
                     response = await _referenceDataRepository.DeleteTypologyReferenceDataAsync(refDataType, refDataId);
                     break;
 
-                case "realestate":
+                case "realestate_type":
                     response = await _referenceDataRepository.DeleteRealEstateTypeReferenceDataAsync(refDataType, refDataId);
                     break;
 
@@ -89,7 +89,7 @@ namespace RealEstateApi.Service
                     response = await _referenceDataRepository.GetCityReferenceDataAsync(refDataType, refDataId);
                     break;
 
-                case "realestate":
+                case "realestate_type":
                     response = await _referenceDataRepository.GetRealEstateReferenceDataAsync(refDataType, refDataId);
                     break;
 

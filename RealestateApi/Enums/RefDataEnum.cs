@@ -4,7 +4,7 @@
     {
         typology,
         amenity,
-        realestatehasamenity,
+        realestate_type,
         city
     }
 }
