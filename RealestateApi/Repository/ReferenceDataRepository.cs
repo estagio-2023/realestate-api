@@ -410,6 +410,8 @@ namespace RealEstateApi.Repository
         /// Gets Typology by Id from Database
         /// 
         /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> GetTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
@@ -459,6 +461,8 @@ namespace RealEstateApi.Repository
         /// Gets City by Id from Database
         /// 
         /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> GetCityReferenceDataAsync(string refDataType, int refDataId)
         {
@@ -507,6 +511,8 @@ namespace RealEstateApi.Repository
         /// Gets Real Eatate Type by Id from Database
         /// 
         /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> GetRealEstateReferenceDataAsync(string refDataType, int refDataId)
         {
@@ -555,6 +561,8 @@ namespace RealEstateApi.Repository
         /// Gets Amenity by Id from Database
         /// 
         /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> GetAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
