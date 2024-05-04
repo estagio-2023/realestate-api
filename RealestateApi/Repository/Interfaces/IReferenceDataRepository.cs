@@ -62,8 +62,8 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a Typolgy </param>
-        /// <returns> ReferenceDataResponseDto </returns>
-        Task<ServiceResult<ReferenceDataResponseDto>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId);
+        /// <returns> ReferenceDataModel </returns>
+        Task<ServiceResult<ReferenceDataModel>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId);
 
         /// <summary>
         /// 
@@ -72,8 +72,8 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a RealEstate Type </param>
-        /// <returns></returns>
-        Task<ServiceResult<ReferenceDataResponseDto>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId);
+        /// <returns> ReferenceDataModel </returns>
+        Task<ServiceResult<ReferenceDataModel>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId);
 
         /// <summary>
         /// 
@@ -82,8 +82,8 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataResponseDto </returns>
-        Task<ServiceResult<ReferenceDataResponseDto>> DeleteCityReferenceDataAsync(string refDataType, int refDataId);
+        /// <returns> ReferenceDataModel </returns>
+        Task<ServiceResult<ReferenceDataModel>> DeleteCityReferenceDataAsync(string refDataType, int refDataId);
 
         /// <summary>
         /// 
@@ -92,8 +92,8 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a Amenity </param>
-        /// <returns> ReferenceDataResponseDto </returns>
-        Task<ServiceResult<ReferenceDataResponseDto>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId);
+        /// <returns> ReferenceDataModel </returns>
+        Task<ServiceResult<ReferenceDataModel>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId);
 
         /// <summary>
         /// 
