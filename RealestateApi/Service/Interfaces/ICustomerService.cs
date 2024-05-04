@@ -30,5 +30,14 @@ namespace RealEstateApi.Service.Interfaces
         /// <param name="customerId"> Id to get Customer </param>
         /// <returns> CustomerModel </returns>
         Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId);
+
+        /// <summary>
+        /// 
+        /// Deletes a Customer By Id
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// <returns> CustomerModel </returns>
+        Task<ServiceResult<CustomerModel>> DeleteCustomerByIdAsync(int customerId);
     }
 }

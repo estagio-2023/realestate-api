@@ -17,7 +17,6 @@ namespace RealEstateApi.Controllers
         private readonly IReferenceDataService _referenceDataService;
         private readonly IValidator<ReferenceDataRequestDto> _referencDataRequestValidatorDto;
         
-
         public ReferenceDataController(ILogger<ReferenceDataController> logger, IReferenceDataService referenceDataService, IValidator<ReferenceDataRequestDto> referenceDataRequestValidatorDto)
         {
             _logger = logger;
