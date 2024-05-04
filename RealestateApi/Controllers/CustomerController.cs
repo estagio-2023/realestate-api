@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
@@ -11,13 +12,26 @@ namespace RealEstateApi.Controllers
     {
         private readonly ILogger<CustomerController> _logger;
         private readonly ICustomerService _customerService;
+        private readonly IValidator<CustomerRequestDto> _customerRequestValidatorDto;
 
-        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService)
+        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService, IValidator<CustomerRequestDto> customerRequestValidatorDto)
         {
             _logger = logger;
             _customerService = customerService;
+            _customerRequestValidatorDto = customerRequestValidatorDto;
         }
 
+        /// <summary>
+        /// 
+        /// Https Get Method to gather a List of all Customers
+        /// 
+        /// </summary>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET /api/Customer
+        /// 
+        /// <returns> List<CustomerModel> </returns>
         [HttpGet(Name = "GetAllCustomers")]
         public async Task<ActionResult<List<CustomerModel>>> GetAllCustomersAsync()
         {
@@ -33,13 +47,44 @@ namespace RealEstateApi.Controllers
             }
         }
 
+        /// <summary>
+        /// 
+        /// Https Post Method to create a Customer
+        /// 
+        /// </summary>
+        /// <param name="customerData"> Customer Data to be created </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     POST /api/Customer
+        ///     
+        /// <returns> CustomerModel </returns>
         [HttpPost(Name = "AddCustomer")]
         public async Task<ActionResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
         {
+            var validationResult = _customerRequestValidatorDto.Validate(customerData);
+
+            if (!validationResult.IsValid)
+            {
+                return new CustomerModel();
+            }
+
             var addCustomer = await _customerService.AddCustomerAsync(customerData);
             return addCustomer.IsSuccess ? Ok(addCustomer.Result) : Problem(addCustomer.ProblemType, addCustomer.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// Https Get Method to get a Customer by Id
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// 
+        ///  Sample Request:
+        /// 
+        ///     GET api/Customer/{customerId}
+        ///     
+        /// <returns> CustomerModel </returns>
         [HttpGet("{customerId}", Name = "GetCustomerById")]
         public async Task<ActionResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
         {

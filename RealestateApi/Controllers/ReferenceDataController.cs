@@ -26,6 +26,17 @@ namespace RealEstateApi.Controllers
             
         }
 
+        /// <summary>
+        /// 
+        /// Https Get Method to get all Reference Data
+        /// 
+        /// </summary>
+        /// 
+        /// Sample Request:
+        ///     
+        ///     GET api/ReferenceData/
+        /// 
+        /// <returns> ReferenceDataResponseDto </returns>
         [HttpGet(Name = "GetAllReferenceData")]
         public async Task<ActionResult<ReferenceDataResponseDto>> Get()
         {
@@ -33,6 +44,18 @@ namespace RealEstateApi.Controllers
             return getAllReferenceData.IsSuccess ? Ok(getAllReferenceData.Result) : Problem(getAllReferenceData.ProblemType, getAllReferenceData.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// Https POST Method to post a Reference Data
+        /// 
+        /// </summary>
+        /// <param name="referenceDataType"></param>
+        /// 
+        /// Sample Request:
+        ///     
+        ///     POST api/ReferenceData/{referenceDataType}   
+        /// 
+        /// <returns> ReferenceDataModel </returns>
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
         public async Task<ActionResult<ReferenceDataModel>> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
@@ -49,6 +72,19 @@ namespace RealEstateApi.Controllers
             return addRefData.IsSuccess ? Ok(addRefData.Result) : Problem(addRefData.ProblemType, addRefData.AdditionalInformation.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// Https Delete Method to delete a Reference Data Model by Id
+        /// 
+        /// </summary>
+        /// <param name="refDataType"></param>
+        /// <param name="refDataId"></param>
+        /// 
+        /// Sample Request:
+        ///     
+        ///     DELETE api/ReferenceData/{refDataType}/{refDataId}    
+        /// 
+        /// <returns> ReferenceDataModel </returns>
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
         public async Task<ActionResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
@@ -63,6 +99,19 @@ namespace RealEstateApi.Controllers
              return deleteRefData.IsSuccess ? Ok(deleteRefData.Result) : Problem(deleteRefData.ProblemType, string.Join(",", deleteRefData.AdditionalInformation));
         }
 
+        /// <summary>
+        /// 
+        /// Https Get Method to get a Reference Data by Id
+        /// 
+        /// </summary>
+        /// <param name="refDataType"></param>
+        /// <param name="refDataId"></param>
+        /// 
+        /// Sample Request:
+        ///     
+        ///     GET api/ReferenceData/{refDataType}/{refDataId}    
+        /// 
+        /// <returns> ReferenceDataModel </returns>
         [HttpGet("{refDataType}/{refDataId}", Name = "ReferenceData")]
         public async Task<ActionResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
