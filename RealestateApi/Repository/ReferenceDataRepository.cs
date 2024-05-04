@@ -424,13 +424,21 @@ namespace RealEstateApi.Repository
                 typologyQuery.Parameters.AddWithValue("@RefDataId", refDataId);
                 using var typologyReader = await typologyQuery.ExecuteReaderAsync();
 
-                while (typologyReader.Read())
+                if (typologyReader.HasRows)
                 {
-                    response = new ReferenceDataModel
+
+                    while (typologyReader.Read())
                     {
-                        Id = (int)typologyReader["id"],
-                        Description = (string)typologyReader["description"],
-                    };
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)typologyReader["id"],
+                            Description = (string)typologyReader["description"],
+                        };
+                    }
+                } else
+                {
+                    serviceResult.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                    return serviceResult;
                 }
 
                 serviceResult.IsSuccess = true;
@@ -465,13 +473,20 @@ namespace RealEstateApi.Repository
                 cityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
                 using var cityReader = await cityQuery.ExecuteReaderAsync();
 
-                while (cityReader.Read())
+                if (cityReader.HasRows)
                 {
-                    response = new ReferenceDataModel
+                    while (cityReader.Read())
                     {
-                        Id = (int)cityReader["id"],
-                        Description = (string)cityReader["description"],
-                    };
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)cityReader["id"],
+                            Description = (string)cityReader["description"],
+                        };
+                    }
+                } else
+                {
+                    serviceResult.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                    return serviceResult;
                 }
 
                 serviceResult.IsSuccess = true;
@@ -506,17 +521,24 @@ namespace RealEstateApi.Repository
                 realEstateQuery.Parameters.AddWithValue("@RefDataId", refDataId);
                 using var realEstateReader = await realEstateQuery.ExecuteReaderAsync();
 
-                while (realEstateReader.Read())
+                if (realEstateReader.HasRows)
                 {
-                    response = new ReferenceDataModel
+                    while (realEstateReader.Read())
                     {
-                        Id = (int)realEstateReader["id"],
-                        Description = (string)realEstateReader["description"],
-                    };
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)realEstateReader["id"],
+                            Description = (string)realEstateReader["description"],
+                        };
+                    }
+                } else
+                {
+                    serviceResult.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                    return serviceResult;
                 }
 
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
+                    serviceResult.IsSuccess = true;
+                    serviceResult.Result = response;
             }
             catch (Exception ex)
             {
@@ -547,13 +569,20 @@ namespace RealEstateApi.Repository
                 amenityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
                 using var amenityReader = await amenityQuery.ExecuteReaderAsync();
 
-                while (amenityReader.Read())
+                if (amenityReader.HasRows)
                 {
-                    response = new ReferenceDataModel
+                    while (amenityReader.Read())
                     {
-                        Id = (int)amenityReader["id"],
-                        Description = (string)amenityReader["description"],
-                    };
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)amenityReader["id"],
+                            Description = (string)amenityReader["description"],
+                        };
+                    }
+                } else
+                {
+                    serviceResult.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                    return serviceResult;
                 }
 
                 serviceResult.IsSuccess = true;

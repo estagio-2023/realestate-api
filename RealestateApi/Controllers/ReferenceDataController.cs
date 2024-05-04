@@ -88,22 +88,15 @@ namespace RealEstateApi.Controllers
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
         public async Task<ActionResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
-             var referenceDataTypeValidator = Enum.IsDefined(typeof(RefDataEnum), refDataType);
+           var referenceDataTypeValidator = Enum.IsDefined(typeof(RefDataEnum), refDataType);
 
-             if (!referenceDataTypeValidator)
-             {
-                 return Problem(ProblemTypes.InvalidType, "Invalid Reference Data Type",(int)HttpCodesEnum.BadRequest);
-             }
-
-             var existingReferenceData = await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
-
-            if (existingReferenceData.Result == null)
+            if (!referenceDataTypeValidator)
             {
-                return Problem(ProblemTypes.ResourceNotFound, $"Reference Data Type {refDataType} Reference Data ID {refDataId} Doesn't Exist", (int)HttpCodesEnum.BadRequest);
+                return Problem(ProblemTypes.InvalidType, "Invalid Reference Data Type",(int)HttpCodesEnum.BadRequest);
             }
 
              var deleteRefData = await _referenceDataService.DeleteReferenceDataAsync(refDataType, refDataId);
-             return deleteRefData.IsSuccess ? Ok(deleteRefData.Result) : Problem(deleteRefData.ProblemType, deleteRefData.AdditionalInformation.ToString());
+             return deleteRefData.IsSuccess ? Ok(deleteRefData.Result) : Problem(deleteRefData.ProblemType, string.Join(",", deleteRefData.AdditionalInformation));
         }
 
         /// <summary>

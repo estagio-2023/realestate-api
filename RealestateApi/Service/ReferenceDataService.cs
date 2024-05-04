@@ -1,5 +1,7 @@
 ﻿using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
+using RealEstateApi.Enums;
+using RealEstateApi.Helpers;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
@@ -73,7 +75,16 @@ namespace RealEstateApi.Service
         /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
-            ServiceResult<ReferenceDataModel> response = new(); 
+            ServiceResult<ReferenceDataModel> response = new();
+
+            var existingReferenceData = await GetReferenceDataByIdAsync(refDataType, refDataId);
+
+            if (existingReferenceData.Result == null)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                return response;
+            }
 
             switch (refDataType.ToLower())
             {
