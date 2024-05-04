@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
-using RealEstateApi.Service;
 using FluentValidation;
 using RealEstateApi.Enums;
 using RealEstateApi.Helpers;

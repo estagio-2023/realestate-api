@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
-using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers

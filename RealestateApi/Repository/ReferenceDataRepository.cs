@@ -5,7 +5,6 @@ using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service;
-using System.Diagnostics.Eventing.Reader;
 
 namespace RealEstateApi.Repository
 {
@@ -257,7 +256,6 @@ namespace RealEstateApi.Repository
 
             return serviceResult;
         }
-
 
         public async Task<ServiceResult<ReferenceDataModel>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
         {
