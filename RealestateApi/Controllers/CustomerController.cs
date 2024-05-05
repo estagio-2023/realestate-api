@@ -91,5 +91,24 @@ namespace RealEstateApi.Controllers
             var getCustomerById = await _customerService.GetCustomerByIdAsync(customerId);
             return getCustomerById.IsSuccess ? Ok(getCustomerById.Result) : Problem(getCustomerById.ProblemType, getCustomerById.AdditionalInformation.ToString());
         }
+
+        /// <summary>
+        /// 
+        /// Https Delete Method to delete a Customer by Id
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// 
+        ///  Sample Request:
+        /// 
+        ///     DELETE api/Customer/{customerId}
+        ///     
+        /// <returns> CustomerModel </returns>
+        [HttpDelete("{customerId}", Name = "DeleteCustomerById")]
+        public async Task<ActionResult<CustomerModel>> DeleteCustomerByIdAsync(int customerId)
+        {
+            var deleteCustomer = await _customerService.DeleteCustomerByIdAsync(customerId);
+            return deleteCustomer.IsSuccess ? Ok(deleteCustomer.Result) : Problem(deleteCustomer.ProblemType, string.Join(",", deleteCustomer.AdditionalInformation));
+        }
     }
 }

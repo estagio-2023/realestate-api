@@ -48,5 +48,30 @@ namespace RealEstateApi.Service
         {
             return await _customerRepository.GetCustomerByIdAsync(customerId);
         }
+
+        /// <summary>
+        /// 
+        /// Deletes a Customer by Id
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// <returns> CustomerModel </returns>
+        public async Task<ServiceResult<CustomerModel>> DeleteCustomerByIdAsync(int customerId)
+        {
+            ServiceResult<CustomerModel> response = new();
+
+            var existCustomer = await GetCustomerByIdAsync(customerId);
+
+            if (existCustomer.Result == null)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"Cusomter with ID {customerId} doesn't exist");
+                return response;
+            }
+
+            response = await _customerRepository.DeleteCustomerByIdAsync(customerId);
+
+            return response;
+        }
     }
 }
