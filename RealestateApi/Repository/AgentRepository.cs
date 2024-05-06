@@ -108,5 +108,32 @@ namespace RealEstateApi.Repository
 
             return result;
         }
+
+        public async Task<ServiceResult<AgentModel>> DeleteAgentById(int agentId)
+        {
+            var serviceResult = new ServiceResult<AgentModel>();
+
+            try
+            {
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var delete = new NpgsqlCommand("DELETE FROM agent WHERE id = @AgentId", conn);
+                delete.Parameters.AddWithValue("@AgentId", agentId);
+
+                var response = await GetAgentByIdAsync(agentId);
+                var result = await delete.ExecuteScalarAsync();
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response.Result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
+            }
+
+            return serviceResult;
+        }
+
     }
 }
