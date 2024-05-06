@@ -23,30 +23,30 @@ namespace RealEstateApi.Validators
             RuleFor(x => x.EnergyClass).NotEmpty().MaximumLength(1).WithMessage("Energy Class is required.");
             RuleFor(x => x.CustomerId).NotEmpty();
             RuleFor(x => x.AgentId).NotEmpty();
-            RuleFor(x => x.RealEstateTypeId).NotEmpty().Must((dto, realestateId) => realEstateTypeIdInRefDataValidation("realestate", realestateId)).WithMessage("RealEstate ID is not valid.");
-            RuleFor(x => x.CityId).NotEmpty().Must((dto, cityId) => cityIdInRefDataValidation("city", cityId)).WithMessage("City ID is not valid.");
-            RuleFor(x => x.TypologyId).NotEmpty().Must((dto, typologyId) => typologyIdInRefDataValidation("typology", typologyId)).WithMessage("Typology ID is not valid.");
+            RuleFor(x => x.RealEstateTypeId).NotEmpty().MustAsync(async (dto, realestateId) => await realEstateTypeIdInRefDataValidation("realestate", realestateId)).WithMessage("RealEstate ID is not valid.");
+            RuleFor(x => x.CityId).NotEmpty().MustAsync(async (dto, cityId) => await cityIdInRefDataValidation("city", cityId)).WithMessage("City ID is not valid.");
+            RuleFor(x => x.TypologyId).NotEmpty().MustAsync(async (dto, typologyId) => await typologyIdInRefDataValidation("typology", typologyId)).WithMessage("Typology ID is not valid.");
         }
 
-        public bool realEstateTypeIdInRefDataValidation(string refDataType, int refDataId)
+        public async Task<bool> realEstateTypeIdInRefDataValidation(string refDataType, int refDataId)
         {
-            var typology = _referenceDataRepository.GetRealEstateReferenceDataAsync(refDataType, refDataId).Result;
+            var realEstateType = await _referenceDataRepository.GetRealEstateReferenceDataAsync(refDataType, refDataId);
 
-            return typology.Id != 0;
+            return realEstateType.Result.Id != 0;
         }
 
-        public bool cityIdInRefDataValidation(string refDataType, int refDataId)
+        public async Task<bool> cityIdInRefDataValidation(string refDataType, int refDataId)
         {
-            var typology = _referenceDataRepository.GetCityReferenceDataAsync(refDataType, refDataId).Result;
+            var city = await _referenceDataRepository.GetCityReferenceDataAsync(refDataType, refDataId);
 
-            return typology.Id != 0;
+            return city.Result.Id != 0;
         }
 
-        public bool typologyIdInRefDataValidation(string refDataType, int refDataId)
+        public async Task<bool> typologyIdInRefDataValidation(string refDataType, int refDataId)
         {
-            var typology = _referenceDataRepository.GetTypologyReferenceDataAsync(refDataType, refDataId).Result;
+            var typology = await _referenceDataRepository.GetTypologyReferenceDataAsync(refDataType, refDataId);
 
-            return typology.Id != 0;
+            return typology.Result.Id != 0;
         }
     }
 }
