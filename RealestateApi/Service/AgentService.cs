@@ -1,4 +1,5 @@
 using RealEstateApi.Model;
+using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -22,6 +23,18 @@ namespace RealEstateApi.Service
         public async Task<ServiceResult<List<AgentModel>>> GetAllAgentsAsync()
         {
             return await _agentRepository.GetAllAgentsAsync();
+        }
+
+        /// <summary>
+        /// 
+        /// Gets a Agent by Id
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to get Agent </param>
+        /// <returns> AgentModel </returns>
+        public async Task<ServiceResult<AgentModel>> GetAgentByIdAsync(int agentId)
+        {
+            return await _agentRepository.GetAgentByIdAsync(agentId);
         }
     }
 }
