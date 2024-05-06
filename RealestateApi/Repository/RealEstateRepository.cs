@@ -204,7 +204,7 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM realestate WHERE id = @customerId", conn);
                 delete.Parameters.AddWithValue("@customerId", realEstateId);
 
-                var response = await DeleteRealEstateByIdAsync(realEstateId);
+                var response = await GetRealEstateByIdAsync(realEstateId);
                 var result = await delete.ExecuteScalarAsync();
 
                 serviceResult.IsSuccess = true;
