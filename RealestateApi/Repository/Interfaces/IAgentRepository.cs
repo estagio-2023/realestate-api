@@ -20,5 +20,6 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <returns> AgentModel </returns>
         Task<ServiceResult<AgentModel>> GetAgentByIdAsync(int agentId);
+        Task<ServiceResult<AgentModel>> DeleteAgentById(int agentId);
     }
 }

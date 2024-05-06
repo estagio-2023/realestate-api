@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Model;
+using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -68,5 +69,13 @@ namespace RealEstateApi.Controllers
                 throw;
             }
         }
+
+        [HttpDelete("{agentId}", Name = "DeleteAgentById")]
+        public async Task<ActionResult<AgentModel>> DeleteAgentById(int agentId)
+        {
+            var deleteAgent = await _agentService.DeleteAgentById(agentId);
+            return deleteAgent.IsSuccess ? Ok(deleteAgent.Result) : Problem(deleteAgent.ProblemType, string.Join(",", deleteAgent.AdditionalInformation));
+        }
+
     }
 }
