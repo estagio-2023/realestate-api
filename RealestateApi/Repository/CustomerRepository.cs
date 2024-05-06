@@ -137,7 +137,7 @@ namespace RealEstateApi.Repository
                 } 
                 else
                 {
-                    result.AdditionalInformation.Add($"Reference Data ID {customerId} doesn't exist");
+                    result.AdditionalInformation.Add($"Customer ID {customerId} doesn't exist");
                     return result;
                 }
 
