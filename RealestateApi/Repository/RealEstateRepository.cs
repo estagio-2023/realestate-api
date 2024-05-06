@@ -143,31 +143,72 @@ namespace RealEstateApi.Repository
 
             try
             {
-                while (realEstateReader.Read())
+                if(realEstateReader.HasRows)
                 {
-                    var realEstateModel = new RealEstateModel
+                    while (realEstateReader.Read())
                     {
-                        Id = (int)realEstateReader["id"],
-                        Title = (string)realEstateReader["title"],
-                        Address = (string)realEstateReader["address"],
-                        ZipCode = (string)realEstateReader["zip_code"],
-                        Description = (string)realEstateReader["description"],
-                        Build_Date = (DateTime)realEstateReader["build_date"],
-                        Price = (decimal)realEstateReader["price"],
-                        SquareMeter = (int)realEstateReader["square_meter"],
-                        EnergyClass = (string)realEstateReader["energy_class"],
-                        CustomerId = (int)realEstateReader["fk_customer_id"],
-                        AgentId = (int)realEstateReader["fk_agent_id"],
-                        RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
-                        CityId = (int)realEstateReader["fk_city_id"],
-                        TypologyId = (int)realEstateReader["fk_typology_id"]
-                    };
-                    realEstate = realEstateModel;
+                        var realEstateModel = new RealEstateModel
+                        {
+                            Id = (int)realEstateReader["id"],
+                            Title = (string)realEstateReader["title"],
+                            Address = (string)realEstateReader["address"],
+                            ZipCode = (string)realEstateReader["zip_code"],
+                            Description = (string)realEstateReader["description"],
+                            Build_Date = (DateTime)realEstateReader["build_date"],
+                            Price = (decimal)realEstateReader["price"],
+                            SquareMeter = (int)realEstateReader["square_meter"],
+                            EnergyClass = (string)realEstateReader["energy_class"],
+                            CustomerId = (int)realEstateReader["fk_customer_id"],
+                            AgentId = (int)realEstateReader["fk_agent_id"],
+                            RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
+                            CityId = (int)realEstateReader["fk_city_id"],
+                            TypologyId = (int)realEstateReader["fk_typology_id"]
+                        };
+                        realEstate = realEstateModel;
+                    }
+                }else
+                {
+                    serviceResult.AdditionalInformation.Add($"Real Estate ID {realEstateId} doesn't exist");
+                    return serviceResult;
                 }
+                
                 realEstateReader.Close();
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = realEstate;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
+            }
+
+            return serviceResult;
+        }
+
+        /// <summary>
+        /// 
+        /// Delete a real estate by Id from the Database
+        /// 
+        /// </summary>
+        /// <param name="realEstateId"></param>
+        /// <returns></returns>
+        public async Task<ServiceResult<RealEstateModel>> DeleteRealEstateByIdAsync(int realEstateId)
+        {
+            var serviceResult = new ServiceResult<RealEstateModel>();
+
+            try
+            {
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var delete = new NpgsqlCommand("DELETE FROM realestate WHERE id = @customerId", conn);
+                delete.Parameters.AddWithValue("@customerId", realEstateId);
+
+                var response = await DeleteRealEstateByIdAsync(realEstateId);
+                var result = await delete.ExecuteScalarAsync();
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response.Result;
             }
             catch (Exception ex)
             {

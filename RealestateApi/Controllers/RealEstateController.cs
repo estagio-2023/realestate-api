@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
+using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -72,6 +73,13 @@ namespace RealEstateApi.Controllers
         {
             var getRealEstateById = await _realEstateService.GetRealEstateByIdAsync(realEstateId);
             return getRealEstateById.IsSuccess ? Ok(getRealEstateById.Result) : Problem(getRealEstateById.ProblemType, getRealEstateById.AdditionalInformation.ToString());
+        }
+
+        [HttpDelete("{realEstateId}", Name = "DeleteRealEstateById")]
+        public async Task<ActionResult<RealEstateModel>> DeleteRealEstateByIdAsync(int realEstateId)
+        {
+            var deleteRealEstate = await _realEstateService.DeleteRealEstateByIdAsync(realEstateId);
+            return deleteRealEstate.IsSuccess ? Ok(deleteRealEstate.Result) : Problem(deleteRealEstate.ProblemType, string.Join(",", deleteRealEstate.AdditionalInformation));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
+using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -47,6 +48,24 @@ namespace RealEstateApi.Service
         public async Task<ServiceResult<RealEstateModel>> GetRealEstateByIdAsync(int realEstateId)
         {
             return await _realEstateRepository.GetRealEstateByIdAsync(realEstateId);
+        }
+
+        public async Task<ServiceResult<RealEstateModel>> DeleteRealEstateByIdAsync(int realEstateId)
+        {
+            ServiceResult<RealEstateModel> response = new();
+
+            var existRealEstate = await GetRealEstateByIdAsync(realEstateId);
+
+            if (existRealEstate.Result == null)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"Real Estate with ID {realEstateId} doesn't exist");
+                return response;
+            }
+
+            response = await _realEstateRepository.DeleteRealEstateByIdAsync(realEstateId);
+
+            return response;
         }
     }
 }
