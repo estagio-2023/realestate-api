@@ -143,28 +143,36 @@ namespace RealEstateApi.Repository
 
             try
             {
-                while (realEstateReader.Read())
+                if (realEstateReader.HasRows) 
                 {
-                    var realEstateModel = new RealEstateModel
+                    while (realEstateReader.Read())
                     {
-                        Id = (int)realEstateReader["id"],
-                        Title = (string)realEstateReader["title"],
-                        Address = (string)realEstateReader["address"],
-                        ZipCode = (string)realEstateReader["zip_code"],
-                        Description = (string)realEstateReader["description"],
-                        Build_Date = (DateTime)realEstateReader["build_date"],
-                        Price = (decimal)realEstateReader["price"],
-                        SquareMeter = (int)realEstateReader["square_meter"],
-                        EnergyClass = (string)realEstateReader["energy_class"],
-                        CustomerId = (int)realEstateReader["fk_customer_id"],
-                        AgentId = (int)realEstateReader["fk_agent_id"],
-                        RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
-                        CityId = (int)realEstateReader["fk_city_id"],
-                        TypologyId = (int)realEstateReader["fk_typology_id"]
-                    };
-                    realEstate = realEstateModel;
+                        var realEstateModel = new RealEstateModel
+                        {
+                            Id = (int)realEstateReader["id"],
+                            Title = (string)realEstateReader["title"],
+                            Address = (string)realEstateReader["address"],
+                            ZipCode = (string)realEstateReader["zip_code"],
+                            Description = (string)realEstateReader["description"],
+                            Build_Date = (DateTime)realEstateReader["build_date"],
+                            Price = (decimal)realEstateReader["price"],
+                            SquareMeter = (int)realEstateReader["square_meter"],
+                            EnergyClass = (string)realEstateReader["energy_class"],
+                            CustomerId = (int)realEstateReader["fk_customer_id"],
+                            AgentId = (int)realEstateReader["fk_agent_id"],
+                            RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
+                            CityId = (int)realEstateReader["fk_city_id"],
+                            TypologyId = (int)realEstateReader["fk_typology_id"]
+                        };
+                        realEstate = realEstateModel;
+                    }
+                    realEstateReader.Close();
                 }
-                realEstateReader.Close();
+                else
+                {
+                    serviceResult.AdditionalInformation.Add($"Real Estate ID {realEstateId} doesn't exist");
+                    return serviceResult;
+                }
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = realEstate;

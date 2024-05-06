@@ -134,7 +134,8 @@ namespace RealEstateApi.Repository
                             Password = (string)customerReader["password"],
                         };
                     }
-                } else
+                } 
+                else
                 {
                     result.AdditionalInformation.Add($"Reference Data ID {customerId} doesn't exist");
                     return result;
