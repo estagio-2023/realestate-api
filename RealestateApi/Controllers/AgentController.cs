@@ -76,6 +76,5 @@ namespace RealEstateApi.Controllers
             var deleteAgent = await _agentService.DeleteAgentById(agentId);
             return deleteAgent.IsSuccess ? Ok(deleteAgent.Result) : Problem(deleteAgent.ProblemType, string.Join(",", deleteAgent.AdditionalInformation));
         }
-
     }
 }
