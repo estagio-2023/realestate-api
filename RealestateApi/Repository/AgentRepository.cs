@@ -134,6 +134,5 @@ namespace RealEstateApi.Repository
 
             return serviceResult;
         }
-
     }
 }
