@@ -33,17 +33,25 @@ namespace RealEstateApi.Repository
 
                 using var customerQuery = new NpgsqlCommand("SELECT * FROM customer;", conn);
                 using var customerReader = await customerQuery.ExecuteReaderAsync();
-
-                while (await customerReader.ReadAsync())
+                
+                if (customerReader.HasRows) 
                 {
-                    var customerModel = new CustomerModel
+                    while (await customerReader.ReadAsync())
                     {
-                        Id = (int)customerReader["id"],
-                        Name = (string)customerReader["name"],
-                        Email = (string)customerReader["email"],
-                        Password = (string)customerReader["password"],
-                    };
-                    customers.Add(customerModel);
+                        var customerModel = new CustomerModel
+                        {
+                            Id = (int)customerReader["id"],
+                            Name = (string)customerReader["name"],
+                            Email = (string)customerReader["email"],
+                            Password = (string)customerReader["password"],
+                        };
+                        customers.Add(customerModel);
+                    }
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No data to retrieve");
+                    return result;
                 }
 
                 result.IsSuccess = true;

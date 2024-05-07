@@ -35,62 +35,94 @@ namespace RealEstateApi.Repository
                 using var typologyQuerry = new NpgsqlCommand("SELECT * FROM typology;", conn);
                 using var typologyReader = await typologyQuerry.ExecuteReaderAsync();
 
-                while (typologyReader.Read())
+                if (typologyReader.HasRows)
                 {
-                    var typologyModel = new TypologyModel
+                    while (typologyReader.Read())
                     {
-                        Description = typologyReader["description"].ToString(),
-                        Id = (int)typologyReader["id"]
-                    };
-                    refData.Typologies.Add(typologyModel);
-                }
+                        var typologyModel = new TypologyModel
+                        {
+                            Description = typologyReader["description"].ToString(),
+                            Id = (int)typologyReader["id"]
+                        };
+                        refData.Typologies.Add(typologyModel);
+                    }
 
-                typologyReader.Close();
+                    typologyReader.Close();
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No typology data to retrieve");
+                    return result;
+                }
 
                 using var realEstateTypeQuerry = new NpgsqlCommand("SELECT * FROM realestate_type;", conn);
                 var realEstateTypeReader = await realEstateTypeQuerry.ExecuteReaderAsync();
 
-                while (realEstateTypeReader.Read())
+                if (realEstateTypeReader.HasRows)
                 {
-                    var realEstateTypeModel = new RealEstateTypeModel
+                    while (realEstateTypeReader.Read())
                     {
-                        Description = realEstateTypeReader["description"].ToString(),
-                        Id = (int)realEstateTypeReader["id"]
-                    };
-                    refData.RealEstateTypes.Add(realEstateTypeModel);
-                }
+                        var realEstateTypeModel = new RealEstateTypeModel
+                        {
+                            Description = realEstateTypeReader["description"].ToString(),
+                            Id = (int)realEstateTypeReader["id"]
+                        };
+                        refData.RealEstateTypes.Add(realEstateTypeModel);
+                    }
 
-                realEstateTypeReader.Close();
+                    realEstateTypeReader.Close();
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No real estate type data to retrieve");
+                    return result;
+                }
 
                 using var cityQuerry = new NpgsqlCommand("SELECT * FROM city;", conn);
                 var cityReader = await cityQuerry.ExecuteReaderAsync();
 
-                while (cityReader.Read())
+                if (cityReader.HasRows)
                 {
-                    var citiesModel = new CityModel
+                    while (cityReader.Read())
                     {
-                        Description = cityReader["description"].ToString(),
-                        Id = (int)cityReader["id"]
-                    };
-                    refData.Cities.Add(citiesModel);
-                }
+                        var citiesModel = new CityModel
+                        {
+                            Description = cityReader["description"].ToString(),
+                            Id = (int)cityReader["id"]
+                        };
+                        refData.Cities.Add(citiesModel);
+                    }
 
-                cityReader.Close();
+                    cityReader.Close();
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No city data to retrieve");
+                    return result;
+                }
 
                 using var amenitiesQuerry = new NpgsqlCommand("SELECT * FROM amenity;", conn);
                 var amenitiesReader = await amenitiesQuerry.ExecuteReaderAsync();
 
-                while (amenitiesReader.Read())
+                if (amenitiesReader.HasRows)
                 {
-                    var amenitiesModel = new AmenitiesModel
+                    while (amenitiesReader.Read())
                     {
-                        Description = amenitiesReader["description"].ToString(),
-                        Id = (int)amenitiesReader["id"]
-                    };
-                    refData.Amenities.Add(amenitiesModel);
-                }
+                        var amenitiesModel = new AmenitiesModel
+                        {
+                            Description = amenitiesReader["description"].ToString(),
+                            Id = (int)amenitiesReader["id"]
+                        };
+                        refData.Amenities.Add(amenitiesModel);
+                    }
 
-                amenitiesReader.Close();
+                    amenitiesReader.Close();
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No amenity data to retrieve");
+                    return result;
+                }
 
                 result.IsSuccess = true;
                 result.Result = refData;

@@ -34,16 +34,24 @@ namespace RealEstateApi.Repository
                 using var realEstateQuerry = new NpgsqlCommand("SELECT * FROM realestate;", conn);
                 using var realEstateReader = await realEstateQuerry.ExecuteReaderAsync();
 
-                while (realEstateReader.Read())
+                if (realEstateReader.HasRows) 
                 {
-                    var realEstateRequestDto = new RealEstateRequestDto
+                    while (realEstateReader.Read())
                     {
-                        Id = (int)realEstateReader["id"],
-                        Title = (string)realEstateReader["title"],
-                        CityId = (int)realEstateReader["fk_city_id"],
-                        TypologyId = (int)realEstateReader["fk_typology_id"]
-                    };
-                    realEstate.Add(realEstateRequestDto);
+                        var realEstateRequestDto = new RealEstateRequestDto
+                        {
+                            Id = (int)realEstateReader["id"],
+                            Title = (string)realEstateReader["title"],
+                            CityId = (int)realEstateReader["fk_city_id"],
+                            TypologyId = (int)realEstateReader["fk_typology_id"]
+                        };
+                        realEstate.Add(realEstateRequestDto);
+                    }
+                }
+                else
+                {
+                    serviceResult.AdditionalInformation.Add($"No data to retrieve");
+                    return serviceResult;
                 }
 
                 serviceResult.IsSuccess = true;

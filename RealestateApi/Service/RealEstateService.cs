@@ -1,6 +1,5 @@
 ﻿using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
-using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
