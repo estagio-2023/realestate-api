@@ -32,16 +32,24 @@ namespace RealEstateApi.Repository
                 using var agentQuery = new NpgsqlCommand("SELECT * FROM agent;", conn);
                 using var agentReader = await agentQuery.ExecuteReaderAsync();
 
-                while (await agentReader.ReadAsync())
+                if (agentReader.HasRows) 
                 {
-                    var agentModel = new AgentModel
+                    while (await agentReader.ReadAsync())
                     {
-                        Id = (int)agentReader["id"],
-                        Name = (string)agentReader["name"],
-                        PhoneNumber = (string)agentReader["phone_number"],
-                        Email = (string)agentReader["email"],
-                    };
-                    agents.Add(agentModel);
+                        var agentModel = new AgentModel
+                        {
+                            Id = (int)agentReader["id"],
+                            Name = (string)agentReader["name"],
+                            PhoneNumber = (string)agentReader["phone_number"],
+                            Email = (string)agentReader["email"],
+                        };
+                        agents.Add(agentModel);
+                    }
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No data to retrieve");
+                    return result;
                 }
 
                 result.IsSuccess = true;
