@@ -122,6 +122,13 @@ namespace RealEstateApi.Repository
                 var response = await GetAgentByIdAsync(agentId);
                 var result = await delete.ExecuteScalarAsync();
 
+                if (result == null)
+                {
+                    serviceResult.IsSuccess = false;
+                    serviceResult.Result = response.Result;
+                    serviceResult.AdditionalInformation.Add($"Agent with ID {agentId} doesn't exist");
+                }
+
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result;
             }

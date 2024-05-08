@@ -43,15 +43,14 @@ namespace RealEstateApi.Service
 
             var existAgent = await GetAgentByIdAsync(agentId);
 
-            if (!existAgent.IsSuccess)
+            if (existAgent.Result == null)
             {
                 response.IsSuccess = false;
-                response.AdditionalInformation.Add($"Agent with ID {agentId} doesn't exist!!!!!!!!!");
+                response.AdditionalInformation.Add($"Agent with ID {agentId} doesn't exist");
+                return response;
             }
-            else
-            {
-                response = await _agentRepository.DeleteAgentById(agentId);
-            }
+
+            response = await _agentRepository.DeleteAgentById(agentId);
 
             return response;
         }
