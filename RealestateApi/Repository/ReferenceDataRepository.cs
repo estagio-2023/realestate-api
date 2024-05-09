@@ -35,62 +35,94 @@ namespace RealEstateApi.Repository
                 using var typologyQuerry = new NpgsqlCommand("SELECT * FROM typology;", conn);
                 using var typologyReader = await typologyQuerry.ExecuteReaderAsync();
 
-                while (typologyReader.Read())
+                if (typologyReader.HasRows)
                 {
-                    var typologyModel = new TypologyModel
+                    while (typologyReader.Read())
                     {
-                        Description = typologyReader["description"].ToString(),
-                        Id = (int)typologyReader["id"]
-                    };
-                    refData.Typologies.Add(typologyModel);
-                }
+                        var typologyModel = new TypologyModel
+                        {
+                            Description = typologyReader["description"].ToString(),
+                            Id = (int)typologyReader["id"]
+                        };
+                        refData.Typologies.Add(typologyModel);
+                    }
 
-                typologyReader.Close();
+                    typologyReader.Close();
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No typology data to retrieve");
+                    return result;
+                }
 
                 using var realEstateTypeQuerry = new NpgsqlCommand("SELECT * FROM realestate_type;", conn);
                 var realEstateTypeReader = await realEstateTypeQuerry.ExecuteReaderAsync();
 
-                while (realEstateTypeReader.Read())
+                if (realEstateTypeReader.HasRows)
                 {
-                    var realEstateTypeModel = new RealEstateTypeModel
+                    while (realEstateTypeReader.Read())
                     {
-                        Description = realEstateTypeReader["description"].ToString(),
-                        Id = (int)realEstateTypeReader["id"]
-                    };
-                    refData.RealEstateTypes.Add(realEstateTypeModel);
-                }
+                        var realEstateTypeModel = new RealEstateTypeModel
+                        {
+                            Description = realEstateTypeReader["description"].ToString(),
+                            Id = (int)realEstateTypeReader["id"]
+                        };
+                        refData.RealEstateTypes.Add(realEstateTypeModel);
+                    }
 
-                realEstateTypeReader.Close();
+                    realEstateTypeReader.Close();
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No real estate type data to retrieve");
+                    return result;
+                }
 
                 using var cityQuerry = new NpgsqlCommand("SELECT * FROM city;", conn);
                 var cityReader = await cityQuerry.ExecuteReaderAsync();
 
-                while (cityReader.Read())
+                if (cityReader.HasRows)
                 {
-                    var citiesModel = new CityModel
+                    while (cityReader.Read())
                     {
-                        Description = cityReader["description"].ToString(),
-                        Id = (int)cityReader["id"]
-                    };
-                    refData.Cities.Add(citiesModel);
-                }
+                        var citiesModel = new CityModel
+                        {
+                            Description = cityReader["description"].ToString(),
+                            Id = (int)cityReader["id"]
+                        };
+                        refData.Cities.Add(citiesModel);
+                    }
 
-                cityReader.Close();
+                    cityReader.Close();
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No city data to retrieve");
+                    return result;
+                }
 
                 using var amenitiesQuerry = new NpgsqlCommand("SELECT * FROM amenity;", conn);
                 var amenitiesReader = await amenitiesQuerry.ExecuteReaderAsync();
 
-                while (amenitiesReader.Read())
+                if (amenitiesReader.HasRows)
                 {
-                    var amenitiesModel = new AmenitiesModel
+                    while (amenitiesReader.Read())
                     {
-                        Description = amenitiesReader["description"].ToString(),
-                        Id = (int)amenitiesReader["id"]
-                    };
-                    refData.Amenities.Add(amenitiesModel);
-                }
+                        var amenitiesModel = new AmenitiesModel
+                        {
+                            Description = amenitiesReader["description"].ToString(),
+                            Id = (int)amenitiesReader["id"]
+                        };
+                        refData.Amenities.Add(amenitiesModel);
+                    }
 
-                amenitiesReader.Close();
+                    amenitiesReader.Close();
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No amenity data to retrieve");
+                    return result;
+                }
 
                 result.IsSuccess = true;
                 result.Result = refData;
@@ -276,10 +308,10 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataResponseDto </returns>
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
+        /// <returns> ReferenceDataModel </returns>
+        public async Task<ServiceResult<ReferenceDataModel>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -287,9 +319,8 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM typology WHERE id = @RefDataId", conn);
                 delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
+                var response = await GetTypologyReferenceDataAsync(refDataType, refDataId);
                 var result = await delete.ExecuteScalarAsync();
-
-                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result; 
@@ -311,10 +342,10 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataResponseDto </returns>
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
+        /// <returns> ReferenceDataModel </returns>
+        public async Task<ServiceResult<ReferenceDataModel>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -322,9 +353,8 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM realestate_type WHERE id = @RefDataId", conn);
                 delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
+                var response = await GetRealEstateReferenceDataAsync(refDataType, refDataId);
                 var result = await delete.ExecuteScalarAsync();
-
-                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result;
@@ -346,10 +376,10 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataResponseDto </returns>
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
+        /// <returns> ReferenceDataModel </returns>
+        public async Task<ServiceResult<ReferenceDataModel>> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -357,9 +387,8 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM city WHERE id = @RefDataId", conn);
                 delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
+                var response = await GetCityReferenceDataAsync(refDataType, refDataId);
                 var result = await delete.ExecuteScalarAsync();
-
-                var response = await GetAllReferenceDataAsync();
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result;
@@ -381,10 +410,10 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataResponseDto </returns>
-        public async Task<ServiceResult<ReferenceDataResponseDto>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
+        /// <returns> ReferenceDataModel </returns>
+        public async Task<ServiceResult<ReferenceDataModel>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
-            var serviceResult = new ServiceResult<ReferenceDataResponseDto>();
+            var serviceResult = new ServiceResult<ReferenceDataModel>();
 
             try
             {
@@ -392,9 +421,8 @@ namespace RealEstateApi.Repository
                 using var delete = new NpgsqlCommand("DELETE FROM amenity WHERE id = @RefDataId", conn);
                 delete.Parameters.AddWithValue("@RefDataId", refDataId);
 
-                var result = await delete.ExecuteScalarAsync();
-
-                var response = await GetAllReferenceDataAsync();
+                var response = await GetAmenityReferenceDataAsync(refDataType, refDataId);
+                var result = await delete.ExecuteScalarAsync();             
 
                 serviceResult.IsSuccess = true;
                 serviceResult.Result = response.Result;
@@ -414,6 +442,8 @@ namespace RealEstateApi.Repository
         /// Gets Typology by Id from Database
         /// 
         /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> GetTypologyReferenceDataAsync(string refDataType, int refDataId)
         {
@@ -428,13 +458,21 @@ namespace RealEstateApi.Repository
                 typologyQuery.Parameters.AddWithValue("@RefDataId", refDataId);
                 using var typologyReader = await typologyQuery.ExecuteReaderAsync();
 
-                while (typologyReader.Read())
+                if (typologyReader.HasRows)
                 {
-                    response = new ReferenceDataModel
+
+                    while (typologyReader.Read())
                     {
-                        Id = (int)typologyReader["id"],
-                        Description = (string)typologyReader["description"],
-                    };
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)typologyReader["id"],
+                            Description = (string)typologyReader["description"],
+                        };
+                    }
+                } else
+                {
+                    serviceResult.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                    return serviceResult;
                 }
 
                 serviceResult.IsSuccess = true;
@@ -455,6 +493,8 @@ namespace RealEstateApi.Repository
         /// Gets City by Id from Database
         /// 
         /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> GetCityReferenceDataAsync(string refDataType, int refDataId)
         {
@@ -469,13 +509,20 @@ namespace RealEstateApi.Repository
                 cityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
                 using var cityReader = await cityQuery.ExecuteReaderAsync();
 
-                while (cityReader.Read())
+                if (cityReader.HasRows)
                 {
-                    response = new ReferenceDataModel
+                    while (cityReader.Read())
                     {
-                        Id = (int)cityReader["id"],
-                        Description = (string)cityReader["description"],
-                    };
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)cityReader["id"],
+                            Description = (string)cityReader["description"],
+                        };
+                    }
+                } else
+                {
+                    serviceResult.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                    return serviceResult;
                 }
 
                 serviceResult.IsSuccess = true;
@@ -496,6 +543,8 @@ namespace RealEstateApi.Repository
         /// Gets Real Eatate Type by Id from Database
         /// 
         /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> GetRealEstateReferenceDataAsync(string refDataType, int refDataId)
         {
@@ -510,17 +559,24 @@ namespace RealEstateApi.Repository
                 realEstateQuery.Parameters.AddWithValue("@RefDataId", refDataId);
                 using var realEstateReader = await realEstateQuery.ExecuteReaderAsync();
 
-                while (realEstateReader.Read())
+                if (realEstateReader.HasRows)
                 {
-                    response = new ReferenceDataModel
+                    while (realEstateReader.Read())
                     {
-                        Id = (int)realEstateReader["id"],
-                        Description = (string)realEstateReader["description"],
-                    };
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)realEstateReader["id"],
+                            Description = (string)realEstateReader["description"],
+                        };
+                    }
+                } else
+                {
+                    serviceResult.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                    return serviceResult;
                 }
 
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
+                    serviceResult.IsSuccess = true;
+                    serviceResult.Result = response;
             }
             catch (Exception ex)
             {
@@ -537,6 +593,8 @@ namespace RealEstateApi.Repository
         /// Gets Amenity by Id from Database
         /// 
         /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
         public async Task<ServiceResult<ReferenceDataModel>> GetAmenityReferenceDataAsync(string refDataType, int refDataId)
         {
@@ -551,13 +609,20 @@ namespace RealEstateApi.Repository
                 amenityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
                 using var amenityReader = await amenityQuery.ExecuteReaderAsync();
 
-                while (amenityReader.Read())
+                if (amenityReader.HasRows)
                 {
-                    response = new ReferenceDataModel
+                    while (amenityReader.Read())
                     {
-                        Id = (int)amenityReader["id"],
-                        Description = (string)amenityReader["description"],
-                    };
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)amenityReader["id"],
+                            Description = (string)amenityReader["description"],
+                        };
+                    }
+                } else
+                {
+                    serviceResult.AdditionalInformation.Add($"Reference Data ID {refDataId} doesn't exist");
+                    return serviceResult;
                 }
 
                 serviceResult.IsSuccess = true;

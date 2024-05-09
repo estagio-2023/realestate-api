@@ -33,17 +33,25 @@ namespace RealEstateApi.Repository
 
                 using var customerQuery = new NpgsqlCommand("SELECT * FROM customer;", conn);
                 using var customerReader = await customerQuery.ExecuteReaderAsync();
-
-                while (await customerReader.ReadAsync())
+                
+                if (customerReader.HasRows) 
                 {
-                    var customerModel = new CustomerModel
+                    while (await customerReader.ReadAsync())
                     {
-                        Id = (int)customerReader["id"],
-                        Name = (string)customerReader["name"],
-                        Email = (string)customerReader["email"],
-                        Password = (string)customerReader["password"],
-                    };
-                    customers.Add(customerModel);
+                        var customerModel = new CustomerModel
+                        {
+                            Id = (int)customerReader["id"],
+                            Name = (string)customerReader["name"],
+                            Email = (string)customerReader["email"],
+                            Password = (string)customerReader["password"],
+                        };
+                        customers.Add(customerModel);
+                    }
+                }
+                else
+                {
+                    result.AdditionalInformation.Add($"No data to retrieve");
+                    return result;
                 }
 
                 result.IsSuccess = true;
@@ -121,20 +129,28 @@ namespace RealEstateApi.Repository
                 using var customerQuery = new NpgsqlCommand("SELECT * FROM customer WHERE id = @customerId;", conn);
                 customerQuery.Parameters.AddWithValue("@customerId", customerId);
                 using var customerReader = await customerQuery.ExecuteReaderAsync();
-               
-                while(await customerReader.ReadAsync())
-                {
-                    response = new CustomerModel
-                    {
-                        Id = (int)customerReader["id"],
-                        Name = (string)customerReader["name"],
-                        Email = (string)customerReader["email"],
-                        Password = (string)customerReader["password"],
-                    };
 
-                    result.IsSuccess = true;
-                    result.Result = response;
+                if(customerReader.HasRows)
+                {
+                    while (await customerReader.ReadAsync())
+                    {
+                        response = new CustomerModel
+                        {
+                            Id = (int)customerReader["id"],
+                            Name = (string)customerReader["name"],
+                            Email = (string)customerReader["email"],
+                            Password = (string)customerReader["password"],
+                        };
+                    }
+                } 
+                else
+                {
+                    result.AdditionalInformation.Add($"Customer ID {customerId} doesn't exist");
+                    return result;
                 }
+
+                result.IsSuccess = true;
+                result.Result = response;
             }
             catch (Exception ex)
             {
@@ -144,6 +160,39 @@ namespace RealEstateApi.Repository
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 
+        /// Deletes a Customer by Id from the Database
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// <returns> CustomerModel </returns>
+        public async Task<ServiceResult<CustomerModel>> DeleteCustomerByIdAsync(int customerId)
+        {
+            var serviceResult = new ServiceResult<CustomerModel>();
+
+            try
+            {
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var delete = new NpgsqlCommand("DELETE FROM customer WHERE id = @customerId", conn);
+                delete.Parameters.AddWithValue("@customerId", customerId);
+
+                var response = await GetCustomerByIdAsync(customerId);
+                var result = await delete.ExecuteScalarAsync();
+
+                serviceResult.IsSuccess = true;
+                serviceResult.Result = response.Result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                serviceResult.IsSuccess = false;
+                serviceResult.AdditionalInformation.Add(ex.Message);
+            }
+
+            return serviceResult;
         }
     }
 }
