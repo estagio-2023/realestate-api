@@ -109,7 +109,7 @@ namespace RealEstateApi.Repository
             return result;
         }
 
-        public async Task<ServiceResult<AgentModel>> DeleteAgentById(int agentId)
+        public async Task<ServiceResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
         {
             var serviceResult = new ServiceResult<AgentModel>();
 
@@ -120,13 +120,12 @@ namespace RealEstateApi.Repository
                 delete.Parameters.AddWithValue("@AgentId", agentId);
 
                 var response = await GetAgentByIdAsync(agentId);
-                var result = await delete.ExecuteScalarAsync();
+                var result = await delete.ExecuteNonQueryAsync();
 
-                if (result == null)
+                if(result == 0) 
                 {
-                    serviceResult.IsSuccess = false;
-                    serviceResult.Result = response.Result;
-                    serviceResult.AdditionalInformation.Add($"Agent with ID {agentId} doesn't exist");
+                    serviceResult.AdditionalInformation.Add($"Deleted 0 Rows of agent");
+                    return serviceResult;
                 }
 
                 serviceResult.IsSuccess = true;
@@ -135,7 +134,6 @@ namespace RealEstateApi.Repository
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                serviceResult.IsSuccess = false;
                 serviceResult.AdditionalInformation.Add(ex.Message);
             }
 

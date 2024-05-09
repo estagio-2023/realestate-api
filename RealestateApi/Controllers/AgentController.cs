@@ -71,9 +71,9 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpDelete("{agentId}", Name = "DeleteAgentById")]
-        public async Task<ActionResult<AgentModel>> DeleteAgentById(int agentId)
+        public async Task<ActionResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
         {
-            var deleteAgent = await _agentService.DeleteAgentById(agentId);
+            var deleteAgent = await _agentService.DeleteAgentByIdAsync(agentId);
             return deleteAgent.IsSuccess ? Ok(deleteAgent.Result) : Problem(deleteAgent.ProblemType, string.Join(",", deleteAgent.AdditionalInformation));
         }
     }
