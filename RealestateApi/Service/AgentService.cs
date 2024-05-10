@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Logging;
+using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
@@ -35,6 +37,18 @@ namespace RealEstateApi.Service
         public async Task<ServiceResult<AgentModel>> GetAgentByIdAsync(int agentId)
         {
             return await _agentRepository.GetAgentByIdAsync(agentId);
+        }
+
+        /// <summary>
+        /// 
+        /// Creates a Agent
+        /// 
+        /// </summary>
+        /// <param name="agentData"> Data to be saved </param>
+        /// <returns> AgentModel </returns>
+        public async Task<ServiceResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData) 
+        {
+            return await _agentRepository.AddAgentAsync(agentData);
         }
 
         public async Task<ServiceResult<AgentModel>> DeleteAgentByIdAsync(int agentId)

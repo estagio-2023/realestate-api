@@ -33,6 +33,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddScoped<IValidator<ReferenceDataRequestDto>, AddReferenceDataValidator>();
 builder.Services.AddScoped<IValidator<CustomerRequestDto>, AddCustomerValidator>();
+builder.Services.AddScoped<IValidator<AgentRequestDto>, AddAgentValidator>();
 
 ValidatorOptions.Global.CascadeMode = CascadeMode.Stop;
 
