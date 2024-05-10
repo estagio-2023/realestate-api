@@ -100,5 +100,12 @@ namespace RealEstateApi.Controllers
             var addAgent = await _agentService.AddAgentAsync(agentData);
             return addAgent.IsSuccess ? Ok(addAgent.Result) : Problem(addAgent.ProblemType, addAgent.AdditionalInformation.ToString());
         }
+
+        [HttpDelete("{agentId}", Name = "DeleteAgentById")]
+        public async Task<ActionResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
+        {
+            var deleteAgent = await _agentService.DeleteAgentByIdAsync(agentId);
+            return deleteAgent.IsSuccess ? Ok(deleteAgent.Result) : Problem(deleteAgent.ProblemType, string.Join(",", deleteAgent.AdditionalInformation));
+        }
     }
 }

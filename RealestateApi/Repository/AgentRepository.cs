@@ -162,5 +162,41 @@ namespace RealEstateApi.Repository
 
             return serviceResult;
         }
+
+        /// <summary>
+        /// 
+        /// Deletes a Agent by Id from the Database
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to delete Agent </param>
+        /// <returns> AgentModel </returns>
+        public async Task<ServiceResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
+        {
+            var serviceResult = new ServiceResult<AgentModel>();
+
+            try
+            {
+                using var conn = await _dataSource.OpenConnectionAsync();
+                using var delete = new NpgsqlCommand("DELETE FROM agent WHERE id = @AgentId", conn);
+                delete.Parameters.AddWithValue("@AgentId", agentId);
+
+                var result = await delete.ExecuteNonQueryAsync();
+
+                if(result == 0) 
+                {
+                    serviceResult.AdditionalInformation.Add($"Deleted 0 Rows of agent");
+                    return serviceResult;
+                }
+
+                serviceResult.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                serviceResult.AdditionalInformation.Add(ex.Message);
+            }
+
+            return serviceResult;
+        }
     }
 }
