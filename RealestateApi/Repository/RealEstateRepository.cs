@@ -267,5 +267,45 @@ namespace RealEstateApi.Repository
                 
             return null;
         }
+
+        public async Task<RealEstateModel?> GetRealEstateByAgentIdAsync(int agentId)
+        {
+            RealEstateModel response = new();
+
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var realEstateQuery = new NpgsqlCommand("SELECT * FROM realestate WHERE fk_agent_id = @agentId;", conn);
+            realEstateQuery.Parameters.AddWithValue("@agentId", agentId);
+
+            using var realEstateReader = await realEstateQuery.ExecuteReaderAsync();
+
+            if (realEstateReader.HasRows)
+            {
+                while (realEstateReader.Read())
+                {
+                    response = new RealEstateModel
+                    {
+                        Id = (int)realEstateReader["id"],
+                        Title = (string)realEstateReader["title"],
+                        Address = (string)realEstateReader["address"],
+                        ZipCode = (string)realEstateReader["zip_code"],
+                        Description = (string)realEstateReader["description"],
+                        Build_Date = (DateTime)realEstateReader["build_date"],
+                        Price = (decimal)realEstateReader["price"],
+                        SquareMeter = (int)realEstateReader["square_meter"],
+                        EnergyClass = (string)realEstateReader["energy_class"],
+                        CustomerId = (int)realEstateReader["fk_customer_id"],
+                        AgentId = (int)realEstateReader["fk_agent_id"],
+                        RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
+                        CityId = (int)realEstateReader["fk_city_id"],
+                        TypologyId = (int)realEstateReader["fk_typology_id"]
+                    };
+                }
+
+                return response;
+            }
+
+            return null;
+        }
     }
 }
