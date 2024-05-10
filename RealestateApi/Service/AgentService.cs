@@ -44,7 +44,7 @@ namespace RealEstateApi.Service
         /// Creates a Agent
         /// 
         /// </summary>
-        /// <param name="agentData"></param>
+        /// <param name="agentData"> Data to be saved </param>
         /// <returns> AgentModel </returns>
         public async Task<ServiceResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData) 
         {
