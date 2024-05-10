@@ -1,6 +1,10 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
+using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
+using RealEstateApi.Validators;
 
 namespace RealEstateApi.Controllers
 {
@@ -10,11 +14,13 @@ namespace RealEstateApi.Controllers
     {
         private readonly ILogger<AgentController> _logger;
         private readonly IAgentService _agentService;
+        private readonly IValidator<AgentRequestDto> _agentRequestValidatorDto;
 
-        public AgentController(ILogger<AgentController> logger, IAgentService agentService)
+        public AgentController(ILogger<AgentController> logger, IAgentService agentService, IValidator<AgentRequestDto> agentRequestValidatorDto)
         {
             _logger = logger;
             _agentService = agentService;
+            _agentRequestValidatorDto = agentRequestValidatorDto;
         }
 
         /// <summary>
@@ -67,6 +73,32 @@ namespace RealEstateApi.Controllers
                 _logger.LogError(ex, "An error occurred while retrieving agent.");
                 throw;
             }
+        }
+
+        /// <summary>
+        /// 
+        /// Https Post Method to create a Agent
+        /// 
+        /// </summary>
+        /// <param name="agentData"> Agent Data to be created </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     POST /api/Agent
+        ///     
+        /// <returns> AgentModel </returns>
+        [HttpPost(Name = "AddAgent")]
+        public async Task<ActionResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData)
+        {
+            var validationResult = _agentRequestValidatorDto.Validate(agentData);
+
+            if (!validationResult.IsValid)
+            {
+                return new AgentModel();
+            }
+
+            var addAgent = await _agentService.AddAgentAsync(agentData);
+            return addAgent.IsSuccess ? Ok(addAgent.Result) : Problem(addAgent.ProblemType, addAgent.AdditionalInformation.ToString());
         }
     }
 }
