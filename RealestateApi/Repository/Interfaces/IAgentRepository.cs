@@ -12,7 +12,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// 
         /// </summary>
         /// <returns> List<AgentModel> </returns>
-        Task<ServiceResult<List<AgentModel>>> GetAllAgentsAsync();
+        Task<List<AgentModel>> GetAllAgentsAsync();
 
         /// <summary>
         /// 
@@ -20,7 +20,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// 
         /// </summary>
         /// <returns> AgentModel </returns>
-        Task<ServiceResult<AgentModel>> GetAgentByIdAsync(int agentId);
+        Task<AgentModel?> GetAgentByIdAsync(int agentId);
 
         /// <summary>
         /// 
@@ -29,7 +29,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="agentData"> Agent Data to be Saved </param>
         /// <returns> AgentModel </returns>
-        Task<ServiceResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData);
+        Task<AgentModel?> AddAgentAsync(AgentRequestDto agentData);
 
         /// <summary>
         /// 
@@ -38,6 +38,6 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="agentId"> Id to delete Agent </param>
         /// <returns> AgentModel </returns>
-        Task<ServiceResult<AgentModel>> DeleteAgentByIdAsync(int agentId);
+        Task<bool> DeleteAgentByIdAsync(int agentId);
     }
 }

@@ -45,6 +45,43 @@ namespace RealEstateApi.Service
 
         /// <summary>
         /// 
+        /// Gets a Customer by Id
+        /// 
+        /// </summary>
+        /// <param name="customerId"> Id to get Customer </param>
+        /// <returns> CustomerModel </returns>
+        public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
+        {
+            ServiceResult<CustomerModel> response = new();
+
+            try
+            {
+                var result = await _customerRepository.GetCustomerByIdAsync(customerId);
+
+                if (result != null)
+                {
+                    response.Result = result;
+                    response.IsSuccess = true;
+                }
+                else
+                {
+                    response.Result = null;
+                    response.IsSuccess = false;
+                    response.AdditionalInformation.Add($"Customer ID {customerId} was not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"There was an error while trying to get customer ID: {customerId}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// 
         /// Creates a Customer
         /// 
         /// </summary>
@@ -72,44 +109,7 @@ namespace RealEstateApi.Service
             }
 
             return response;
-        }
-
-        /// <summary>
-        /// 
-        /// Gets a Customer by Id
-        /// 
-        /// </summary>
-        /// <param name="customerId"> Id to get Customer </param>
-        /// <returns> CustomerModel </returns>
-        public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
-        {
-            ServiceResult<CustomerModel> response = new();
-
-            try
-            {
-                var result = await _customerRepository.GetCustomerByIdAsync(customerId);
-
-                if(result != null)
-                {
-                    response.Result = result;
-                    response.IsSuccess = true;
-                }
-                else
-                {
-                    response.Result = null;
-                    response.IsSuccess = false;
-                    response.AdditionalInformation.Add($"Customer ID {customerId} was not found.");
-                }
-            }
-            catch(Exception ex)
-            {
-                response.IsSuccess = false;
-                response.AdditionalInformation.Add($"There was an error while trying to get customer ID: {customerId}.");
-                response.AdditionalInformation.Add(ex.Message);
-            }
-
-            return response;
-        }
+        }        
 
         /// <summary>
         /// 

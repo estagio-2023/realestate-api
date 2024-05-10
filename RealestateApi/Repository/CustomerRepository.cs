@@ -46,41 +46,7 @@ namespace RealEstateApi.Repository
             }                
             
             return response;
-        }
-
-        /// <summary>
-        /// 
-        /// Adds a Customer to the Database
-        /// 
-        /// </summary>
-        /// <param name="customerData"> Customer Data to be created </param>
-        /// <returns> CustomerModel </returns>
-        public async Task<CustomerModel?> AddCustomerAsync(CustomerRequestDto customerData) 
-        {
-            CustomerModel response = new();            
-
-            using var conn = await _dataSource.OpenConnectionAsync();
-            using var query = new NpgsqlCommand(@"INSERT INTO customer (name, email, password) VALUES (@customerName, @customerEmail, @customerPassword) returning id", conn);
-
-            query.Parameters.Add(new NpgsqlParameter("@customerName", NpgsqlDbType.Text) { Value = customerData.Name });
-            query.Parameters.Add(new NpgsqlParameter("@customerEmail", NpgsqlDbType.Text) { Value = customerData.Email });
-            query.Parameters.Add(new NpgsqlParameter("@customerPassword", NpgsqlDbType.Text) { Value = customerData.Password });
-            
-            var result = await query.ExecuteScalarAsync();
-
-            if(result != null)
-            {
-                response = new CustomerModel
-                {
-                    Id = (int)result,
-                    Name = customerData.Name,
-                    Email = customerData.Email,
-                    Password = customerData.Password
-                };
-            }
-
-            return response;
-        }
+        }       
 
         /// <summary>
         /// 
@@ -91,8 +57,6 @@ namespace RealEstateApi.Repository
         /// <returns> CustomerModel </returns>
         public async Task<CustomerModel?> GetCustomerByIdAsync(int customerId)
         {
-            CustomerModel response = new();
-
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var customerQuery = new NpgsqlCommand("SELECT * FROM customer WHERE id = @customerId;", conn);
@@ -102,6 +66,8 @@ namespace RealEstateApi.Repository
 
             if(customerReader.HasRows)
             {
+                CustomerModel response = new();
+
                 while (await customerReader.ReadAsync())
                 {
                     response = new CustomerModel
@@ -121,6 +87,40 @@ namespace RealEstateApi.Repository
 
         /// <summary>
         /// 
+        /// Adds a Customer to the Database
+        /// 
+        /// </summary>
+        /// <param name="customerData"> Customer Data to be created </param>
+        /// <returns> CustomerModel </returns>
+        public async Task<CustomerModel?> AddCustomerAsync(CustomerRequestDto customerData)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var query = new NpgsqlCommand(@"INSERT INTO customer (name, email, password) VALUES (@customerName, @customerEmail, @customerPassword) returning id", conn);
+            query.Parameters.Add(new NpgsqlParameter("@customerName", NpgsqlDbType.Text) { Value = customerData.Name });
+            query.Parameters.Add(new NpgsqlParameter("@customerEmail", NpgsqlDbType.Text) { Value = customerData.Email });
+            query.Parameters.Add(new NpgsqlParameter("@customerPassword", NpgsqlDbType.Text) { Value = customerData.Password });
+
+            var result = await query.ExecuteScalarAsync();
+
+            if (result != null)
+            {                
+                var response = new CustomerModel
+                {
+                    Id = (int)result,
+                    Name = customerData.Name,
+                    Email = customerData.Email,
+                    Password = customerData.Password
+                };
+
+                return response;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 
         /// Deletes a Customer by Id from the Database
         /// 
         /// </summary>
@@ -129,6 +129,7 @@ namespace RealEstateApi.Repository
         public async Task<bool> DeleteCustomerByIdAsync(int customerId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
+
             using var delete = new NpgsqlCommand("DELETE FROM customer WHERE id = @customerId", conn);
             delete.Parameters.AddWithValue("@customerId", customerId);                
 

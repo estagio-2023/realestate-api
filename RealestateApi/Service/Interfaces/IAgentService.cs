@@ -20,7 +20,7 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="agentId"> Id to get an Agent </param>
         /// <returns> AgentModel </returns>
-        Task<ServiceResult<AgentModel>> GetAgentByIdAsync(int agentId);
+        Task<ServiceResult<AgentModel?>> GetAgentByIdAsync(int agentId);
 
         /// <summary>
         /// 
