@@ -137,8 +137,6 @@ namespace RealEstateApi.Repository
             var affectedRows = await delete.ExecuteNonQueryAsync();
 
             return affectedRows > 0;
-
-
         }
     }
 }
