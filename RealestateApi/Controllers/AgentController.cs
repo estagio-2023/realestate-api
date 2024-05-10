@@ -40,7 +40,7 @@ namespace RealEstateApi.Controllers
             
             return response.IsSuccess 
                 ? Ok(response.Result) 
-                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation, (int)HttpCodesEnum.BadRequest));
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace RealEstateApi.Controllers
 
             return response.IsSuccess 
                 ? Ok(response.Result) 
-                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation, (int)HttpCodesEnum.BadRequest));
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         [HttpDelete("{agentId}", Name = "DeleteAgentById")]

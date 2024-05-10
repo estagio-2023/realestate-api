@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Enums;
 using RealEstateApi.Model;
-using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -33,8 +33,11 @@ namespace RealEstateApi.Controllers
         [HttpGet(Name = "GetAllRealEstate")]
         public async Task<ActionResult<List<RealEstateRequestDto>>> GetAllRealEstate()
         {
-            var getAllRealEstate = await _realEstateService.GetAllRealEstateAsync();
-            return getAllRealEstate.IsSuccess ? Ok(getAllRealEstate.Result) : Problem(getAllRealEstate.ProblemType, getAllRealEstate.AdditionalInformation.ToString());
+            var response = await _realEstateService.GetAllRealEstateAsync();
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         /// <summary>
@@ -52,8 +55,11 @@ namespace RealEstateApi.Controllers
         [HttpPost(Name = "AddRealEstate")]
         public async Task<ActionResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
-            var addRealEstate = await _realEstateService.AddRealEstateAsync(realEstateDto);
-            return addRealEstate.IsSuccess ? Ok(addRealEstate.Result) : Problem(addRealEstate.ProblemType, addRealEstate.AdditionalInformation.ToString());
+            var response = await _realEstateService.AddRealEstateAsync(realEstateDto);
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         /// <summary>
@@ -71,15 +77,21 @@ namespace RealEstateApi.Controllers
         [HttpGet("{realEstateId}", Name = "GetRealEstateById")]
         public async Task<ActionResult<RealEstateModel>> GetRealEstateById(int realEstateId)
         {
-            var getRealEstateById = await _realEstateService.GetRealEstateByIdAsync(realEstateId);
-            return getRealEstateById.IsSuccess ? Ok(getRealEstateById.Result) : Problem(getRealEstateById.ProblemType, getRealEstateById.AdditionalInformation.ToString());
+            var response = await _realEstateService.GetRealEstateByIdAsync(realEstateId);
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         [HttpDelete("{realEstateId}", Name = "DeleteRealEstateById")]
         public async Task<ActionResult<RealEstateModel>> DeleteRealEstateByIdAsync(int realEstateId)
         {
-            var deleteRealEstate = await _realEstateService.DeleteRealEstateByIdAsync(realEstateId);
-            return deleteRealEstate.IsSuccess ? Ok(deleteRealEstate.Result) : Problem(deleteRealEstate.ProblemType, string.Join(",", deleteRealEstate.AdditionalInformation));
+            var response = await _realEstateService.DeleteRealEstateByIdAsync(realEstateId);
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
     }
 }
