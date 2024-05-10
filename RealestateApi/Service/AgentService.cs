@@ -51,6 +51,13 @@ namespace RealEstateApi.Service
             return await _agentRepository.AddAgentAsync(agentData);
         }
 
+        /// <summary>
+        /// 
+        /// Deletes a Agent by Id
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to delete Agent </param>
+        /// <returns> AgentModel </returns>
         public async Task<ServiceResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
         {
             ServiceResult<AgentModel> response = new();
