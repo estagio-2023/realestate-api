@@ -1,6 +1,9 @@
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
+using RealEstateApi.Validators;
 
 namespace RealEstateApi.Controllers
 {
@@ -10,11 +13,13 @@ namespace RealEstateApi.Controllers
     {
         private readonly ILogger<AgentController> _logger;
         private readonly IAgentService _agentService;
+        private readonly IValidator<AgentRequestDto> _agentRequestValidatorDto;
 
-        public AgentController(ILogger<AgentController> logger, IAgentService agentService)
+        public AgentController(ILogger<AgentController> logger, IAgentService agentService, IValidator<AgentRequestDto> agentRequestValidatorDto)
         {
             _logger = logger;
             _agentService = agentService;
+            _agentRequestValidatorDto = agentRequestValidatorDto;
         }
 
         /// <summary>
