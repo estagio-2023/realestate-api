@@ -12,7 +12,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// 
         /// </summary>
         /// <returns> List<CustomerModel> </returns>
-        Task<ServiceResult<List<CustomerModel>>> GetAllCustomersAsync();
+        Task<List<CustomerModel>> GetAllCustomersAsync();
 
         /// <summary>
         /// 
@@ -21,7 +21,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="customerData"> Customer Data to be Saved </param>
         /// <returns> CustomerModel </returns>
-        Task<ServiceResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData);
+        Task<CustomerModel?> AddCustomerAsync(CustomerRequestDto customerData);
 
         /// <summary>
         /// 
@@ -30,7 +30,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="customerId"> Id to get Customer </param>
         /// <returns> CustomerModel </returns>
-        Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId);
+        Task<CustomerModel?> GetCustomerByIdAsync(int customerId);
 
         /// <summary>
         /// 
@@ -38,7 +38,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// 
         /// </summary>
         /// <param name="customerId"> Id to get Customer </param>
-        /// <returns> CustomerModel </returns>
-        Task<ServiceResult<CustomerModel>> DeleteCustomerByIdAsync(int customerId);
+        /// <returns> bool </returns>
+        Task<bool> DeleteCustomerByIdAsync(int customerId);
     }
 }

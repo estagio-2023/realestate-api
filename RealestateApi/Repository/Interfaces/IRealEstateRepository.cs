@@ -34,6 +34,14 @@ namespace RealEstateApi.Repository.Interfaces
 
         /// <summary>
         /// 
+        /// Gets a real estate by customer Id
+        /// 
+        /// </summary>
+        /// <returns> RealEstateRequestDto </returns>
+        Task<RealEstateModel?> GetRealEstateByCustomerIdAsync(int customerId);
+
+        /// <summary>
+        /// 
         /// Deletes a real estate by Id from the data base
         /// 
         /// </summary>
