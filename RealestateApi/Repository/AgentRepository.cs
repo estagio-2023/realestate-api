@@ -66,7 +66,6 @@ namespace RealEstateApi.Repository
 
             if (agentReader.HasRows)
             {
-
                 AgentModel response = new();
 
                 while (await agentReader.ReadAsync())
