@@ -25,77 +25,84 @@ namespace RealEstateApi.Repository
         /// <returns> ReferenceDataResponseDto </returns>
         public async Task<ReferenceDataResponseDto> GetAllReferenceDataAsync()
         {
-            ReferenceDataResponseDto response = new();            
+            ReferenceDataResponseDto response = new();           
 
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var typologyQuerry = new NpgsqlCommand("SELECT * FROM typology;", conn);
-            using var typologyReader = await typologyQuerry.ExecuteReaderAsync();
+            using (var typologyReader = await typologyQuerry.ExecuteReaderAsync())
+            { 
 
-            if (typologyReader.HasRows)
-            {
-                while (await typologyReader.ReadAsync())
+                if (typologyReader.HasRows)
                 {
-                    var typologyModel = new TypologyModel
+                    while (await typologyReader.ReadAsync())
                     {
-                        Description = typologyReader["description"].ToString()!,
-                        Id = (int)typologyReader["id"]
-                    };
+                        var typologyModel = new TypologyModel
+                        {
+                            Description = typologyReader["description"].ToString()!,
+                            Id = (int)typologyReader["id"]
+                        };
 
-                    response.Typologies.Add(typologyModel);
+                        response.Typologies.Add(typologyModel);
+                    }
                 }
             }
 
             using var realEstateTypeQuerry = new NpgsqlCommand("SELECT * FROM realestate_type;", conn);
-            using var realEstateTypeReader = await realEstateTypeQuerry.ExecuteReaderAsync();
-
-            if (realEstateTypeReader.HasRows)
+            using (var realEstateTypeReader = await realEstateTypeQuerry.ExecuteReaderAsync())
             {
-                while (await realEstateTypeReader.ReadAsync())
+                if (realEstateTypeReader.HasRows)
                 {
-                    var realEstateTypeModel = new RealEstateTypeModel
+                    while (await realEstateTypeReader.ReadAsync())
                     {
-                        Description = realEstateTypeReader["description"].ToString()!,
-                        Id = (int)realEstateTypeReader["id"]
-                    };
+                        var realEstateTypeModel = new RealEstateTypeModel
+                        {
+                            Description = realEstateTypeReader["description"].ToString()!,
+                            Id = (int)realEstateTypeReader["id"]
+                        };
 
-                    response.RealEstateTypes.Add(realEstateTypeModel);
+                        response.RealEstateTypes.Add(realEstateTypeModel);
+                    }
                 }
             }
+
+            
 
             using var cityQuerry = new NpgsqlCommand("SELECT * FROM city;", conn);
-            using var cityReader = await cityQuerry.ExecuteReaderAsync();
-
-            if (cityReader.HasRows)
+            using (var cityReader = await cityQuerry.ExecuteReaderAsync())
             {
-                while (await cityReader.ReadAsync())
+                if (cityReader.HasRows)
                 {
-                    var citiesModel = new CityModel
+                    while (await cityReader.ReadAsync())
                     {
-                        Description = cityReader["description"].ToString()!,
-                        Id = (int)cityReader["id"]
-                    };
+                        var citiesModel = new CityModel
+                        {
+                            Description = cityReader["description"].ToString()!,
+                            Id = (int)cityReader["id"]
+                        };
 
-                    response.Cities.Add(citiesModel);
+                        response.Cities.Add(citiesModel);
+                    }
                 }
-            }
+            }                
 
             using var amenitiesQuerry = new NpgsqlCommand("SELECT * FROM amenity;", conn);
-            var amenitiesReader = await amenitiesQuerry.ExecuteReaderAsync();
-
-            if (amenitiesReader.HasRows)
+            using (var amenitiesReader = await amenitiesQuerry.ExecuteReaderAsync())
             {
-                while (await amenitiesReader.ReadAsync())
+                if (amenitiesReader.HasRows)
                 {
-                    var amenitiesModel = new AmenitiesModel
+                    while (await amenitiesReader.ReadAsync())
                     {
-                        Description = amenitiesReader["description"].ToString()!,
-                        Id = (int)amenitiesReader["id"]
-                    };
+                        var amenitiesModel = new AmenitiesModel
+                        {
+                            Description = amenitiesReader["description"].ToString()!,
+                            Id = (int)amenitiesReader["id"]
+                        };
 
-                    response.Amenities.Add(amenitiesModel);
+                        response.Amenities.Add(amenitiesModel);
+                    }
                 }
-            }
+            }                
 
             return response;
         }
@@ -115,23 +122,24 @@ namespace RealEstateApi.Repository
             using var typologyQuery = new NpgsqlCommand("SELECT * FROM typology WHERE id = @RefDataId;", conn);
             typologyQuery.Parameters.AddWithValue("@RefDataId", refDataId);
 
-            using var typologyReader = await typologyQuery.ExecuteReaderAsync();
-
-            if (typologyReader.HasRows)
+            using (var typologyReader = await typologyQuery.ExecuteReaderAsync())
             {
-                ReferenceDataModel response = new();
-
-                while (await typologyReader.ReadAsync())
+                if (typologyReader.HasRows)
                 {
-                    response = new ReferenceDataModel
-                    {
-                        Id = (int)typologyReader["id"],
-                        Description = (string)typologyReader["description"],
-                    };
-                }
+                    ReferenceDataModel response = new();
 
-                return response;
-            }
+                    while (await typologyReader.ReadAsync())
+                    {
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)typologyReader["id"],
+                            Description = (string)typologyReader["description"],
+                        };
+                    }
+
+                    return response;
+                }
+            }               
 
             return null;               
         }
@@ -150,30 +158,32 @@ namespace RealEstateApi.Repository
 
                 using var cityQuery = new NpgsqlCommand("SELECT * FROM city WHERE id = @RefDataId;", conn);
                 cityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
-                using var cityReader = await cityQuery.ExecuteReaderAsync();
 
-                if (cityReader.HasRows)
+                using (var cityReader = await cityQuery.ExecuteReaderAsync())
                 {
-                    ReferenceDataModel response = new();
-
-                    while (cityReader.Read())
+                    if (cityReader.HasRows)
                     {
-                        response = new ReferenceDataModel
+                        ReferenceDataModel response = new();
+
+                        while (cityReader.Read())
                         {
-                            Id = (int)cityReader["id"],
-                            Description = (string)cityReader["description"],
-                        };
+                            response = new ReferenceDataModel
+                            {
+                                Id = (int)cityReader["id"],
+                                Description = (string)cityReader["description"],
+                            };
+                        }
+
+                        return response;
                     }
-
-                    return response;
                 }
-
+                
             return null;
         }
 
         /// <summary>
         /// 
-        /// Gets Real Eatate Type by Id from Database
+        /// Gets Real Estate Type by Id from Database
         /// 
         /// </summary>
         /// <param name="refDataType"> Reference Data Type </param>
@@ -186,23 +196,24 @@ namespace RealEstateApi.Repository
             using var realEstateQuery = new NpgsqlCommand("SELECT * FROM realestate_type WHERE id = @RefDataId;", conn);
             realEstateQuery.Parameters.AddWithValue("@RefDataId", refDataId);
 
-            using var realEstateReader = await realEstateQuery.ExecuteReaderAsync();
-
-            if (realEstateReader.HasRows)
+            using (var realEstateReader = await realEstateQuery.ExecuteReaderAsync())
             {
-                ReferenceDataModel response = new();
-
-                while (realEstateReader.Read())
+                if (realEstateReader.HasRows)
                 {
-                    response = new ReferenceDataModel
-                    {
-                        Id = (int)realEstateReader["id"],
-                        Description = (string)realEstateReader["description"],
-                    };
-                }
+                    ReferenceDataModel response = new();
 
-                return response;
-            }
+                    while (realEstateReader.Read())
+                    {
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)realEstateReader["id"],
+                            Description = (string)realEstateReader["description"],
+                        };
+                    }
+
+                    return response;
+                }
+            }                
             
             return null;
         }
@@ -222,23 +233,24 @@ namespace RealEstateApi.Repository
             using var amenityQuery = new NpgsqlCommand("SELECT * FROM amenity WHERE id = @RefDataId;", conn);
             amenityQuery.Parameters.AddWithValue("@RefDataId", refDataId);
 
-            using var amenityReader = await amenityQuery.ExecuteReaderAsync();
-
-            if (amenityReader.HasRows)
+            using (var amenityReader = await amenityQuery.ExecuteReaderAsync())
             {
-                ReferenceDataModel response = new();
-                
-                while (amenityReader.Read())
+                if (amenityReader.HasRows)
                 {
-                    response = new ReferenceDataModel
-                    {
-                        Id = (int)amenityReader["id"],
-                        Description = (string)amenityReader["description"],
-                    };
-                }
+                    ReferenceDataModel response = new();
 
-                return response;
-            }
+                    while (amenityReader.Read())
+                    {
+                        response = new ReferenceDataModel
+                        {
+                            Id = (int)amenityReader["id"],
+                            Description = (string)amenityReader["description"],
+                        };
+                    }
+
+                    return response;
+                }
+            }                
 
             return null;            
         }

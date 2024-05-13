@@ -56,34 +56,46 @@ namespace RealEstateApi.Service
         public async Task<ServiceResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
             ServiceResult<ReferenceDataModel> response = new();
+            ReferenceDataModel? result = new();
 
             try
             {
                 switch (refDataType.ToLower())
                 {
                     case "typology":
-                        response.Result = await _referenceDataRepository.GetTypologyReferenceDataAsync(refDataType, refDataId);
+                        result = await _referenceDataRepository.GetTypologyReferenceDataAsync(refDataType, refDataId);
                         break;
 
                     case "city":
-                        response.Result = await _referenceDataRepository.GetCityReferenceDataAsync(refDataType, refDataId);
+                        result = await _referenceDataRepository.GetCityReferenceDataAsync(refDataType, refDataId);
                         break;
 
                     case "realestate_type":
-                        response.Result = await _referenceDataRepository.GetRealEstateReferenceDataAsync(refDataType, refDataId);
+                        result = await _referenceDataRepository.GetRealEstateReferenceDataAsync(refDataType, refDataId);
                         break;
 
                     case "amenity":
-                        response.Result = await _referenceDataRepository.GetAmenityReferenceDataAsync(refDataType, refDataId);
+                        result = await _referenceDataRepository.GetAmenityReferenceDataAsync(refDataType, refDataId);
                         break;
                 }
+
+                if(result != null)
+                {
+                    response.Result = result;
+                    response.IsSuccess = true;
+                }
+                else
+                {
+                    response.AdditionalInformation.Add($"Reference data type {refDataType} reference data id {refDataId} was not found");
+                }
+
             }
             catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to get reference data type: {refDataType} ID: {refDataId}.");
                 response.AdditionalInformation.Add(ex.Message);
-            }
+            }           
 
             return response;
         }
