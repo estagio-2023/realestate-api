@@ -7,7 +7,7 @@
         public string Address { get; set; } = null!;
         public string ZipCode { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public DateTime Build_Date { get; set; }
+        public int Build_Date { get; set; }
         public decimal Price { get; set; }     
         public int SquareMeter { get; set; }
         public string EnergyClass { get; set; } = null!;
