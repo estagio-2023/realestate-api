@@ -162,7 +162,7 @@ namespace RealEstateApi.Repository
                             Address = (string)realEstateReader["address"],
                             ZipCode = (string)realEstateReader["zip_code"],
                             Description = (string)realEstateReader["description"],
-                            Build_Date = (DateTime)realEstateReader["build_date"],
+                            Build_Date = (int)realEstateReader["build_date"],
                             Price = (decimal)realEstateReader["price"],
                             SquareMeter = (int)realEstateReader["square_meter"],
                             EnergyClass = (string)realEstateReader["energy_class"],
