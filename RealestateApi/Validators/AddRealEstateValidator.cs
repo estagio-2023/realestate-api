@@ -44,11 +44,11 @@ namespace RealEstateApi.Validators
             RuleFor(x => x.AgentId)
                 .NotEmpty().WithMessage("Agent id is required.");
             RuleFor(x => x.RealEstateTypeId)
-                .NotEmpty().WithMessage("RealEstate type id is required.");
-                //.Must((dto, realestateId) => ExistInRefData(RefDataEnum.realestate_type.ToString(), realestateId)).WithMessage("RealEstate id is not valid.");
+                .NotEmpty().WithMessage("RealEstate type id is required.")
+                .Must((dto, realestateId) => ExistInRefData(RefDataEnum.realestate_type.ToString(), realestateId)).WithMessage("RealEstate id is not valid.");
             RuleFor(x => x.CityId)
-                .NotEmpty().WithMessage("City id is required.");
-                //.Must((dto, cityId) => ExistInRefData(RefDataEnum.city.ToString(), cityId)).WithMessage("City id is not valid.");
+                .NotEmpty().WithMessage("City id is required.")
+                .Must((dto, cityId) => ExistInRefData(RefDataEnum.city.ToString(), cityId)).WithMessage("City id is not valid.");
             RuleFor(x => x.TypologyId)
                 .NotEmpty().WithMessage("Typology id is required.")
                 .Must((dto, typologyId) => ExistInRefData(RefDataEnum.typology.ToString(), typologyId)).WithMessage("Typology id is not valid.");
@@ -56,16 +56,15 @@ namespace RealEstateApi.Validators
 
         /// <summary>
         /// 
+        /// Validate if reference data id exists in RefData
+        /// 
         /// </summary>
-        /// <param name="refDataType"></param>
-        /// <param name="refDataId"></param>
-        /// <returns></returns>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Reference Data Id </param>
+        /// <returns> True/false if reference data exists or not in RefData </returns>
         public bool ExistInRefData(string refDataType, int refDataId)
         {
-            var referenceData = _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
-            // var test2 = referenceData.Id;
-
-            return referenceData != null;
+            return _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId).Result.IsSuccess == true;
         }
     }
 }
