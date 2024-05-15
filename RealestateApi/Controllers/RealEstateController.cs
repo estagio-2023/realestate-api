@@ -13,13 +13,11 @@ namespace RealEstateApi.Controllers
     {
         private readonly ILogger<RealEstateController> _logger;
         private readonly IRealEstateService _realEstateService;
-        private readonly IValidator<AddRealEstateRequestDto> _realEstateRequestValidatorDto;
 
         public RealEstateController(ILogger<RealEstateController> logger, IRealEstateService realEstateService, IValidator<AddRealEstateRequestDto> realEstateRequestValidatorDto)
         {
             _logger = logger;
             _realEstateService = realEstateService;
-            _realEstateRequestValidatorDto = realEstateRequestValidatorDto;
         }
 
         /// <summary>
@@ -55,13 +53,6 @@ namespace RealEstateApi.Controllers
         [HttpPost(Name = "AddRealEstate")]
         public async Task<ActionResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
-            var validationResult = _realEstateRequestValidatorDto.Validate(realEstateDto);
-
-            if (!validationResult.IsValid)
-            {
-                return new RealEstateModel();
-            }
-
             var addRealEstate = await _realEstateService.AddRealEstateAsync(realEstateDto);
             return addRealEstate.IsSuccess ? Ok(addRealEstate.Result) : Problem(addRealEstate.ProblemType, addRealEstate.AdditionalInformation.ToString());
         }

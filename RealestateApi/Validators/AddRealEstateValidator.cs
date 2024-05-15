@@ -16,41 +16,41 @@ namespace RealEstateApi.Validators
             _referenceDataService = referenceDataService;
 
             RuleFor(x => x.Title)
-                .NotEmpty().WithMessage("Title is required.")
+                .NotEmpty()
                 .Length(5, 100).WithMessage("Title length must be between 5 and 100 characters.")
                 .Matches("[A-Za-z]").WithMessage("Title must contain only letters.");
             RuleFor(x => x.Address)
-                .NotEmpty().WithMessage("Adress is required.")
+                .NotEmpty()
                 .Length(10, 200).WithMessage("Address length must be between 10 and 200 characters.");
             RuleFor(x => x.ZipCode)
-                .NotEmpty().WithMessage("Zip code is required.")
+                .NotEmpty()
                 .Length(4, 8).WithMessage("Zip code length must be between 4 and 8 characters.");
             RuleFor(x => x.Description)
-                .NotEmpty().WithMessage("Description is required.")
+                .NotEmpty()
                 .Length(5, 200).WithMessage("Description length must be between 5 and 200 characters.");
-            RuleFor(x => x.Build_Date)
-                .NotEmpty().WithMessage("Build date is required.");
+            RuleFor(x => x.BuildDate)
+                .NotEmpty();
             RuleFor(x => x.Price)
-                .NotEmpty().WithMessage("Price is required.")
+                .NotEmpty()
                 .GreaterThan(0).WithMessage("Price must be greater than 0.");
             RuleFor(x => x.SquareMeter)
-                .NotEmpty().WithMessage("Square meter value is required.")
+                .NotEmpty()
                 .GreaterThan(0).WithMessage("Square meter must be greater than 0.");
             RuleFor(x => x.EnergyClass)
-                .NotEmpty().WithMessage("Energy class is required.")
+                .NotEmpty()
                 .MaximumLength(1).WithMessage("Energy class length must be 1.");
             RuleFor(x => x.CustomerId)
-                .NotEmpty().WithMessage("Customer id is required.");
+                .NotEmpty();
             RuleFor(x => x.AgentId)
-                .NotEmpty().WithMessage("Agent id is required.");
+                .NotEmpty();
             RuleFor(x => x.RealEstateTypeId)
-                .NotEmpty().WithMessage("RealEstate type id is required.")
+                .NotEmpty()
                 .Must((dto, realestateId) => ExistInRefData(RefDataEnum.realestate_type.ToString(), realestateId)).WithMessage("RealEstate id is not valid.");
             RuleFor(x => x.CityId)
-                .NotEmpty().WithMessage("City id is required.")
+                .NotEmpty()
                 .Must((dto, cityId) => ExistInRefData(RefDataEnum.city.ToString(), cityId)).WithMessage("City id is not valid.");
             RuleFor(x => x.TypologyId)
-                .NotEmpty().WithMessage("Typology id is required.")
+                .NotEmpty()
                 .Must((dto, typologyId) => ExistInRefData(RefDataEnum.typology.ToString(), typologyId)).WithMessage("Typology id is not valid.");
         }
 
@@ -62,7 +62,7 @@ namespace RealEstateApi.Validators
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Reference Data Id </param>
         /// <returns> True/false if reference data exists or not in RefData </returns>
-        public bool ExistInRefData(string refDataType, int refDataId)
+        private bool ExistInRefData(string refDataType, int refDataId)
         {
             return _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId).Result.IsSuccess == true;
         }
