@@ -14,7 +14,7 @@ namespace RealEstateApi.Controllers
         private readonly ILogger<RealEstateController> _logger;
         private readonly IRealEstateService _realEstateService;
 
-        public RealEstateController(ILogger<RealEstateController> logger, IRealEstateService realEstateService, IValidator<AddRealEstateRequestDto> realEstateRequestValidatorDto)
+        public RealEstateController(ILogger<RealEstateController> logger, IRealEstateService realEstateService)
         {
             _logger = logger;
             _realEstateService = realEstateService;
