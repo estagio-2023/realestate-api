@@ -99,35 +99,35 @@ namespace RealEstateApi.Service
             try
             {
                 var existingRealEstateType = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.realestate_type.ToString(), realEstateData.RealEstateTypeId);
-                if(existingRealEstateType != null)
+                if(existingRealEstateType == null)
                 {
                     response.AdditionalInformation.Add($"Real estate type ID {realEstateData.RealEstateTypeId} was not found.");
                     return response;
                 }
 
                 var existingCity = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.city.ToString(), realEstateData.CityId);
-                if (existingCity != null)
+                if (existingCity == null)
                 {
                     response.AdditionalInformation.Add($"City ID {realEstateData.CityId} was not found.");
                     return response;
                 }
 
                 var existingTypology = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.typology.ToString(), realEstateData.TypologyId);
-                if (existingTypology != null)
+                if (existingTypology == null)
                 {
                     response.AdditionalInformation.Add($"Typology ID {realEstateData.TypologyId} was not found.");
                     return response;
                 }
 
                 var existingCustomer = await _customerRepository.GetCustomerByIdAsync(realEstateData.CustomerId);
-                if (existingCustomer != null)
+                if (existingCustomer == null)
                 {
                     response.AdditionalInformation.Add($"Customer ID {realEstateData.CustomerId} was not found.");
                     return response;
                 }
 
                 var existingAgent = await _agentRepository.GetAgentByIdAsync(realEstateData.AgentId);
-                if (existingCustomer != null)
+                if (existingCustomer == null)
                 {
                     response.AdditionalInformation.Add($"Agent ID {realEstateData.AgentId} was not found.");
                     return response;
