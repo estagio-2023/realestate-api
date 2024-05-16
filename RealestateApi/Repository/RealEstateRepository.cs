@@ -111,7 +111,7 @@ namespace RealEstateApi.Repository
             query.Parameters.Add(new NpgsqlParameter("@realEstateAddress", NpgsqlDbType.Text) { Value = realEstateDto.Address });
             query.Parameters.Add(new NpgsqlParameter("@realEstateZipCode", NpgsqlDbType.Text) { Value = realEstateDto.ZipCode });
             query.Parameters.Add(new NpgsqlParameter("@realEstateDescription", NpgsqlDbType.Text) { Value = realEstateDto.Description });
-            query.Parameters.Add(new NpgsqlParameter("@realEstateBuild_Date", NpgsqlDbType.Date) { Value = realEstateDto.Build_Date });
+            query.Parameters.Add(new NpgsqlParameter("@realEstateBuild_Date", NpgsqlDbType.Integer) { Value = realEstateDto.BuildDate });
             query.Parameters.Add(new NpgsqlParameter("@realEstatePrice", NpgsqlDbType.Numeric) { Value = realEstateDto.Price });
             query.Parameters.Add(new NpgsqlParameter("@realEstateSquareMeter", NpgsqlDbType.Integer) { Value = realEstateDto.SquareMeter });
             query.Parameters.Add(new NpgsqlParameter("@realEstateEnergyClass", NpgsqlDbType.Text) { Value = realEstateDto.EnergyClass });
@@ -132,7 +132,7 @@ namespace RealEstateApi.Repository
                     Address = realEstateDto.Address,
                     ZipCode = realEstateDto.ZipCode,
                     Description = realEstateDto.Description,
-                    Build_Date = realEstateDto.Build_Date,
+                    BuildDate = realEstateDto.BuildDate,
                     Price = realEstateDto.Price,
                     EnergyClass = realEstateDto.EnergyClass,
                     SquareMeter = realEstateDto.SquareMeter,
@@ -191,7 +191,7 @@ namespace RealEstateApi.Repository
                         Address = (string)realEstateReader["address"],
                         ZipCode = (string)realEstateReader["zip_code"],
                         Description = (string)realEstateReader["description"],
-                        Build_Date = (DateTime)realEstateReader["build_date"],
+                        BuildDate = (int)realEstateReader["build_date"],
                         Price = (decimal)realEstateReader["price"],
                         SquareMeter = (int)realEstateReader["square_meter"],
                         EnergyClass = (string)realEstateReader["energy_class"],
