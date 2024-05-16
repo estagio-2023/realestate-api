@@ -44,27 +44,11 @@ namespace RealEstateApi.Validators
             RuleFor(x => x.AgentId)
                 .NotEmpty();
             RuleFor(x => x.RealEstateTypeId)
-                .NotEmpty()
-                .Must((dto, realestateId) => ExistInRefData(RefDataEnum.realestate_type.ToString(), realestateId)).WithMessage("RealEstate type id is not valid.");
+                .NotEmpty();
             RuleFor(x => x.CityId)
-                .NotEmpty()
-                .Must((dto, cityId) => ExistInRefData(RefDataEnum.city.ToString(), cityId)).WithMessage("City id is not valid.");
+                .NotEmpty();
             RuleFor(x => x.TypologyId)
-                .NotEmpty()
-                .Must((dto, typologyId) => ExistInRefData(RefDataEnum.typology.ToString(), typologyId)).WithMessage("Typology id is not valid.");
-        }
-
-        /// <summary>
-        /// 
-        /// Validate if reference data id exists in RefData
-        /// 
-        /// </summary>
-        /// <param name="refDataType"> Reference Data Type </param>
-        /// <param name="refDataId"> Reference Data Id </param>
-        /// <returns> True/false if reference data exists or not in RefData </returns>
-        private bool ExistInRefData(string refDataType, int refDataId)
-        {
-            return _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId).Result.IsSuccess == true;
-        }
+                .NotEmpty();                
+        }        
     }
 }
