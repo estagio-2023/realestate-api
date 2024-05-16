@@ -112,6 +112,8 @@ namespace RealEstateApi.Service
         {
             ServiceResult<ReferenceDataModel> response = new();
 
+            ReferenceDataModel? referenceDataResult = new();
+
             try
             {
                 if (!string.IsNullOrWhiteSpace(refDataType))
@@ -119,20 +121,30 @@ namespace RealEstateApi.Service
                     switch (refDataType.ToLower())
                     {
                         case "typology":
-                            response.Result = await _referenceDataRepository.AddTypologyReferenceDataAsync(refDataType, refData);
+                            referenceDataResult = await _referenceDataRepository.AddTypologyReferenceDataAsync(refDataType, refData);
                             break;
 
                         case "amenity":
-                            response.Result = await _referenceDataRepository.AddAmenityReferenceDataAsync(refDataType, refData);
+                            referenceDataResult = await _referenceDataRepository.AddAmenityReferenceDataAsync(refDataType, refData);
                             break;
 
                         case "realestate_type":
-                            response.Result = await _referenceDataRepository.AddRealEstateTypeReferenceDataAsync(refDataType, refData);
+                            referenceDataResult = await _referenceDataRepository.AddRealEstateTypeReferenceDataAsync(refDataType, refData);
                             break;
 
                         case "city":
-                            response.Result = await _referenceDataRepository.AddCityReferenceDataAsync(refDataType, refData);
+                            referenceDataResult = await _referenceDataRepository.AddCityReferenceDataAsync(refDataType, refData);
                             break;
+                    }
+
+                    if(referenceDataResult != null)
+                    {
+                        response.Result = referenceDataResult;
+                        response.IsSuccess = true;
+                    }
+                    else
+                    {
+                        response.AdditionalInformation.Add($"There was an error while trying to add reference data of type {refDataType} and description {refData.Description}.");
                     }
                 }
             }
