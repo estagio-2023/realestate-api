@@ -17,17 +17,17 @@ namespace RealEstateApi.Validators
 
             RuleFor(x => x.Title)
                 .NotEmpty()
-                .Length(5, 100).WithMessage("Title length must be between 5 and 100 characters.")
-                .Matches("[A-Za-z]").WithMessage("Title must contain only letters.");
+                .Length(5, 100)
+                .Matches("[A-Za-z]");
             RuleFor(x => x.Address)
                 .NotEmpty()
-                .Length(10, 200).WithMessage("Address length must be between 10 and 200 characters.");
+                .Length(10, 200);
             RuleFor(x => x.ZipCode)
                 .NotEmpty()
-                .Length(4, 8).WithMessage("Zip code length must be between 4 and 8 characters.");
+                .Length(4, 8);
             RuleFor(x => x.Description)
                 .NotEmpty()
-                .Length(5, 200).WithMessage("Description length must be between 5 and 200 characters.");
+                .Length(5, 200);
             RuleFor(x => x.BuildDate)
                 .NotEmpty();
             RuleFor(x => x.Price)
@@ -38,7 +38,7 @@ namespace RealEstateApi.Validators
                 .GreaterThan(0).WithMessage("Square meter must be greater than 0.");
             RuleFor(x => x.EnergyClass)
                 .NotEmpty()
-                .MaximumLength(1).WithMessage("Energy class length must be 1.");
+                .MaximumLength(1);
             RuleFor(x => x.CustomerId)
                 .NotEmpty();
             RuleFor(x => x.AgentId)
