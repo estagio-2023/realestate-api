@@ -108,14 +108,14 @@ namespace RealEstateApi.Service
                 var existingCity = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.city.ToString(), realEstateData.CityId);
                 if (existingCity != null)
                 {
-                    response.AdditionalInformation.Add($"City ID {realEstateData.RealEstateTypeId} was not found.");
+                    response.AdditionalInformation.Add($"City ID {realEstateData.CityId} was not found.");
                     return response;
                 }
 
                 var existingTypology = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.typology.ToString(), realEstateData.TypologyId);
                 if (existingTypology != null)
                 {
-                    response.AdditionalInformation.Add($"Typology ID {realEstateData.RealEstateTypeId} was not found.");
+                    response.AdditionalInformation.Add($"Typology ID {realEstateData.TypologyId} was not found.");
                     return response;
                 }
 
