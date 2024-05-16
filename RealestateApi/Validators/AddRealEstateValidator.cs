@@ -1,20 +1,13 @@
 ﻿using FluentValidation;
 using RealEstateApi.Dto.Request;
-using RealEstateApi.Enums;
-using RealEstateApi.Repository.Interfaces;
-using RealEstateApi.Service.Interfaces;
-using System.Xml;
 
 namespace RealEstateApi.Validators
 {
     public class AddRealEstateValidator : AbstractValidator<AddRealEstateRequestDto>
     {
-        private readonly IReferenceDataService _referenceDataService;
 
-        public AddRealEstateValidator(IReferenceDataService referenceDataService)
+        public AddRealEstateValidator()
         {
-            _referenceDataService = referenceDataService;
-
             RuleFor(x => x.Title)
                 .NotEmpty()
                 .Length(5, 100)
