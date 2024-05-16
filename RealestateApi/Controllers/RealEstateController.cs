@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Enums;
 using RealEstateApi.Model;
