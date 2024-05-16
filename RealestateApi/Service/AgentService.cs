@@ -1,7 +1,5 @@
-using Microsoft.Extensions.Logging;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
-using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -10,10 +8,12 @@ namespace RealEstateApi.Service
     public class AgentService : IAgentService
     {
         private readonly IAgentRepository _agentRepository;
+        private readonly IRealEstateRepository _realEstateRepository;
 
-        public AgentService(IAgentRepository agentRepository)
+        public AgentService(IAgentRepository agentRepository, IRealEstateRepository realEstateRepository)
         {
             _agentRepository = agentRepository;
+            _realEstateRepository = realEstateRepository;
         }
 
         /// <summary>
@@ -24,7 +24,23 @@ namespace RealEstateApi.Service
         /// <returns> List<AgentModel> </returns>
         public async Task<ServiceResult<List<AgentModel>>> GetAllAgentsAsync()
         {
-            return await _agentRepository.GetAllAgentsAsync();
+            ServiceResult<List<AgentModel>> response = new();
+
+            try
+            {
+                var result = await _agentRepository.GetAllAgentsAsync();
+
+                response.Result = result;
+                response.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add("There was an error while trying to retrieve all agents.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -34,9 +50,34 @@ namespace RealEstateApi.Service
         /// </summary>
         /// <param name="agentId"> Id to get Agent </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentModel>> GetAgentByIdAsync(int agentId)
+        public async Task<ServiceResult<AgentModel?>> GetAgentByIdAsync(int agentId)
         {
-            return await _agentRepository.GetAgentByIdAsync(agentId);
+            ServiceResult<AgentModel?> response = new();
+
+            try
+            {
+                var result = await _agentRepository.GetAgentByIdAsync(agentId);
+
+                if (result != null)
+                {
+                    response.Result = result;
+                    response.IsSuccess = true;
+                }
+                else
+                {
+                    response.Result = null;
+                    response.IsSuccess = false;
+                    response.AdditionalInformation.Add($"Agent ID {agentId} was not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"There was an error while trying to get agent ID: {agentId}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -48,7 +89,26 @@ namespace RealEstateApi.Service
         /// <returns> AgentModel </returns>
         public async Task<ServiceResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData) 
         {
-            return await _agentRepository.AddAgentAsync(agentData);
+            ServiceResult<AgentModel> response = new();
+
+            try
+            {
+                var result = await _agentRepository.AddAgentAsync(agentData);
+
+                if (result != null)
+                {
+                    response.Result = result;
+                    response.IsSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"There was an error while trying to add Agent {agentData.Name}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -62,12 +122,39 @@ namespace RealEstateApi.Service
         {
             ServiceResult<AgentModel> response = new();
 
-            response = await _agentRepository.DeleteAgentByIdAsync(agentId);
-
-            if (!response.IsSuccess)
+            try
             {
-                response.AdditionalInformation.Add($"Agent with ID {agentId} doesn't exist");
-                return response;
+                var existingAgent = await _agentRepository.GetAgentByIdAsync(agentId);
+
+                if (existingAgent == null)
+                {
+                    response.IsSuccess = false;
+                    response.AdditionalInformation.Add($"Agent ID {agentId} was not found");
+                    return response;
+                }
+
+                var agentHasRealEstates = await _realEstateRepository.GetRealEstateByAgentIdAsync(agentId);
+
+                if (agentHasRealEstates != null)
+                {
+                    response.IsSuccess = false;
+                    response.AdditionalInformation.Add($"Agent ID {agentId} belongs to a real estate and cannot be deleted.");
+                    return response;
+                }
+
+                var result = await _agentRepository.DeleteAgentByIdAsync(agentId);
+
+                if (result)
+                {
+                    response.IsSuccess = true;
+                    response.Result = existingAgent;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"There was an error while trying to delete agent ID: {agentId}.");
+                response.AdditionalInformation.Add(ex.Message);
             }
 
             return response;

@@ -1,7 +1,6 @@
 ﻿using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
-using RealEstateApi.Service;
 
 namespace RealEstateApi.Repository.Interfaces
 {
@@ -13,87 +12,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// 
         /// </summary>
         /// <returns> ReferenceDataResponseDto </returns>
-        Task<ServiceResult<ReferenceDataResponseDto>> GetAllReferenceDataAsync();
-
-        /// <summary>
-        /// 
-        /// Save a Typology
-        /// 
-        /// </summary>
-        /// <param name="refDataType"> Reference Data Type </param>
-        /// <param name="refData"> Data to be saved </param>
-        /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
-
-        /// <summary>
-        /// 
-        /// Save a Real Estate Type
-        /// 
-        /// </summary>
-        /// <param name="refDataType"> Reference Data Type </param>
-        /// <param name="refData"> Data to be saved </param>
-        /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
-
-        /// <summary>
-        /// 
-        /// Save a City
-        /// 
-        /// </summary>
-        /// <param name="refDataType"> Reference Data Type </param>
-        /// <param name="refData"> Data to be saved </param>
-        /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
-
-        /// <summary>
-        /// 
-        /// Save a Amenity
-        /// 
-        /// </summary>
-        /// <param name="refDataType"> Reference Data Type </param>
-        /// <param name="refData"> Data to be saved</param>
-        /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
-
-        /// <summary>
-        /// 
-        /// Deletes a Typology By Id
-        /// 
-        /// </summary>
-        /// <param name="refDataType"> Reference Data Type </param>
-        /// <param name="refDataId"> Id to delete a Typolgy </param>
-        /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId);
-
-        /// <summary>
-        /// 
-        /// Deletes a Real Estate Type By Id
-        /// 
-        /// </summary>
-        /// <param name="refDataType"> Reference Data Type </param>
-        /// <param name="refDataId"> Id to delete a RealEstate Type </param>
-        /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId);
-
-        /// <summary>
-        /// 
-        /// Deletes a City By Id
-        /// 
-        /// </summary>
-        /// <param name="refDataType"> Reference Data Type </param>
-        /// <param name="refDataId"> Id to delete a City </param>
-        /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> DeleteCityReferenceDataAsync(string refDataType, int refDataId);
-
-        /// <summary>
-        /// 
-        /// Deletes a Amenity By Id
-        /// 
-        /// </summary>
-        /// <param name="refDataType"> Reference Data Type </param>
-        /// <param name="refDataId"> Id to delete a Amenity </param>
-        /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataResponseDto> GetAllReferenceDataAsync();
 
         /// <summary>
         /// 
@@ -103,7 +22,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to get a Typology </param>
         /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> GetTypologyReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataModel?> GetTypologyReferenceDataAsync(string refDataType, int refDataId);
 
         /// <summary>
         /// 
@@ -113,7 +32,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to get a City </param>
         /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> GetCityReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataModel?> GetCityReferenceDataAsync(string refDataType, int refDataId);
 
         /// <summary>
         /// 
@@ -123,7 +42,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to get a Real Estate Type </param>
         /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> GetRealEstateReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataModel?> GetRealEstateReferenceDataAsync(string refDataType, int refDataId);
 
         /// <summary>
         /// 
@@ -133,6 +52,86 @@ namespace RealEstateApi.Repository.Interfaces
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to get a Amenity </param>
         /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> GetAmenityReferenceDataAsync(string refDataType, int refDataId);
+        Task<ReferenceDataModel?> GetAmenityReferenceDataAsync(string refDataType, int refDataId);
+
+        /// <summary>
+        /// 
+        /// Save a Typology
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refData"> Data to be saved </param>
+        /// <returns> ReferenceDataModel </returns>
+        Task<ReferenceDataModel?> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+
+        /// <summary>
+        /// 
+        /// Save a Real Estate Type
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refData"> Data to be saved </param>
+        /// <returns> ReferenceDataModel </returns>
+        Task<ReferenceDataModel?> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+
+        /// <summary>
+        /// 
+        /// Save a City
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refData"> Data to be saved </param>
+        /// <returns> ReferenceDataModel </returns>
+        Task<ReferenceDataModel?> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+
+        /// <summary>
+        /// 
+        /// Save a Amenity
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refData"> Data to be saved</param>
+        /// <returns> ReferenceDataModel </returns>
+        Task<ReferenceDataModel?> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+
+        /// <summary>
+        /// 
+        /// Deletes a Typology By Id
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a Typolgy </param>
+        /// <returns> ReferenceDataModel </returns>
+        Task<bool> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId);
+
+        /// <summary>
+        /// 
+        /// Deletes a Real Estate Type By Id
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a RealEstate Type </param>
+        /// <returns> ReferenceDataModel </returns>
+        Task<bool> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId);
+
+        /// <summary>
+        /// 
+        /// Deletes a City By Id
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a City </param>
+        /// <returns> ReferenceDataModel </returns>
+        Task<bool> DeleteCityReferenceDataAsync(string refDataType, int refDataId);
+
+        /// <summary>
+        /// 
+        /// Deletes a Amenity By Id
+        /// 
+        /// </summary>
+        /// <param name="refDataType"> Reference Data Type </param>
+        /// <param name="refDataId"> Id to delete a Amenity </param>
+        /// <returns> ReferenceDataModel </returns>
+        Task<bool> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId);
     }
 }

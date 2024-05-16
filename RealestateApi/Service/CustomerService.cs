@@ -8,10 +8,12 @@ namespace RealEstateApi.Service
     public class CustomerService : ICustomerService
     {
         private readonly ICustomerRepository _customerRepository;
+        private readonly IRealEstateRepository _realEstateRepository;
 
-        public CustomerService(ICustomerRepository customerRepository)
+        public CustomerService(ICustomerRepository customerRepository, IRealEstateRepository realEstateRepository)
         {
             _customerRepository = customerRepository;
+            _realEstateRepository = realEstateRepository;
         }
 
         /// <summary>
@@ -22,19 +24,23 @@ namespace RealEstateApi.Service
         /// <returns> List<CustomerModel> </returns>
         public async Task<ServiceResult<List<CustomerModel>>> GetAllCustomersAsync()
         {
-            return await _customerRepository.GetAllCustomersAsync();
-        }
+            ServiceResult<List<CustomerModel>> response = new();
 
-        /// <summary>
-        /// 
-        /// Creates a Customer
-        /// 
-        /// </summary>
-        /// <param name="customerData"></param>
-        /// <returns> CustomerModel </returns>
-        public async Task<ServiceResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
-        {
-            return await _customerRepository.AddCustomerAsync(customerData);
+            try
+            {
+                var result = await _customerRepository.GetAllCustomersAsync();
+
+                response.Result = result;
+                response.IsSuccess = true;
+            }
+            catch(Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add("There was an error while trying to retrieve all customers.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
         }
 
         /// <summary>
@@ -46,8 +52,64 @@ namespace RealEstateApi.Service
         /// <returns> CustomerModel </returns>
         public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
         {
-            return await _customerRepository.GetCustomerByIdAsync(customerId);
+            ServiceResult<CustomerModel> response = new();
+
+            try
+            {
+                var result = await _customerRepository.GetCustomerByIdAsync(customerId);
+
+                if (result != null)
+                {
+                    response.Result = result;
+                    response.IsSuccess = true;
+                }
+                else
+                {
+                    response.Result = null;
+                    response.IsSuccess = false;
+                    response.AdditionalInformation.Add($"Customer ID {customerId} was not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"There was an error while trying to get customer ID: {customerId}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
         }
+
+        /// <summary>
+        /// 
+        /// Creates a Customer
+        /// 
+        /// </summary>
+        /// <param name="customerData"></param>
+        /// <returns> CustomerModel </returns>
+        public async Task<ServiceResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
+        {
+            ServiceResult<CustomerModel> response = new();
+
+            try
+            {
+                var result = await _customerRepository.AddCustomerAsync(customerData);
+
+                if(result != null)
+                {
+                    response.Result = result;
+                    response.IsSuccess = true;
+                }
+            }
+            catch(Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"There was an error while trying to add customer {customerData.Name}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
+        }        
 
         /// <summary>
         /// 
@@ -60,16 +122,40 @@ namespace RealEstateApi.Service
         {
             ServiceResult<CustomerModel> response = new();
 
-            var existCustomer = await GetCustomerByIdAsync(customerId);
+            try
+            {
+                var existingCustomer = await _customerRepository.GetCustomerByIdAsync(customerId);
 
-            if (existCustomer.Result == null)
+                if (existingCustomer == null)
+                {
+                    response.IsSuccess = false;
+                    response.AdditionalInformation.Add($"Customer ID {customerId} was not found");
+                    return response;
+                }
+
+                var customerHasRealEstates = await _realEstateRepository.GetRealEstateByCustomerIdAsync(customerId);
+
+                if(customerHasRealEstates != null)
+                {
+                    response.IsSuccess = false;
+                    response.AdditionalInformation.Add($"Customer ID {customerId} belongs to a real estate and cannot be deleted.");
+                    return response;
+                }
+
+                var result = await _customerRepository.DeleteCustomerByIdAsync(customerId);
+
+                if (result)
+                {
+                    response.IsSuccess = true;
+                    response.Result = existingCustomer;
+                }
+            }
+            catch(Exception ex)
             {
                 response.IsSuccess = false;
-                response.AdditionalInformation.Add($"Cusomter with ID {customerId} doesn't exist");
-                return response;
-            }
-
-            response = await _customerRepository.DeleteCustomerByIdAsync(customerId);
+                response.AdditionalInformation.Add($"There was an error while trying to delete customer ID: {customerId}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }          
 
             return response;
         }
