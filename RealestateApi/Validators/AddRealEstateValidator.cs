@@ -45,7 +45,7 @@ namespace RealEstateApi.Validators
                 .NotEmpty();
             RuleFor(x => x.RealEstateTypeId)
                 .NotEmpty()
-                .Must((dto, realestateId) => ExistInRefData(RefDataEnum.realestate_type.ToString(), realestateId)).WithMessage("RealEstate id is not valid.");
+                .Must((dto, realestateId) => ExistInRefData(RefDataEnum.realestate_type.ToString(), realestateId)).WithMessage("RealEstate type id is not valid.");
             RuleFor(x => x.CityId)
                 .NotEmpty()
                 .Must((dto, cityId) => ExistInRefData(RefDataEnum.city.ToString(), cityId)).WithMessage("City id is not valid.");
