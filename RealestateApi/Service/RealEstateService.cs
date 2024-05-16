@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Diagnostics;
-using Microsoft.Extensions.Logging;
-using RealEstateApi.Dto.Request;
+﻿using RealEstateApi.Dto.Request;
+using RealEstateApi.Enums;
 using RealEstateApi.Model;
-using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -11,10 +9,16 @@ namespace RealEstateApi.Service
     public class RealEstateService : IRealEstateService
     {
         private readonly IRealEstateRepository _realEstateRepository;
+        private readonly IReferenceDataRepository _referenceDataRepository;
+        private readonly ICustomerRepository _customerRepository;
+        private readonly IAgentRepository _agentRepository;
 
-        public RealEstateService(IRealEstateRepository realEstateRepository)
+        public RealEstateService(IRealEstateRepository realEstateRepository, IReferenceDataRepository referenceDataRepository, ICustomerRepository customerRepository, IAgentRepository agentRepository)
         {
             _realEstateRepository = realEstateRepository;
+            _referenceDataRepository = referenceDataRepository;
+            _agentRepository = agentRepository;
+            _customerRepository = customerRepository;
         }
 
         /// <summary>
@@ -94,8 +98,42 @@ namespace RealEstateApi.Service
 
             try
             {
-                var result = await _realEstateRepository.AddRealEstateAsync(realEstateData);
+                var existingRealEstateType = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.realestate_type.ToString(), realEstateData.RealEstateTypeId);
+                if(existingRealEstateType == null)
+                {
+                    response.AdditionalInformation.Add($"Real estate type ID {realEstateData.RealEstateTypeId} was not found.");
+                    return response;
+                }
 
+                var existingCity = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.city.ToString(), realEstateData.CityId);
+                if (existingCity == null)
+                {
+                    response.AdditionalInformation.Add($"City ID {realEstateData.CityId} was not found.");
+                    return response;
+                }
+
+                var existingTypology = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.typology.ToString(), realEstateData.TypologyId);
+                if (existingTypology == null)
+                {
+                    response.AdditionalInformation.Add($"Typology ID {realEstateData.TypologyId} was not found.");
+                    return response;
+                }
+
+                var existingCustomer = await _customerRepository.GetCustomerByIdAsync(realEstateData.CustomerId);
+                if (existingCustomer == null)
+                {
+                    response.AdditionalInformation.Add($"Customer ID {realEstateData.CustomerId} was not found.");
+                    return response;
+                }
+
+                var existingAgent = await _agentRepository.GetAgentByIdAsync(realEstateData.AgentId);
+                if (existingAgent == null)
+                {
+                    response.AdditionalInformation.Add($"Agent ID {realEstateData.AgentId} was not found.");
+                    return response;
+                }
+
+                var result = await _realEstateRepository.AddRealEstateAsync(realEstateData);
                 if (result != null)
                 {
                     response.Result = result;
