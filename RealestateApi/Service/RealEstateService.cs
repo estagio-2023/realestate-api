@@ -127,7 +127,7 @@ namespace RealEstateApi.Service
                 }
 
                 var existingAgent = await _agentRepository.GetAgentByIdAsync(realEstateData.AgentId);
-                if (existingCustomer == null)
+                if (existingAgent == null)
                 {
                     response.AdditionalInformation.Add($"Agent ID {realEstateData.AgentId} was not found.");
                     return response;
