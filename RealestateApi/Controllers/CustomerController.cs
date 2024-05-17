@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Enums;
+using RealEstateApi.Helpers;
 using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 
@@ -12,13 +14,11 @@ namespace RealEstateApi.Controllers
     {
         private readonly ILogger<CustomerController> _logger;
         private readonly ICustomerService _customerService;
-        private readonly IValidator<CustomerRequestDto> _customerRequestValidatorDto;
 
-        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService, IValidator<CustomerRequestDto> customerRequestValidatorDto)
+        public CustomerController(ILogger<CustomerController> logger, ICustomerService customerService)
         {
             _logger = logger;
             _customerService = customerService;
-            _customerRequestValidatorDto = customerRequestValidatorDto;
         }
 
         /// <summary>
@@ -35,16 +35,11 @@ namespace RealEstateApi.Controllers
         [HttpGet(Name = "GetAllCustomers")]
         public async Task<ActionResult<List<CustomerModel>>> GetAllCustomersAsync()
         {
-            try
-            {
-                var customers = await _customerService.GetAllCustomersAsync();
-                return customers.IsSuccess ? Ok(customers.Result) : Problem(customers.ProblemType, customers.AdditionalInformation.ToString());
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while retrieving customers.");
-                throw;
-            }
+            var response = await _customerService.GetAllCustomersAsync();
+                
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation, (int)HttpCodesEnum.BadRequest));            
         }
 
         /// <summary>
@@ -62,15 +57,11 @@ namespace RealEstateApi.Controllers
         [HttpPost(Name = "AddCustomer")]
         public async Task<ActionResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
         {
-            var validationResult = _customerRequestValidatorDto.Validate(customerData);
+            var response = await _customerService.AddCustomerAsync(customerData);
 
-            if (!validationResult.IsValid)
-            {
-                return new CustomerModel();
-            }
-
-            var addCustomer = await _customerService.AddCustomerAsync(customerData);
-            return addCustomer.IsSuccess ? Ok(addCustomer.Result) : Problem(addCustomer.ProblemType, addCustomer.AdditionalInformation.ToString());
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation, (int)HttpCodesEnum.BadRequest));
         }
 
         /// <summary>
@@ -88,8 +79,11 @@ namespace RealEstateApi.Controllers
         [HttpGet("{customerId}", Name = "GetCustomerById")]
         public async Task<ActionResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
         {
-            var getCustomerById = await _customerService.GetCustomerByIdAsync(customerId);
-            return getCustomerById.IsSuccess ? Ok(getCustomerById.Result) : Problem(getCustomerById.ProblemType, getCustomerById.AdditionalInformation.ToString());
+            var response = await _customerService.GetCustomerByIdAsync(customerId);
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         /// <summary>
@@ -107,8 +101,11 @@ namespace RealEstateApi.Controllers
         [HttpDelete("{customerId}", Name = "DeleteCustomerById")]
         public async Task<ActionResult<CustomerModel>> DeleteCustomerByIdAsync(int customerId)
         {
-            var deleteCustomer = await _customerService.DeleteCustomerByIdAsync(customerId);
-            return deleteCustomer.IsSuccess ? Ok(deleteCustomer.Result) : Problem(deleteCustomer.ProblemType, string.Join(",", deleteCustomer.AdditionalInformation));
+            var response = await _customerService.DeleteCustomerByIdAsync(customerId);
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
     }
 }

@@ -7,9 +7,9 @@ namespace RealEstateApi.Validators
     {
         public AddCustomerValidator()
         {
-            RuleFor(x => x.Name).NotEmpty().Length(5, 100).WithMessage("Name is required.");
-            RuleFor(x => x.Email).NotEmpty().Length(8, 150).EmailAddress().WithMessage("A valid email is required");
-            RuleFor(x => x.Password).NotEmpty().Length(5, 150).WithMessage("Password is required.");
+            RuleFor(x => x.Name).Length(5, 100);
+            RuleFor(x => x.Email).Length(8, 150).EmailAddress();
+            RuleFor(x => x.Password).Length(5, 150);
         }
     }
 }

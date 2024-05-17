@@ -3,8 +3,6 @@ using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
-using RealEstateApi.Service;
-using System.Xml.Linq;
 
 namespace RealEstateApi.Repository
 {
@@ -23,49 +21,31 @@ namespace RealEstateApi.Repository
         /// 
         /// </summary>
         /// <returns> List<AgentModel> </returns>
-        public async Task<ServiceResult<List<AgentModel>>> GetAllAgentsAsync()
+        public async Task<List<AgentModel>> GetAllAgentsAsync()
         {
-            List<AgentModel> agents = new List<AgentModel>();
-            var result = new ServiceResult<List<AgentModel>>();
+            List<AgentModel> response = new();
+            
+            using var conn = await _dataSource.OpenConnectionAsync();
 
-            try
+            using var agentQuery = new NpgsqlCommand("SELECT * FROM agent;", conn);
+            using var agentReader = await agentQuery.ExecuteReaderAsync();
+
+            if (agentReader.HasRows) 
             {
-                using var conn = await _dataSource.OpenConnectionAsync();
-
-                using var agentQuery = new NpgsqlCommand("SELECT * FROM agent;", conn);
-                using var agentReader = await agentQuery.ExecuteReaderAsync();
-
-                if (agentReader.HasRows) 
+                while (await agentReader.ReadAsync())
                 {
-                    while (await agentReader.ReadAsync())
+                    var agentModel = new AgentModel
                     {
-                        var agentModel = new AgentModel
-                        {
-                            Id = (int)agentReader["id"],
-                            Name = (string)agentReader["name"],
-                            PhoneNumber = (string)agentReader["phone_number"],
-                            Email = (string)agentReader["email"],
-                        };
-                        agents.Add(agentModel);
-                    }
+                        Id = (int)agentReader["id"],
+                        Name = (string)agentReader["name"],
+                        PhoneNumber = (string)agentReader["phone_number"],
+                        Email = (string)agentReader["email"],
+                    };
+                    response.Add(agentModel);
                 }
-                else
-                {
-                    result.AdditionalInformation.Add($"No data to retrieve");
-                    return result;
-                }
-
-                result.IsSuccess = true;
-                result.Result = agents;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                result.IsSuccess = false;
-                result.AdditionalInformation.Add(ex.Message);
             }
 
-            return result;
+            return response;
         }
 
         /// <summary>
@@ -75,49 +55,34 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="agentId"> Id to get Agent </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentModel>> GetAgentByIdAsync(int agentId)
+        public async Task<AgentModel?> GetAgentByIdAsync(int agentId)
         {
-            AgentModel response = new();
-            var result = new ServiceResult<AgentModel>();
+            using var conn = await _dataSource.OpenConnectionAsync();
 
-            try
+            using var agentQuery = new NpgsqlCommand("SELECT * FROM agent WHERE id = @agentId;", conn);
+            agentQuery.Parameters.AddWithValue("@agentId", agentId);
+
+            using var agentReader = await agentQuery.ExecuteReaderAsync();
+
+            if (agentReader.HasRows)
             {
-                using var conn = await _dataSource.OpenConnectionAsync();
+                AgentModel response = new();
 
-                using var agentQuery = new NpgsqlCommand("SELECT * FROM agent WHERE id = @agentId;", conn);
-                agentQuery.Parameters.AddWithValue("@agentId", agentId);
-                using var agentReader = await agentQuery.ExecuteReaderAsync();
-
-                if (agentReader.HasRows)
+                while (await agentReader.ReadAsync())
                 {
-                    while (await agentReader.ReadAsync())
+                    response = new AgentModel
                     {
-                        response = new AgentModel
-                        {
-                            Id = (int)agentReader["id"],
-                            Name = (string)agentReader["name"],
-                            PhoneNumber = (string)agentReader["phone_number"],
-                            Email = (string)agentReader["email"],
-                        };
-                    }
-                }
-                else
-                {
-                    result.AdditionalInformation.Add($"Agent ID {agentId} doesn't exist");
-                    return result;
+                        Id = (int)agentReader["id"],
+                        Name = (string)agentReader["name"],
+                        PhoneNumber = (string)agentReader["phone_number"],
+                        Email = (string)agentReader["email"],
+                    };
                 }
 
-                result.IsSuccess = true;
-                result.Result = response;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                result.IsSuccess = false;
-                result.AdditionalInformation.Add(ex.Message);
+                return response;
             }
 
-            return result;
+            return null;
         }
 
         /// <summary>
@@ -127,22 +92,20 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="agentData"> Agent Data to be created </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData) 
-        { 
-            AgentModel response = new();
-            var serviceResult = new ServiceResult<AgentModel>();
+        public async Task<AgentModel?> AddAgentAsync(AgentRequestDto agentData) 
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
 
-            try
+            using var query = new NpgsqlCommand("INSERT INTO agent (name, phone_number, email) Values (@agentName, @agentPhoneNumber, @agentEmail) returning id", conn);
+            query.Parameters.Add(new NpgsqlParameter("@agentName", NpgsqlDbType.Text) { Value = agentData.Name });
+            query.Parameters.Add(new NpgsqlParameter("@agentPhoneNumber", NpgsqlDbType.Text) { Value = agentData.Phone_Number });
+            query.Parameters.Add(new NpgsqlParameter("@agentEmail", NpgsqlDbType.Text) { Value = agentData.Email });
+            
+            var result = await query.ExecuteScalarAsync();
+
+            if(result != null)
             {
-                using var conn = await _dataSource.OpenConnectionAsync();
-                using var query = new NpgsqlCommand("INSERT INTO agent (name, phone_number, email) Values (@agentName, @agentPhoneNumber, @agentEmail) returning id", conn);
-
-                query.Parameters.Add(new NpgsqlParameter("@agentName", NpgsqlDbType.Text) { Value = agentData.Name });
-                query.Parameters.Add(new NpgsqlParameter("@agentPhoneNumber", NpgsqlDbType.Text) { Value = agentData.Phone_Number });
-                query.Parameters.Add(new NpgsqlParameter("@agentEmail", NpgsqlDbType.Text) { Value = agentData.Email });
-                var result = await query.ExecuteScalarAsync();
-
-                response = new AgentModel
+                var response = new AgentModel
                 {
                     Id = (int)result,
                     Name = agentData.Name,
@@ -150,17 +113,10 @@ namespace RealEstateApi.Repository
                     Email = agentData.Email,
                 };
 
-                serviceResult.IsSuccess = true;
-                serviceResult.Result = response;
-
-            } 
-            catch (Exception ex) 
-            {
-                Console.WriteLine(ex.Message);
-                serviceResult.AdditionalInformation.Add(ex.Message);
+                return response;
             }
 
-            return serviceResult;
+            return null;
         }
 
         /// <summary>
@@ -170,33 +126,16 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="agentId"> Id to delete Agent </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
+        public async Task<bool> DeleteAgentByIdAsync(int agentId)
         {
-            var serviceResult = new ServiceResult<AgentModel>();
+            using var conn = await _dataSource.OpenConnectionAsync();
 
-            try
-            {
-                using var conn = await _dataSource.OpenConnectionAsync();
-                using var delete = new NpgsqlCommand("DELETE FROM agent WHERE id = @AgentId", conn);
-                delete.Parameters.AddWithValue("@AgentId", agentId);
+            using var delete = new NpgsqlCommand("DELETE FROM agent WHERE id = @AgentId", conn);
+            delete.Parameters.AddWithValue("@AgentId", agentId);
 
-                var result = await delete.ExecuteNonQueryAsync();
+            var affectedRows = await delete.ExecuteNonQueryAsync();
 
-                if(result == 0) 
-                {
-                    serviceResult.AdditionalInformation.Add($"Deleted 0 Rows of agent");
-                    return serviceResult;
-                }
-
-                serviceResult.IsSuccess = true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                serviceResult.AdditionalInformation.Add(ex.Message);
-            }
-
-            return serviceResult;
+            return affectedRows > 0;
         }
     }
 }

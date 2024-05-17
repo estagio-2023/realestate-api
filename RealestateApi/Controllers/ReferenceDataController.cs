@@ -37,10 +37,13 @@ namespace RealEstateApi.Controllers
         /// 
         /// <returns> ReferenceDataResponseDto </returns>
         [HttpGet(Name = "GetAllReferenceData")]
-        public async Task<ActionResult<ReferenceDataResponseDto>> Get()
+        public async Task<ActionResult<ReferenceDataResponseDto>> GetAllReferenceDataAsync()
         {
-            var getAllReferenceData = await _referenceDataService.GetAllReferenceDataAsync();
-            return getAllReferenceData.IsSuccess ? Ok(getAllReferenceData.Result) : Problem(getAllReferenceData.ProblemType, getAllReferenceData.AdditionalInformation.ToString());
+            var response = await _referenceDataService.GetAllReferenceDataAsync();
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         /// <summary>
@@ -58,17 +61,16 @@ namespace RealEstateApi.Controllers
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
         public async Task<ActionResult<ReferenceDataModel>> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
-            var referenceDataTypeValidator = Enum.IsDefined(typeof(RefDataEnum), referenceDataType);
-
-            if (!referenceDataTypeValidator)
+            if (!ValidateReferenceDataType(referenceDataType))
             {
                 return Problem(ProblemTypes.InvalidType,"Invalid Reference Data Type",(int)HttpCodesEnum.BadRequest);
             }
 
-            _referencDataRequestValidatorDto.Validate(refData);
+            var response = await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
 
-            var addRefData = await _referenceDataService.AddReferenceDataAsync(referenceDataType, refData);
-            return addRefData.IsSuccess ? Ok(addRefData.Result) : Problem(addRefData.ProblemType, addRefData.AdditionalInformation.ToString());
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         /// <summary>
@@ -87,9 +89,7 @@ namespace RealEstateApi.Controllers
         [HttpDelete("{refDataType}/{refDataId}", Name = "DeleteRefData")]
         public async Task<ActionResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId)
         {
-           var referenceDataTypeValidator = Enum.IsDefined(typeof(RefDataEnum), refDataType);
-
-            if (!referenceDataTypeValidator)
+            if (!ValidateReferenceDataType(refDataType))
             {
                 return Problem(ProblemTypes.InvalidType, "Invalid Reference Data Type",(int)HttpCodesEnum.BadRequest);
             }
@@ -114,8 +114,21 @@ namespace RealEstateApi.Controllers
         [HttpGet("{refDataType}/{refDataId}", Name = "ReferenceData")]
         public async Task<ActionResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
-            var getRefDataById = await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
-            return getRefDataById.IsSuccess ? Ok(getRefDataById.Result) : Problem(getRefDataById.ProblemType, getRefDataById.AdditionalInformation.ToString());
+            if (!ValidateReferenceDataType(refDataType))
+            {
+                return Problem(ProblemTypes.InvalidType, "Invalid Reference Data Type", (int)HttpCodesEnum.BadRequest);
+            }
+
+            var response = await _referenceDataService.GetReferenceDataByIdAsync(refDataType, refDataId);
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
+
+        private static bool ValidateReferenceDataType(string referenceDataType)
+        {
+            return Enum.IsDefined(typeof(RefDataEnum), referenceDataType);
         }
     }
 }

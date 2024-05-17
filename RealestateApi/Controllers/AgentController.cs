@@ -1,10 +1,9 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Enums;
 using RealEstateApi.Model;
-using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
-using RealEstateApi.Validators;
 
 namespace RealEstateApi.Controllers
 {
@@ -37,16 +36,11 @@ namespace RealEstateApi.Controllers
         [HttpGet(Name = "GetAllAgents")]
         public async Task<ActionResult<List<AgentModel>>> GetAllAgentsAsync()
         {
-            try
-            {
-                var agents = await _agentService.GetAllAgentsAsync();
-                return agents.IsSuccess ? Ok(agents.Result) : Problem(agents.ProblemType, agents.AdditionalInformation.ToString());
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while retrieving agents.");
-                throw;
-            }
+            var response = await _agentService.GetAllAgentsAsync();
+            
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         /// <summary>
@@ -62,22 +56,17 @@ namespace RealEstateApi.Controllers
         /// <returns> AgentModel </returns>
         [HttpGet("{agentId}", Name = "GetAgentById")]
         public async Task<ActionResult<AgentModel>> GetAgentByIdAsync(int agentId)
-        {
-            try
-            {
-                var agentbyId = await _agentService.GetAgentByIdAsync(agentId);
-                return agentbyId.IsSuccess ? Ok(agentbyId.Result) : Problem(agentbyId.ProblemType, agentbyId.AdditionalInformation.ToString());
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "An error occurred while retrieving agent.");
-                throw;
-            }
+        {            
+            var response = await _agentService.GetAgentByIdAsync(agentId);
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         /// <summary>
         /// 
-        /// Https Post Method to create a Agent
+        /// Https Post Method to create an Agent
         /// 
         /// </summary>
         /// <param name="agentData"> Agent Data to be created </param>
@@ -90,22 +79,21 @@ namespace RealEstateApi.Controllers
         [HttpPost(Name = "AddAgent")]
         public async Task<ActionResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData)
         {
-            var validationResult = _agentRequestValidatorDto.Validate(agentData);
+            var response = await _agentService.AddAgentAsync(agentData);
 
-            if (!validationResult.IsValid)
-            {
-                return new AgentModel();
-            }
-
-            var addAgent = await _agentService.AddAgentAsync(agentData);
-            return addAgent.IsSuccess ? Ok(addAgent.Result) : Problem(addAgent.ProblemType, addAgent.AdditionalInformation.ToString());
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
         [HttpDelete("{agentId}", Name = "DeleteAgentById")]
         public async Task<ActionResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
         {
-            var deleteAgent = await _agentService.DeleteAgentByIdAsync(agentId);
-            return deleteAgent.IsSuccess ? Ok(deleteAgent.Result) : Problem(deleteAgent.ProblemType, string.Join(",", deleteAgent.AdditionalInformation));
+            var response = await _agentService.DeleteAgentByIdAsync(agentId);
+
+            return response.IsSuccess 
+                ? Ok(response.Result) 
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
     }
 }
