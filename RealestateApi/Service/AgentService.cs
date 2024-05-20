@@ -8,12 +8,10 @@ namespace RealEstateApi.Service
     public class AgentService : IAgentService
     {
         private readonly IAgentRepository _agentRepository;
-        private readonly IRealEstateRepository _realEstateRepository;
 
-        public AgentService(IAgentRepository agentRepository, IRealEstateRepository realEstateRepository)
+        public AgentService(IAgentRepository agentRepository)
         {
             _agentRepository = agentRepository;
-            _realEstateRepository = realEstateRepository;
         }
 
         /// <summary>
