@@ -175,6 +175,14 @@ namespace RealEstateApi.Service
 
             try
             {
+                var existingAgent = await _agentRepository.GetAgentByIdAsync(agentId);
+
+                if (existingAgent == null)
+                {
+                    response.AdditionalInformation.Add($"Agent ID {agentId} was not found");
+                    return response;
+                }
+
                 var result = await _agentRepository.PutAgenteByIdAsync(agentId, newAgentData);
 
                 if (result != null)
