@@ -150,7 +150,7 @@ namespace RealEstateApi.Repository
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
-            using var update = new NpgsqlCommand("UPDATE agent SET name = @AgentName, phone_number = @AgentPhoneNumber, email = @AgentEmail WHERE id = @AgentId RETURNING id, name, phone_number, email", conn);
+            using var update = new NpgsqlCommand("UPDATE agent SET name = @AgentName, phone_number = @AgentPhoneNumber, email = @AgentEmail WHERE id = @AgentId RETURNING id", conn);
             update.Parameters.AddWithValue("@AgentName", newAgentData.Name);
             update.Parameters.AddWithValue("@AgentPhoneNumber", newAgentData.Phone_Number);
             update.Parameters.AddWithValue("@AgentEmail", newAgentData.Email);
