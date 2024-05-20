@@ -137,5 +137,41 @@ namespace RealEstateApi.Repository
 
             return affectedRows > 0;
         }
+
+        /// <summary>
+        /// 
+        /// Updates a Agent by Id to the Database
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to update a Agent </param>
+        /// <param name="newAgentData"> Agent Data to be updated </param>
+        /// <returns></returns>
+        public async Task<AgentModel?> PutAgenteByIdAsync(int agentId, AgentRequestDto newAgentData)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var update = new NpgsqlCommand("UPDATE agent SET name = @AgentName, phone_number = @AgentPhoneNumber, email = @AgentEmail WHERE id = @AgentId RETURNING id, name, phone_number, email", conn);
+            update.Parameters.AddWithValue("@AgentName", newAgentData.Name);
+            update.Parameters.AddWithValue("@AgentPhoneNumber", newAgentData.Phone_Number);
+            update.Parameters.AddWithValue("@AgentEmail", newAgentData.Email);
+            update.Parameters.AddWithValue("@AgentId", agentId);
+
+            var result = await update.ExecuteScalarAsync();
+
+            if (result != null)
+            {
+                var response = new AgentModel
+                {
+                    Id = (int)result,
+                    Name = newAgentData.Name,
+                    PhoneNumber = newAgentData.Phone_Number,
+                    Email = newAgentData.Email,
+                };
+
+                return response;
+            }
+
+            return null;
+        }
     }
 }

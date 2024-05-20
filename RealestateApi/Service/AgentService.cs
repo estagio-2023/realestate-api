@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
@@ -160,5 +161,35 @@ namespace RealEstateApi.Service
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// Updates a Agent by Id
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to update a Agent </param>
+        /// <param name="newAgentData"> Data to be updated </param>
+        /// <returns> AgentModel </returns>
+        public async Task<ServiceResult<AgentModel>> PutAgenteByIdAsync(int agentId, AgentRequestDto newAgentData)
+        {
+            ServiceResult<AgentModel> response = new();
+
+            try
+            {
+                var result = await _agentRepository.PutAgenteByIdAsync(agentId, newAgentData);
+
+                if (result != null)
+                {
+                    response.Result = result;
+                    response.IsSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.AdditionalInformation.Add($"There was an error while trying to update agent, ID: {agentId}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
+        }
     }
 }

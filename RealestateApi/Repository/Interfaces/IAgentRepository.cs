@@ -39,5 +39,15 @@ namespace RealEstateApi.Repository.Interfaces
         /// <param name="agentId"> Id to delete Agent </param>
         /// <returns> AgentModel </returns>
         Task<bool> DeleteAgentByIdAsync(int agentId);
+
+        /// <summary>
+        /// 
+        /// Updates a Agent
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to update Agent </param>
+        /// <param name="newAgentData"> Agent Data to be Updated </param>
+        /// <returns> AgentModel </returns>
+        Task<AgentModel?> PutAgenteByIdAsync(int agentId, AgentRequestDto newAgentData);
     }
 }

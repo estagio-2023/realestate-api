@@ -95,5 +95,23 @@ namespace RealEstateApi.Controllers
                 ? Ok(response.Result) 
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
+
+        /// <summary>
+        /// 
+        /// Https Put Method to update an Agent
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to update a Agent </param>
+        /// <param name="newAgentData"> Agent Data to be updated </param>
+        /// <returns> AgentModel </returns>
+        [HttpPut("{agentId}", Name = "PutAgentById")]
+        public async Task<ActionResult<AgentModel>> PutAgenteByIdAsync(int agentId, AgentRequestDto newAgentData)
+        {
+            var response = await _agentService.PutAgenteByIdAsync(agentId, newAgentData);
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
     }
 }
