@@ -133,15 +133,6 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var agentHasRealEstates = await _realEstateRepository.GetRealEstateByAgentIdAsync(agentId);
-
-                if (agentHasRealEstates != null)
-                {
-                    response.IsSuccess = false;
-                    response.AdditionalInformation.Add($"Agent ID {agentId} belongs to a real estate and cannot be deleted.");
-                    return response;
-                }
-
                 var result = await _agentRepository.DeleteAgentByIdAsync(agentId);
 
                 if (result)

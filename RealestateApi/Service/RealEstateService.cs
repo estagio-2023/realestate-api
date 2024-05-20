@@ -11,13 +11,12 @@ namespace RealEstateApi.Service
         private readonly IRealEstateRepository _realEstateRepository;
         private readonly IReferenceDataRepository _referenceDataRepository;
         private readonly ICustomerRepository _customerRepository;
-        private readonly IAgentRepository _agentRepository;
+      
 
-        public RealEstateService(IRealEstateRepository realEstateRepository, IReferenceDataRepository referenceDataRepository, ICustomerRepository customerRepository, IAgentRepository agentRepository)
+        public RealEstateService(IRealEstateRepository realEstateRepository, IReferenceDataRepository referenceDataRepository, ICustomerRepository customerRepository)
         {
             _realEstateRepository = realEstateRepository;
             _referenceDataRepository = referenceDataRepository;
-            _agentRepository = agentRepository;
             _customerRepository = customerRepository;
         }
 
@@ -123,13 +122,6 @@ namespace RealEstateApi.Service
                 if (existingCustomer == null)
                 {
                     response.AdditionalInformation.Add($"Customer ID {realEstateData.CustomerId} was not found.");
-                    return response;
-                }
-
-                var existingAgent = await _agentRepository.GetAgentByIdAsync(realEstateData.AgentId);
-                if (existingAgent == null)
-                {
-                    response.AdditionalInformation.Add($"Agent ID {realEstateData.AgentId} was not found.");
                     return response;
                 }
 
