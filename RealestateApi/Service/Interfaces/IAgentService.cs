@@ -35,7 +35,7 @@ namespace RealEstateApi.Service.Interfaces
 
         /// <summary>
         /// 
-        /// Updates Agent
+        /// Updates an Agent
         /// 
         /// </summary>
         /// <param name="agentId"> Id to update an Agent </param>

@@ -140,12 +140,12 @@ namespace RealEstateApi.Repository
 
         /// <summary>
         /// 
-        /// Updates Agent by Id to the Database
+        /// Updates an Agent by Id to the Database
         /// 
         /// </summary>
         /// <param name="agentId"> Id to update an Agent </param>
         /// <param name="newAgentData"> Agent Data to be updated </param>
-        /// <returns></returns>
+        /// <returns> AgentModel </returns>
         public async Task<AgentModel?> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();

@@ -162,7 +162,7 @@ namespace RealEstateApi.Service
 
         /// <summary>
         /// 
-        /// Updates a Agent by Id
+        /// Updates an Agent by Id
         /// 
         /// </summary>
         /// <param name="agentId"> Id to update an Agent </param>
