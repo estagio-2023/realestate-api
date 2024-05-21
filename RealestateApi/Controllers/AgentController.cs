@@ -104,7 +104,7 @@ namespace RealEstateApi.Controllers
         /// <param name="agentId"> Id to update an Agent </param>
         /// <param name="newAgentData"> Agent Data to be updated </param>
         /// <returns> AgentModel </returns>
-        [HttpPut("{agentId}", Name = "PutAgent")]
+        [HttpPut("{agentId}", Name = "PutAgentById")]
         public async Task<ActionResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
         {
             var response = await _agentService.PutAgentByIdAsync(agentId, newAgentData);
