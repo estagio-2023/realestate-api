@@ -95,5 +95,15 @@ namespace RealEstateApi.Controllers
                 ? Ok(response.Result) 
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
+
+        [HttpPut("{agentId}", Name = "PutAgent")]
+        public async Task<ActionResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
+        {
+            var response = await _agentService.PutAgentByIdAsync(agentId, newAgentData);
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
     }
 }
