@@ -96,6 +96,14 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        /// <summary>
+        /// 
+        /// Https Put Method to updated an Agent
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to update an Agent </param>
+        /// <param name="newAgentData"> Agent Data to be updated </param>
+        /// <returns> AgentModel </returns>
         [HttpPut("{agentId}", Name = "PutAgent")]
         public async Task<ActionResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
         {
