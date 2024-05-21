@@ -107,7 +107,7 @@ namespace RealEstateApi.Controllers
         [HttpPut("{agentId}", Name = "PutAgentById")]
         public async Task<ActionResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
         {
-            var response = await _agentService.PutAgenteByIdAsync(agentId, newAgentData);
+            var response = await _agentService.PutAgentByIdAsync(agentId, newAgentData);
 
             return response.IsSuccess
                 ? Ok(response.Result)
