@@ -42,12 +42,12 @@ namespace RealEstateApi.Repository.Interfaces
 
         /// <summary>
         /// 
-        /// Updates a Agent
+        /// Updates Agent
         /// 
         /// </summary>
-        /// <param name="agentId"> Id to update Agent </param>
+        /// <param name="agentId"> Id to update an Agent </param>
         /// <param name="newAgentData"> Agent Data to be Updated </param>
         /// <returns> AgentModel </returns>
-        Task<AgentModel?> PutAgenteByIdAsync(int agentId, AgentRequestDto newAgentData);
+        Task<AgentModel?> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData);
     }
 }

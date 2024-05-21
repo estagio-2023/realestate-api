@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc.Diagnostics;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
@@ -166,10 +165,10 @@ namespace RealEstateApi.Service
         /// Updates a Agent by Id
         /// 
         /// </summary>
-        /// <param name="agentId"> Id to update a Agent </param>
+        /// <param name="agentId"> Id to update an Agent </param>
         /// <param name="newAgentData"> Data to be updated </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentModel>> PutAgenteByIdAsync(int agentId, AgentRequestDto newAgentData)
+        public async Task<ServiceResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
         {
             ServiceResult<AgentModel> response = new();
 
@@ -183,7 +182,7 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var result = await _agentRepository.PutAgenteByIdAsync(agentId, newAgentData);
+                var result = await _agentRepository.PutAgentByIdAsync(agentId, newAgentData);
 
                 if (result != null)
                 {

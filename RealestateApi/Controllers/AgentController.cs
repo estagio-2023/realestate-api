@@ -101,11 +101,11 @@ namespace RealEstateApi.Controllers
         /// Https Put Method to update an Agent
         /// 
         /// </summary>
-        /// <param name="agentId"> Id to update a Agent </param>
+        /// <param name="agentId"> Id to update an Agent </param>
         /// <param name="newAgentData"> Agent Data to be updated </param>
         /// <returns> AgentModel </returns>
         [HttpPut("{agentId}", Name = "PutAgentById")]
-        public async Task<ActionResult<AgentModel>> PutAgenteByIdAsync(int agentId, AgentRequestDto newAgentData)
+        public async Task<ActionResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
         {
             var response = await _agentService.PutAgenteByIdAsync(agentId, newAgentData);
 
