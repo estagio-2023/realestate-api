@@ -82,7 +82,6 @@ namespace RealEstateApi.Repository
                         SquareMeter = (int)realEstateReader["square_meter"],
                         EnergyClass = (string)realEstateReader["energy_class"],
                         CustomerId = (int)realEstateReader["fk_customer_id"],
-                        AgentId = (int)realEstateReader["fk_agent_id"],
                         RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
                         CityId = (int)realEstateReader["fk_city_id"],
                         TypologyId = (int)realEstateReader["fk_typology_id"]
@@ -106,7 +105,7 @@ namespace RealEstateApi.Repository
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
-            using var query = new NpgsqlCommand(@"INSERT INTO realestate(title, address, zip_code, description, build_date, price, square_meter, energy_class, fk_customer_id, fk_agent_id, fk_realestate_type_id, fk_city_id, fk_typology_id) VALUES (@realEstateTitle, @realEstateAddress, @realEstateZipcode, @realEstateDescription, @realEstateBuild_Date, @realEstatePrice, @realEstateSquareMeter, @realEstateEnergyClass, @realEstateCustomerId, @realEstateAgentId, @realEstateRealEstateTypeId, @realEstateCityId, @realEstateTypologyId) returning id;", conn);
+            using var query = new NpgsqlCommand(@"INSERT INTO realestate(title, address, zip_code, description, build_date, price, square_meter, energy_class, fk_customer_id, fk_realestate_type_id, fk_city_id, fk_typology_id) VALUES (@realEstateTitle, @realEstateAddress, @realEstateZipcode, @realEstateDescription, @realEstateBuild_Date, @realEstatePrice, @realEstateSquareMeter, @realEstateEnergyClass, @realEstateCustomerId, @realEstateRealEstateTypeId, @realEstateCityId, @realEstateTypologyId) returning id;", conn);
             query.Parameters.Add(new NpgsqlParameter("@realEstateTitle", NpgsqlDbType.Text) { Value = realEstateDto.Title });
             query.Parameters.Add(new NpgsqlParameter("@realEstateAddress", NpgsqlDbType.Text) { Value = realEstateDto.Address });
             query.Parameters.Add(new NpgsqlParameter("@realEstateZipCode", NpgsqlDbType.Text) { Value = realEstateDto.ZipCode });
@@ -116,7 +115,6 @@ namespace RealEstateApi.Repository
             query.Parameters.Add(new NpgsqlParameter("@realEstateSquareMeter", NpgsqlDbType.Integer) { Value = realEstateDto.SquareMeter });
             query.Parameters.Add(new NpgsqlParameter("@realEstateEnergyClass", NpgsqlDbType.Text) { Value = realEstateDto.EnergyClass });
             query.Parameters.Add(new NpgsqlParameter("@realEstateCustomerId", NpgsqlDbType.Integer) { Value = realEstateDto.CustomerId });
-            query.Parameters.Add(new NpgsqlParameter("@realEstateAgentId", NpgsqlDbType.Integer) { Value = realEstateDto.AgentId });
             query.Parameters.Add(new NpgsqlParameter("@realEstateRealEstateTypeId", NpgsqlDbType.Integer) { Value = realEstateDto.RealEstateTypeId });
             query.Parameters.Add(new NpgsqlParameter("@realEstateCityId", NpgsqlDbType.Integer) { Value = realEstateDto.CityId });
             query.Parameters.Add(new NpgsqlParameter("@realEstateTypologyId", NpgsqlDbType.Integer) { Value = realEstateDto.TypologyId });
@@ -137,7 +135,6 @@ namespace RealEstateApi.Repository
                     EnergyClass = realEstateDto.EnergyClass,
                     SquareMeter = realEstateDto.SquareMeter,
                     CustomerId = realEstateDto.CustomerId,
-                    AgentId = realEstateDto.AgentId,
                     RealEstateTypeId = realEstateDto.RealEstateTypeId,
                     CityId = realEstateDto.CityId,
                     TypologyId = realEstateDto.TypologyId,
@@ -196,7 +193,6 @@ namespace RealEstateApi.Repository
                         SquareMeter = (int)realEstateReader["square_meter"],
                         EnergyClass = (string)realEstateReader["energy_class"],
                         CustomerId = (int)realEstateReader["fk_customer_id"],
-                        AgentId = (int)realEstateReader["fk_agent_id"],
                         RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
                         CityId = (int)realEstateReader["fk_city_id"],
                         TypologyId = (int)realEstateReader["fk_typology_id"]
@@ -209,44 +205,5 @@ namespace RealEstateApi.Repository
             return null;
         }
 
-        public async Task<RealEstateModel?> GetRealEstateByAgentIdAsync(int agentId)
-        {
-            RealEstateModel response = new();
-
-            using var conn = await _dataSource.OpenConnectionAsync();
-
-            using var realEstateQuery = new NpgsqlCommand("SELECT * FROM realestate WHERE fk_agent_id = @agentId;", conn);
-            realEstateQuery.Parameters.AddWithValue("@agentId", agentId);
-
-            using var realEstateReader = await realEstateQuery.ExecuteReaderAsync();
-
-            if (realEstateReader.HasRows)
-            {
-                while (realEstateReader.Read())
-                {
-                    response = new RealEstateModel
-                    {
-                        Id = (int)realEstateReader["id"],
-                        Title = (string)realEstateReader["title"],
-                        Address = (string)realEstateReader["address"],
-                        ZipCode = (string)realEstateReader["zip_code"],
-                        Description = (string)realEstateReader["description"],
-                        BuildDate = (int)realEstateReader["build_date"],
-                        Price = (decimal)realEstateReader["price"],
-                        SquareMeter = (int)realEstateReader["square_meter"],
-                        EnergyClass = (string)realEstateReader["energy_class"],
-                        CustomerId = (int)realEstateReader["fk_customer_id"],
-                        AgentId = (int)realEstateReader["fk_agent_id"],
-                        RealEstateTypeId = (int)realEstateReader["fk_realestate_type_id"],
-                        CityId = (int)realEstateReader["fk_city_id"],
-                        TypologyId = (int)realEstateReader["fk_typology_id"]
-                    };
-                }
-
-                return response;
-            }
-
-            return null;
-        }
     }
 }

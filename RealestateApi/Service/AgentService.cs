@@ -8,12 +8,10 @@ namespace RealEstateApi.Service
     public class AgentService : IAgentService
     {
         private readonly IAgentRepository _agentRepository;
-        private readonly IRealEstateRepository _realEstateRepository;
 
-        public AgentService(IAgentRepository agentRepository, IRealEstateRepository realEstateRepository)
+        public AgentService(IAgentRepository agentRepository)
         {
             _agentRepository = agentRepository;
-            _realEstateRepository = realEstateRepository;
         }
 
         /// <summary>
@@ -130,15 +128,6 @@ namespace RealEstateApi.Service
                 {
                     response.IsSuccess = false;
                     response.AdditionalInformation.Add($"Agent ID {agentId} was not found");
-                    return response;
-                }
-
-                var agentHasRealEstates = await _realEstateRepository.GetRealEstateByAgentIdAsync(agentId);
-
-                if (agentHasRealEstates != null)
-                {
-                    response.IsSuccess = false;
-                    response.AdditionalInformation.Add($"Agent ID {agentId} belongs to a real estate and cannot be deleted.");
                     return response;
                 }
 
