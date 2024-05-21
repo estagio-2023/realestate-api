@@ -10,5 +10,6 @@
         public string EndTime { get; set; }
         public bool Confirmed { get; set; }
         public int FkRealEstateId { get; set; }
+        public int FkAgentId { get; set; }
     }
 }

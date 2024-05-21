@@ -36,7 +36,8 @@ namespace RealEstateApi.Repository
                         StartTime = (string)reader["start_time"],
                         EndTime = (string)reader["end_time"],
                         Confirmed = (bool)reader["confirmed"],
-                        FkRealEstateId = (int)reader["fk_realestate_id"]
+                        FkRealEstateId = (int)reader["fk_realestate_id"],
+                        FkAgentId = (int)reader["fk_agent_id"]
                     };
                     response.Add(visitRequestModel);
                 }
