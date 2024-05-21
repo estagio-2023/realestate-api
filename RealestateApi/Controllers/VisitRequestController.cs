@@ -16,6 +16,17 @@ namespace RealEstateApi.Controllers
             _visitRequestService = visitRequestService;
         }
 
+        /// <summary>
+        /// 
+        /// Https Get Method to gather a List of all Visit Requests
+        /// 
+        /// </summary>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET /api/VisitRequests
+        /// 
+        /// <returns> List<VisitRequestModel> </returns>
         [HttpGet(Name = "GetAllVisistRequests")]
         public async Task<ActionResult<List<VisitRequestModel>>> GetAllVisistRequestsAsync()
         {

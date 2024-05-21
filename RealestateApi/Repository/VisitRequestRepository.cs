@@ -14,6 +14,12 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
+        /// <summary>
+        /// 
+        /// Gets a List of all Visit Requests from Database
+        /// 
+        /// </summary>
+        /// <returns> List<VisitRequestModel> </returns>
         public async Task<List<VisitRequestModel>> GetAllVisitRequestsAsync()
         {
             List<VisitRequestModel> response = new();

@@ -13,6 +13,12 @@ namespace RealEstateApi.Service
             _visitRequestRepository = visitRequestRepository;
         }
 
+        /// <summary>
+        /// 
+        /// Gathers a List of all Visit Requests
+        /// 
+        /// </summary>
+        /// <returns> List<VisitRequestModel> </returns>
         public async Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsAsync()
         {
             ServiceResult<List<VisitRequestModel>> response = new();
