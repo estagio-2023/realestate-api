@@ -19,7 +19,7 @@ namespace RealEstateApi.Controllers
         [HttpGet(Name = "GetAllVisistRequests")]
         public async Task<ActionResult<List<VisitRequestModel>>> GetAllVisistRequestsAsync()
         {
-            var response = await _visitRequestService.GetAllVisistRequestsAsync();
+            var response = await _visitRequestService.GetAllVisitRequestsAsync();
 
             return response.IsSuccess
                 ? Ok(response.Result)

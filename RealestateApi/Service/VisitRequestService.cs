@@ -13,13 +13,13 @@ namespace RealEstateApi.Service
             _visitRequestRepository = visitRequestRepository;
         }
 
-        public async Task<ServiceResult<List<VisitRequestModel>>> GetAllVisistRequestsAsync()
+        public async Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsAsync()
         {
             ServiceResult<List<VisitRequestModel>> response = new();
 
             try
             {
-                var result = await _visitRequestRepository.GetAllVisistRequestsAsync();
+                var result = await _visitRequestRepository.GetAllVisitRequestsAsync();
 
                 response.Result = result;
                 response.IsSuccess = true;

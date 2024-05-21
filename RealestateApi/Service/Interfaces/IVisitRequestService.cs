@@ -4,6 +4,6 @@ namespace RealEstateApi.Service.Interfaces
 {
     public interface IVisitRequestService
     {
-        Task<ServiceResult<List<VisitRequestModel>>> GetAllVisistRequestsAsync();
+        Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsAsync();
     }
 }

@@ -14,7 +14,7 @@ namespace RealEstateApi.Repository
             _dataSource = dataSource;
         }
 
-        public async Task<List<VisitRequestModel>> GetAllVisistRequestsAsync()
+        public async Task<List<VisitRequestModel>> GetAllVisitRequestsAsync()
         {
             List<VisitRequestModel> response = new();
 
@@ -36,7 +36,7 @@ namespace RealEstateApi.Repository
                         StartTime = (string)reader["start_time"],
                         EndTime = (string)reader["end_time"],
                         Confirmed = (bool)reader["confirmed"],
-                        FkRealEstateId = (int)reader["fk_realestate_id"],
+                        FkRealEstateId = (int)reader["fk_realestate_id"]
                     };
                     response.Add(visitRequestModel);
                 }

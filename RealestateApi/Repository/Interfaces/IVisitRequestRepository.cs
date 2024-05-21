@@ -4,6 +4,6 @@ namespace RealEstateApi.Repository.Interfaces
 {
     public interface IVisitRequestRepository
     {
-        Task<List<VisitRequestModel>> GetAllVisistRequestsAsync();
+        Task<List<VisitRequestModel>> GetAllVisitRequestsAsync();
     }
 }
