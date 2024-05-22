@@ -1,6 +1,8 @@
 ﻿using Npgsql;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
+using RealEstateApi.Dto.Request;
+using NpgsqlTypes;
 
 namespace RealEstateApi.Repository
 {
@@ -86,6 +88,46 @@ namespace RealEstateApi.Repository
                         FkAgentId = (int)reader["fk_agent_id"]
                     };
                 }
+
+                return response;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// Updates a Visit Request confirmation by Id to the Database
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<VisitRequestModel?> PutVisitRequestConfirmationByIdAsync(int visitRequestId)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            var visitRequestData = await GetVisitRequestByIdAsync(visitRequestId);
+
+            using var query = new NpgsqlCommand("UPDATE visit_request SET confirmed = @confirmed WHERE id = @visitRequestId", conn);
+            query.Parameters.AddWithValue("@visitRequestId", visitRequestId);
+            query.Parameters.AddWithValue("@confirmed", !visitRequestData.Confirmed);
+
+            var result = await query.ExecuteReaderAsync();
+
+            if(result != null)
+            {
+                var response = new VisitRequestModel
+                {
+                    Id = visitRequestData.Id,
+                    Name = visitRequestData.Name,
+                    Email = visitRequestData.Email,
+                    Date = visitRequestData.Date,
+                    StartTime = visitRequestData.StartTime,
+                    EndTime = visitRequestData.EndTime,
+                    Confirmed = !visitRequestData.Confirmed,
+                    FkRealEstateId = visitRequestData.FkRealEstateId,
+                    FkAgentId = visitRequestData.FkAgentId
+                };
 
                 return response;
             }

@@ -1,4 +1,5 @@
-﻿using RealEstateApi.Model;
+﻿using RealEstateApi.Dto.Request;
+using RealEstateApi.Model;
 
 namespace RealEstateApi.Repository.Interfaces
 {
@@ -20,5 +21,14 @@ namespace RealEstateApi.Repository.Interfaces
         /// <param name="visitRequestId"> Id to get Visit Request </param>
         /// <returns> VisitRequestModel </returns>
         Task<VisitRequestModel?> GetVisitRequestByIdAsync(int visitRequestId);
+
+        /// <summary>
+        /// 
+        /// Updates a Visit Request confirmation
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
+        /// <returns> VisitRequestModel </returns>
+        Task<VisitRequestModel?> PutVisitRequestConfirmationByIdAsync(int visitRequestId);
     }
 }
