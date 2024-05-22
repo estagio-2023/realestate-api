@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
-using Npgsql;
+﻿using Npgsql;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 
@@ -53,9 +51,15 @@ namespace RealEstateApi.Repository
             return response;
         }
 
-        public async Task<VisitRequestModel> GetVisitRequestByIdAsync(int visitRequestId)
+        /// <summary>
+        /// 
+        /// Gets a Visit Request by Id from the Database
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<VisitRequestModel?> GetVisitRequestByIdAsync(int visitRequestId)
         {
-            VisitRequestModel response = new();
 
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -65,9 +69,11 @@ namespace RealEstateApi.Repository
 
             if (reader.HasRows)
             {
+                VisitRequestModel response = new();
+
                 while (await reader.ReadAsync())
                 {
-                    var visitRequestModel = new VisitRequestModel
+                    response = new VisitRequestModel
                     {
                         Id = (int)reader["id"],
                         Name = (string)reader["name"],
@@ -80,9 +86,11 @@ namespace RealEstateApi.Repository
                         FkAgentId = (int)reader["fk_agent_id"]
                     };
                 }
+
+                return response;
             }
 
-            return response;
+            return null;
         }
     }
 }

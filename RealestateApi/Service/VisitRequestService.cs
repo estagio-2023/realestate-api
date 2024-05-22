@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using RealEstateApi.Model;
+﻿using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -40,9 +39,16 @@ namespace RealEstateApi.Service
             return response;
         }
 
-        public async Task<ServiceResult<VisitRequestModel>> GetVisitRequestByIdAsync(int visitRequestId)
+        /// <summary>
+        /// 
+        /// Gets a Visit Request by Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<ServiceResult<VisitRequestModel?>> GetVisitRequestByIdAsync(int visitRequestId)
         {
-            ServiceResult<VisitRequestModel> response = new();
+            ServiceResult<VisitRequestModel?> response = new();
 
             try
             {
@@ -51,10 +57,11 @@ namespace RealEstateApi.Service
                 if(result != null) {
                     response.IsSuccess = true;
                     response.Result = result;
+                }else
+                {
+                    response.Result = null;
+                    response.AdditionalInformation.Add($"Visit request ID {visitRequestId} was not found.");
                 }
-
-                response.Result = null;
-                response.AdditionalInformation.Add($"Visit request ID {visitRequestId} was not found.");
             }
             catch (Exception ex)
             {
