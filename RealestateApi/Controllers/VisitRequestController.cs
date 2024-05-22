@@ -27,10 +27,20 @@ namespace RealEstateApi.Controllers
         ///     GET /api/VisitRequests
         /// 
         /// <returns> List<VisitRequestModel> </returns>
-        [HttpGet(Name = "GetAllVisistRequests")]
-        public async Task<ActionResult<List<VisitRequestModel>>> GetAllVisistRequestsAsync()
+        [HttpGet(Name = "GetAllVisitRequests")]
+        public async Task<ActionResult<List<VisitRequestModel>>> GetAllVisitRequestsAsync()
         {
             var response = await _visitRequestService.GetAllVisitRequestsAsync();
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
+
+        [HttpGet(Name = "GetVisitRequestById")]
+        public async Task<ActionResult<VisitRequestModel>> GetVisitRequestByIdAsync(int visitRequestId)
+        {
+            var response = await _visitRequestService.GetVisitRequestByIdAsync(visitRequestId);
 
             return response.IsSuccess
                 ? Ok(response.Result)

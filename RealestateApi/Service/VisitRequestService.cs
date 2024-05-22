@@ -1,4 +1,5 @@
-﻿using RealEstateApi.Model;
+﻿using Microsoft.Extensions.Logging;
+using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -33,6 +34,31 @@ namespace RealEstateApi.Service
             catch (Exception ex)
             {
                 response.AdditionalInformation.Add("There was an error while trying to retrieve all visit requests.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
+        }
+
+        public async Task<ServiceResult<VisitRequestModel>> GetVisitRequestByIdAsync(int visitRequestId)
+        {
+            ServiceResult<VisitRequestModel> response = new();
+
+            try
+            {
+                var result = await _visitRequestRepository.GetVisitRequestByIdAsync(visitRequestId);
+
+                if(result != null) {
+                    response.IsSuccess = true;
+                    response.Result = result;
+                }
+
+                response.Result = null;
+                response.AdditionalInformation.Add($"Visit request ID {visitRequestId} was not found.");
+            }
+            catch (Exception ex)
+            {
+                response.AdditionalInformation.Add($"There was an error while trying to get visit request ID: {visitRequestId}.");
                 response.AdditionalInformation.Add(ex.Message);
             }
 

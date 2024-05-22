@@ -11,5 +11,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <returns> <List<VisitRequestModel> </returns>
         Task<List<VisitRequestModel>> GetAllVisitRequestsAsync();
+
+        Task<VisitRequestModel> GetVisitRequestByIdAsync(int visitRequestId);
     }
 }
