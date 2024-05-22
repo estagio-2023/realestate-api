@@ -10,7 +10,7 @@ namespace RealEstateApi.Validators
             RuleFor(x => x.Name)
                 .NotEmpty().WithMessage("Name is required.")
                 .Length(5, 100).WithMessage("Name length must be between 5 and 100 characters.");
-            RuleFor(x => x.Phone_Number)
+            RuleFor(x => x.PhoneNumber)
                 .NotEmpty().WithMessage("Phone number is required.")
                 .Length(9, 13).WithMessage("Phone number length must be between 9 and 13 characters.");
             RuleFor(x => x.Email)
