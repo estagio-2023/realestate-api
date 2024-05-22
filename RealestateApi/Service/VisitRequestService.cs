@@ -91,7 +91,7 @@ namespace RealEstateApi.Service
 
             try
             {
-                var existingVisitRequest = _visitRequestRepository.GetVisitRequestByIdAsync(visitRequestId);
+                var existingVisitRequest = await _visitRequestRepository.GetVisitRequestByIdAsync(visitRequestId);
 
                 if(existingVisitRequest == null) 
                 {

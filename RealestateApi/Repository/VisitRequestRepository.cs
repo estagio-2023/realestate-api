@@ -3,6 +3,7 @@ using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Dto.Request;
 using NpgsqlTypes;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 namespace RealEstateApi.Repository
 {
