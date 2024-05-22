@@ -39,7 +39,7 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
-        /// Https Get Method to an Visit Request by Id
+        /// Https Get Method to a Visit Request by Id
         /// 
         /// </summary>
         /// 
