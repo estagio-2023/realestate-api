@@ -98,7 +98,7 @@ namespace RealEstateApi.Repository
 
             using var query = new NpgsqlCommand("INSERT INTO agent (name, phone_number, email) Values (@agentName, @agentPhoneNumber, @agentEmail) returning id", conn);
             query.Parameters.Add(new NpgsqlParameter("@agentName", NpgsqlDbType.Text) { Value = agentData.Name });
-            query.Parameters.Add(new NpgsqlParameter("@agentPhoneNumber", NpgsqlDbType.Text) { Value = agentData.Phone_Number });
+            query.Parameters.Add(new NpgsqlParameter("@agentPhoneNumber", NpgsqlDbType.Text) { Value = agentData.PhoneNumber });
             query.Parameters.Add(new NpgsqlParameter("@agentEmail", NpgsqlDbType.Text) { Value = agentData.Email });
             
             var result = await query.ExecuteScalarAsync();
@@ -109,7 +109,7 @@ namespace RealEstateApi.Repository
                 {
                     Id = (int)result,
                     Name = agentData.Name,
-                    PhoneNumber = agentData.Phone_Number,
+                    PhoneNumber = agentData.PhoneNumber,
                     Email = agentData.Email,
                 };
 
@@ -152,7 +152,7 @@ namespace RealEstateApi.Repository
 
             using var update = new NpgsqlCommand("UPDATE agent SET name = @AgentName, phone_number = @AgentPhoneNumber, email = @AgentEmail WHERE id = @AgentId RETURNING id", conn);
             update.Parameters.AddWithValue("@AgentName", newAgentData.Name);
-            update.Parameters.AddWithValue("@AgentPhoneNumber", newAgentData.Phone_Number);
+            update.Parameters.AddWithValue("@AgentPhoneNumber", newAgentData.PhoneNumber);
             update.Parameters.AddWithValue("@AgentEmail", newAgentData.Email);
             update.Parameters.AddWithValue("@AgentId", agentId);
 
@@ -164,7 +164,7 @@ namespace RealEstateApi.Repository
                 {
                     Id = (int)result,
                     Name = newAgentData.Name,
-                    PhoneNumber = newAgentData.Phone_Number,
+                    PhoneNumber = newAgentData.PhoneNumber,
                     Email = newAgentData.Email,
                 };
 
