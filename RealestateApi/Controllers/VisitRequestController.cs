@@ -27,8 +27,8 @@ namespace RealEstateApi.Controllers
         ///     GET /api/VisitRequests
         /// 
         /// <returns> List<VisitRequestModel> </returns>
-        [HttpGet(Name = "GetAllVisistRequests")]
-        public async Task<ActionResult<List<VisitRequestModel>>> GetAllVisistRequestsAsync()
+        [HttpGet(Name = "GetAllVisitRequests")]
+        public async Task<ActionResult<List<VisitRequestModel>>> GetAllVisitRequestsAsync()
         {
             var response = await _visitRequestService.GetAllVisitRequestsAsync();
 
