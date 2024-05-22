@@ -26,7 +26,7 @@ namespace RealEstateApi.Repository
 
             using var conn = await _dataSource.OpenConnectionAsync();
 
-            using var query = new NpgsqlCommand("SELECT * FROM visit_request;", conn);
+            using var query = new NpgsqlCommand("SELECT id, name, email, to_char(date, 'DD-MM-YYYY') AS date, start_time, end_time, confirmed, fk_realestate_id, fk_agent_id FROM visit_request;", conn);
             using var reader = await query.ExecuteReaderAsync();
 
             if (reader.HasRows)
@@ -38,9 +38,9 @@ namespace RealEstateApi.Repository
                         Id = (int)reader["id"],
                         Name = (string)reader["name"],
                         Email = (string)reader["email"],
-                        Date = (DateTime)reader["date"],
-                        StartTime = (string)reader["start_time"],
-                        EndTime = (string)reader["end_time"],
+                        Date = (string)reader["date"],
+                        StartTime = (TimeSpan)reader["start_time"],
+                        EndTime = (TimeSpan)reader["end_time"],
                         Confirmed = (bool)reader["confirmed"],
                         FkRealEstateId = (int)reader["fk_realestate_id"],
                         FkAgentId = (int)reader["fk_agent_id"]
