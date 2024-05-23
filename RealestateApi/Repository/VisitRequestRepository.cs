@@ -92,5 +92,24 @@ namespace RealEstateApi.Repository
 
             return null;
         }
+
+        /// <summary>
+        /// 
+        /// Deletes a Visit Request by Id from the Database
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<bool> DeleteVisitRequestByIdAsync(int visitRequestId)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var delete = new NpgsqlCommand("DELETE FROM visit_request WHERE id = @visitRequestId", conn);
+            delete.Parameters.AddWithValue("@visitRequestId", visitRequestId);
+
+            var affectedRows = await delete.ExecuteNonQueryAsync();
+
+            return affectedRows > 0;
+        }
     }
 }

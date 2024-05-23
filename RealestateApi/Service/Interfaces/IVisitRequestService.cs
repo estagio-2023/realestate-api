@@ -20,5 +20,14 @@ namespace RealEstateApi.Service.Interfaces
         /// <param name="visitRequestId"> Id to get Visit Request </param>
         /// <returns> VisitRequestModel </returns>
         Task<ServiceResult<VisitRequestModel?>> GetVisitRequestByIdAsync(int visitRequestId);
+
+        /// <summary>
+        /// 
+        /// Deletes a Visit Request By Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get a Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        Task<ServiceResult<VisitRequestModel>> DeleteVisitRequestByIdAsync(int visitRequestId);
     }
 }
