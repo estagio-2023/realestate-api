@@ -98,7 +98,7 @@ namespace RealEstateApi.Repository
 
             using var query = new NpgsqlCommand("INSERT INTO agent (name, phone_number, email) Values (@agentName, @agentPhoneNumber, @agentEmail) returning id", conn);
             query.Parameters.Add(new NpgsqlParameter("@agentName", NpgsqlDbType.Text) { Value = agentData.Name });
-            query.Parameters.Add(new NpgsqlParameter("@agentPhoneNumber", NpgsqlDbType.Text) { Value = agentData.Phone_Number });
+            query.Parameters.Add(new NpgsqlParameter("@agentPhoneNumber", NpgsqlDbType.Text) { Value = agentData.PhoneNumber });
             query.Parameters.Add(new NpgsqlParameter("@agentEmail", NpgsqlDbType.Text) { Value = agentData.Email });
             
             var result = await query.ExecuteScalarAsync();
@@ -109,7 +109,7 @@ namespace RealEstateApi.Repository
                 {
                     Id = (int)result,
                     Name = agentData.Name,
-                    PhoneNumber = agentData.Phone_Number,
+                    PhoneNumber = agentData.PhoneNumber,
                     Email = agentData.Email,
                 };
 
@@ -136,6 +136,42 @@ namespace RealEstateApi.Repository
             var affectedRows = await delete.ExecuteNonQueryAsync();
 
             return affectedRows > 0;
+        }
+
+        /// <summary>
+        /// 
+        /// Updates an Agent by Id to the Database
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to update an Agent </param>
+        /// <param name="newAgentData"> Agent Data to be updated </param>
+        /// <returns> AgentModel </returns>
+        public async Task<AgentModel?> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var update = new NpgsqlCommand("UPDATE agent SET name = @AgentName, phone_number = @AgentPhoneNumber, email = @AgentEmail WHERE id = @AgentId RETURNING id", conn);
+            update.Parameters.AddWithValue("@AgentName", newAgentData.Name);
+            update.Parameters.AddWithValue("@AgentPhoneNumber", newAgentData.PhoneNumber);
+            update.Parameters.AddWithValue("@AgentEmail", newAgentData.Email);
+            update.Parameters.AddWithValue("@AgentId", agentId);
+
+            var result = await update.ExecuteScalarAsync();
+
+            if (result != null)
+            {
+                var response = new AgentModel
+                {
+                    Id = (int)result,
+                    Name = newAgentData.Name,
+                    PhoneNumber = newAgentData.PhoneNumber,
+                    Email = newAgentData.Email,
+                };
+
+                return response;
+            }
+
+            return null;
         }
     }
 }
