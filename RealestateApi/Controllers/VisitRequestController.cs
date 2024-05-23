@@ -76,5 +76,15 @@ namespace RealEstateApi.Controllers
                 ? Ok(response.Result)
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
+
+        [HttpPost(Name = "PostVisitRequest")]
+        public async Task<ActionResult<VisitRequestModel>> PostVisitRequestAsync(VisitRequestDto visitRequestData)
+        {
+            var response = await _visitRequestService.PostVisitRequestAsync(visitRequestData);
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
     }
 }

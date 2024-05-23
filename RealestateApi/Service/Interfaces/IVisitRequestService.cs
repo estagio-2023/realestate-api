@@ -30,5 +30,7 @@ namespace RealEstateApi.Service.Interfaces
         /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
         /// <returns> VisitRequestModel </returns>
         Task<ServiceResult<VisitRequestModel>> PutVisitRequestConfirmationByIdAsync(int visitRequestId);
+
+        Task<ServiceResult<VisitRequestModel>> PostVisitRequestAsync(VisitRequestDto visitRequestData);
     }
 }
