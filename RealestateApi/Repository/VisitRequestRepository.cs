@@ -66,7 +66,7 @@ namespace RealEstateApi.Repository
 
             using var conn = await _dataSource.OpenConnectionAsync();
 
-            using var query = new NpgsqlCommand("SELECT * WHERE fk_realestate_id = @realEstateId;", conn);
+            using var query = new NpgsqlCommand("SELECT id, name, email, to_char(date, 'DD-MM-YYYY') AS date, start_time, end_time, confirmed, fk_realestate_id, fk_agent_id FROM visit_request WHERE fk_realestate_id = @realEstateId;", conn);
             query.Parameters.AddWithValue("@realEstateId", realEstateId);
 
             using var reader = await query.ExecuteReaderAsync();
