@@ -39,7 +39,7 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
-        /// Https Get Method to an Visit Request by Id
+        /// Https Get Method to a Visit Request by Id
         /// 
         /// </summary>
         /// 
@@ -60,10 +60,10 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
-        /// Https Delete Method to delete a Customer by Id
+        /// Https Delete Method to delete a Visit Request by Id
         /// 
         /// </summary>
-        /// <param name="visitRequestId"> Id to get a Customer </param>
+        /// <param name="visitRequestId"> Id to get a Visit Request </param>
         /// 
         /// Sample Request:
         /// 
