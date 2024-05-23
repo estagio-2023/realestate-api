@@ -57,7 +57,8 @@ namespace RealEstateApi.Service
                 if(result != null) {
                     response.IsSuccess = true;
                     response.Result = result;
-                }else
+                }
+                else
                 {
                     response.Result = null;
                     response.AdditionalInformation.Add($"Visit request ID {visitRequestId} was not found.");
