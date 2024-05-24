@@ -62,15 +62,15 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
-        /// Https Put Method to updated a Visit Request confirmation
+        /// Https Put Method to update Visit Request confirmation
         /// 
         /// </summary>
-        /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
+        /// <param name="visitRequestId"> Id to update Visit Request Confirmation </param>
         /// <returns> VisitRequestModel </returns>
-        [HttpPut("{visitRequestId}", Name = "PutVisitRequestById")]
-        public async Task<ActionResult<VisitRequestModel>> PutVisitRequestConfirmationByIdAsync(int visitRequestId)
+        [HttpPut("{visitRequestId}/Confirmation", Name = "UpdateVisitRequestById")]
+        public async Task<ActionResult<VisitRequestModel>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
         {
-            var response = await _visitRequestService.PutVisitRequestConfirmationByIdAsync(visitRequestId);
+            var response = await _visitRequestService.UpdateVisitRequestConfirmationByIdAsync(visitRequestId);
 
             return response.IsSuccess
                 ? Ok(response.Result)

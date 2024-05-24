@@ -81,12 +81,12 @@ namespace RealEstateApi.Service
 
         /// <summary>
         /// 
-        /// Updates a Visit Request confirmation by Id
+        /// Updates Visit Request confirmation by Visit Request Id
         /// 
         /// </summary>
-        /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
+        /// <param name="visitRequestId"> Visit request Id to update Visit Request confirmation </param>
         /// <returns> VisitRequestModel </returns>
-        public async Task<ServiceResult<VisitRequestModel>> PutVisitRequestConfirmationByIdAsync(int visitRequestId)
+        public async Task<ServiceResult<VisitRequestModel>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
         {
             ServiceResult<VisitRequestModel> response = new();
 
@@ -100,7 +100,7 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var result = await _visitRequestRepository.PutVisitRequestConfirmationByIdAsync(visitRequestId);
+                var result = await _visitRequestRepository.UpdateVisitRequestConfirmationByIdAsync(visitRequestId);
 
                 if(result != null) 
                 {

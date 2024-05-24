@@ -98,16 +98,21 @@ namespace RealEstateApi.Repository
 
         /// <summary>
         /// 
-        /// Updates a Visit Request confirmation by Id to the Database
+        /// Updates Visit Request Confirmation in the Database
         /// 
         /// </summary>
-        /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
+        /// <param name="visitRequestId"> Visit Request ID to update Visit Request confirmation </param>
         /// <returns> VisitRequestModel </returns>
-        public async Task<VisitRequestModel?> PutVisitRequestConfirmationByIdAsync(int visitRequestId)
+        public async Task<VisitRequestModel?> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
             var visitRequestData = await GetVisitRequestByIdAsync(visitRequestId);
+
+            if(visitRequestData == null)
+            {
+                return null;
+            }
 
             using var query = new NpgsqlCommand("UPDATE visit_request SET confirmed = @confirmed WHERE id = @visitRequestId", conn);
             query.Parameters.AddWithValue("@visitRequestId", visitRequestId);
