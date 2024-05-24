@@ -14,6 +14,15 @@ namespace RealEstateApi.Repository.Interfaces
 
         /// <summary>
         /// 
+        /// Gets a Visit Request by Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        Task<VisitRequestModel?> GetVisitRequestByIdAsync(int visitRequestId);
+
+        /// <summary>
+        /// 
         /// Gathers a List of All Visit Requests by Id
         /// 
         /// </summary>

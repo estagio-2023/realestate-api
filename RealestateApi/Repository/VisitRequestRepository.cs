@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic;
-using Npgsql;
+﻿using Npgsql;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
 using System.Data.Common;
@@ -51,6 +50,48 @@ namespace RealEstateApi.Repository
             }
 
             return response;
+        }
+
+        /// <summary>
+        /// 
+        /// Gets a Visit Request by Id from the Database
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<VisitRequestModel?> GetVisitRequestByIdAsync(int visitRequestId)
+        {
+
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var query = new NpgsqlCommand("SELECT id, name, email, to_char(date, 'DD-MM-YYYY') AS date, start_time, end_time, confirmed, fk_realestate_id, fk_agent_id FROM visit_request WHERE id = @visitRequestId;", conn);
+            query.Parameters.AddWithValue("@visitRequestId", visitRequestId);
+            using var reader = await query.ExecuteReaderAsync();
+
+            if (reader.HasRows)
+            {
+                VisitRequestModel response = new();
+
+                while (await reader.ReadAsync())
+                {
+                    response = new VisitRequestModel
+                    {
+                        Id = (int)reader["id"],
+                        Name = (string)reader["name"],
+                        Email = (string)reader["email"],
+                        Date = (string)reader["date"],
+                        StartTime = (TimeSpan)reader["start_time"],
+                        EndTime = (TimeSpan)reader["end_time"],
+                        Confirmed = (bool)reader["confirmed"],
+                        FkRealEstateId = (int)reader["fk_realestate_id"],
+                        FkAgentId = (int)reader["fk_agent_id"]
+                    };
+                }
+
+                return response;
+            }
+
+            return null;
         }
 
         /// <summary>
