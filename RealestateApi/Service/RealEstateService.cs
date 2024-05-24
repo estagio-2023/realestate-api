@@ -11,13 +11,12 @@ namespace RealEstateApi.Service
         private readonly IRealEstateRepository _realEstateRepository;
         private readonly IReferenceDataRepository _referenceDataRepository;
         private readonly ICustomerRepository _customerRepository;
-        private readonly IAgentRepository _agentRepository;
+      
 
-        public RealEstateService(IRealEstateRepository realEstateRepository, IReferenceDataRepository referenceDataRepository, ICustomerRepository customerRepository, IAgentRepository agentRepository)
+        public RealEstateService(IRealEstateRepository realEstateRepository, IReferenceDataRepository referenceDataRepository, ICustomerRepository customerRepository)
         {
             _realEstateRepository = realEstateRepository;
             _referenceDataRepository = referenceDataRepository;
-            _agentRepository = agentRepository;
             _customerRepository = customerRepository;
         }
 
@@ -98,21 +97,21 @@ namespace RealEstateApi.Service
 
             try
             {
-                var existingRealEstateType = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.realestate_type.ToString(), realEstateData.RealEstateTypeId);
+                var existingRealEstateType = await _referenceDataRepository.GetRealEstateReferenceDataAsync(realEstateData.RealEstateTypeId);
                 if(existingRealEstateType == null)
                 {
                     response.AdditionalInformation.Add($"Real estate type ID {realEstateData.RealEstateTypeId} was not found.");
                     return response;
                 }
 
-                var existingCity = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.city.ToString(), realEstateData.CityId);
+                var existingCity = await _referenceDataRepository.GetCityReferenceDataAsync(realEstateData.CityId);
                 if (existingCity == null)
                 {
                     response.AdditionalInformation.Add($"City ID {realEstateData.CityId} was not found.");
                     return response;
                 }
 
-                var existingTypology = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.typology.ToString(), realEstateData.TypologyId);
+                var existingTypology = await _referenceDataRepository.GetTypologyReferenceDataAsync(realEstateData.TypologyId);
                 if (existingTypology == null)
                 {
                     response.AdditionalInformation.Add($"Typology ID {realEstateData.TypologyId} was not found.");
@@ -123,13 +122,6 @@ namespace RealEstateApi.Service
                 if (existingCustomer == null)
                 {
                     response.AdditionalInformation.Add($"Customer ID {realEstateData.CustomerId} was not found.");
-                    return response;
-                }
-
-                var existingAgent = await _agentRepository.GetAgentByIdAsync(realEstateData.AgentId);
-                if (existingAgent == null)
-                {
-                    response.AdditionalInformation.Add($"Agent ID {realEstateData.AgentId} was not found.");
                     return response;
                 }
 

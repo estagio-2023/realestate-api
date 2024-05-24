@@ -8,12 +8,10 @@ namespace RealEstateApi.Service
     public class AgentService : IAgentService
     {
         private readonly IAgentRepository _agentRepository;
-        private readonly IRealEstateRepository _realEstateRepository;
 
-        public AgentService(IAgentRepository agentRepository, IRealEstateRepository realEstateRepository)
+        public AgentService(IAgentRepository agentRepository)
         {
             _agentRepository = agentRepository;
-            _realEstateRepository = realEstateRepository;
         }
 
         /// <summary>
@@ -133,15 +131,6 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var agentHasRealEstates = await _realEstateRepository.GetRealEstateByAgentIdAsync(agentId);
-
-                if (agentHasRealEstates != null)
-                {
-                    response.IsSuccess = false;
-                    response.AdditionalInformation.Add($"Agent ID {agentId} belongs to a real estate and cannot be deleted.");
-                    return response;
-                }
-
                 var result = await _agentRepository.DeleteAgentByIdAsync(agentId);
 
                 if (result)
@@ -160,5 +149,43 @@ namespace RealEstateApi.Service
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// Updates an Agent by Id
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to update an Agent </param>
+        /// <param name="newAgentData"> Data to be updated </param>
+        /// <returns> AgentModel </returns>
+        public async Task<ServiceResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
+        {
+            ServiceResult<AgentModel> response = new();
+
+            try
+            {
+                var existingAgent = await _agentRepository.GetAgentByIdAsync(agentId);
+
+                if (existingAgent == null)
+                {
+                    response.AdditionalInformation.Add($"Agent ID {agentId} was not found");
+                    return response;
+                }
+
+                var result = await _agentRepository.PutAgentByIdAsync(agentId, newAgentData);
+
+                if (result != null)
+                {
+                    response.Result = result;
+                    response.IsSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.AdditionalInformation.Add($"There was an error while trying to update agent, ID: {agentId}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
+        }
     }
 }

@@ -1,9 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Diagnostics;
-using Microsoft.Extensions.Logging;
-using RealEstateApi.Dto.Request;
+﻿using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
-using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 
@@ -63,19 +60,19 @@ namespace RealEstateApi.Service
                 switch (refDataType.ToLower())
                 {
                     case "typology":
-                        result = await _referenceDataRepository.GetTypologyReferenceDataAsync(refDataType, refDataId);
+                        result = await _referenceDataRepository.GetTypologyReferenceDataAsync(refDataId);
                         break;
 
                     case "city":
-                        result = await _referenceDataRepository.GetCityReferenceDataAsync(refDataType, refDataId);
+                        result = await _referenceDataRepository.GetCityReferenceDataAsync(refDataId);
                         break;
 
                     case "realestate_type":
-                        result = await _referenceDataRepository.GetRealEstateReferenceDataAsync(refDataType, refDataId);
+                        result = await _referenceDataRepository.GetRealEstateReferenceDataAsync(refDataId);
                         break;
 
                     case "amenity":
-                        result = await _referenceDataRepository.GetAmenityReferenceDataAsync(refDataType, refDataId);
+                        result = await _referenceDataRepository.GetAmenityReferenceDataAsync(refDataId);
                         break;
                 }
 
@@ -121,19 +118,19 @@ namespace RealEstateApi.Service
                     switch (refDataType.ToLower())
                     {
                         case "typology":
-                            referenceDataResult = await _referenceDataRepository.AddTypologyReferenceDataAsync(refDataType, refData);
+                            referenceDataResult = await _referenceDataRepository.AddTypologyReferenceDataAsync(refData);
                             break;
 
                         case "amenity":
-                            referenceDataResult = await _referenceDataRepository.AddAmenityReferenceDataAsync(refDataType, refData);
+                            referenceDataResult = await _referenceDataRepository.AddAmenityReferenceDataAsync(refData);
                             break;
 
                         case "realestate_type":
-                            referenceDataResult = await _referenceDataRepository.AddRealEstateTypeReferenceDataAsync(refDataType, refData);
+                            referenceDataResult = await _referenceDataRepository.AddRealEstateTypeReferenceDataAsync(refData);
                             break;
 
                         case "city":
-                            referenceDataResult = await _referenceDataRepository.AddCityReferenceDataAsync(refDataType, refData);
+                            referenceDataResult = await _referenceDataRepository.AddCityReferenceDataAsync(refData);
                             break;
                     }
 
@@ -186,7 +183,7 @@ namespace RealEstateApi.Service
                 switch (refDataType.ToLower())
                 {
                     case "typology":
-                        deleteResult = await _referenceDataRepository.DeleteTypologyReferenceDataAsync(refDataType, refDataId);
+                        deleteResult = await _referenceDataRepository.DeleteTypologyReferenceDataAsync(refDataId);
 
                         if (deleteResult)
                         {
@@ -197,7 +194,7 @@ namespace RealEstateApi.Service
                         break;
 
                     case "realestate_type":
-                        deleteResult = await _referenceDataRepository.DeleteRealEstateTypeReferenceDataAsync(refDataType, refDataId);
+                        deleteResult = await _referenceDataRepository.DeleteRealEstateTypeReferenceDataAsync(refDataId);
 
                         if (deleteResult)
                         {
@@ -208,7 +205,7 @@ namespace RealEstateApi.Service
                         break;
 
                     case "city":
-                        deleteResult = await _referenceDataRepository.DeleteCityReferenceDataAsync(refDataType, refDataId);
+                        deleteResult = await _referenceDataRepository.DeleteCityReferenceDataAsync(refDataId);
 
                         if (deleteResult)
                         {
@@ -219,7 +216,7 @@ namespace RealEstateApi.Service
                         break;
 
                     case "amenity":
-                        deleteResult = await _referenceDataRepository.DeleteAmenityReferenceDataAsync(refDataType, refDataId);
+                        deleteResult = await _referenceDataRepository.DeleteAmenityReferenceDataAsync(refDataId);
 
                         if (deleteResult)
                         {
