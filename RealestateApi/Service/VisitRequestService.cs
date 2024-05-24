@@ -143,6 +143,20 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
+                var realestate = await _visitRequestRepository.ExistingRealEstateId(visitRequestData);
+                if(realestate == false)
+                {
+                    response.AdditionalInformation.Add($"This Real estate ID {visitRequestData.FkRealEstateId} already exist.");
+                    return response;
+                }
+
+                var agent = await _visitRequestRepository.ExistingAgentId(visitRequestData);
+                if (agent == false)
+                {
+                    response.AdditionalInformation.Add($"This Agent ID {visitRequestData.FkAgentId} already exist.");
+                    return response;
+                }
+
                 var result = await _visitRequestRepository.PostVisitRequestAsync(visitRequestData);
                 if(result != null)
                 {

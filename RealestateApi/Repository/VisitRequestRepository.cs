@@ -141,34 +141,6 @@ namespace RealEstateApi.Repository
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
-            using var realEstateIdQuery = new NpgsqlCommand("SELECT * FROM visit_request WHERE fk_realestate_id = @fk_realestate_id and date = @date and start_time = @start_time and end_time = @end_time", conn);
-            realEstateIdQuery.Parameters.AddWithValue("@fk_realestate_id", visitRequestData.FkRealEstateId);
-            realEstateIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(visitRequestData.Date));
-            realEstateIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
-            realEstateIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
-
-            using (var realEstateIdReader = await realEstateIdQuery.ExecuteReaderAsync())
-            {
-                if (realEstateIdReader.HasRows)
-                {
-                    return null;
-                }
-            }
-
-            using var agentIdQuery = new NpgsqlCommand("SELECT * FROM visit_request WHERE fk_agent_id = @fk_agent_id and date = @date and start_time = @start_time and end_time = @end_time", conn);
-            agentIdQuery.Parameters.AddWithValue("@fk_agent_id", visitRequestData.FkAgentId);
-            agentIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(visitRequestData.Date));
-            agentIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
-            agentIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
-
-            using (var agentIdReader = await agentIdQuery.ExecuteReaderAsync())
-            {
-                if (agentIdReader.HasRows)
-                {
-                    return null;
-                }
-            }
-
             using var query = new NpgsqlCommand("INSERT INTO visit_request (name, email, date, start_time, end_time, confirmed, fk_realestate_id, fk_agent_id ) VALUES (@name, @email, @date, @start_time, @end_time, @confirmed, @fk_realestate_id, @fk_agent_id) RETURNING id", conn);
             query.Parameters.AddWithValue("@name", visitRequestData.Name);
             query.Parameters.AddWithValue("@email", visitRequestData.Email);
@@ -200,6 +172,48 @@ namespace RealEstateApi.Repository
             }
 
             return null;
+        }
+
+        public async Task<bool> ExistingRealEstateId(VisitRequestDto visitRequestData) 
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var realEstateIdQuery = new NpgsqlCommand("SELECT * FROM visit_request WHERE fk_realestate_id = @fk_realestate_id and date = @date and start_time = @start_time and end_time = @end_time", conn);
+            realEstateIdQuery.Parameters.AddWithValue("@fk_realestate_id", visitRequestData.FkRealEstateId);
+            realEstateIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(visitRequestData.Date));
+            realEstateIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
+            realEstateIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
+
+            using (var realEstateIdReader = await realEstateIdQuery.ExecuteReaderAsync())
+            {
+                if (realEstateIdReader.HasRows)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        public async Task<bool> ExistingAgentId(VisitRequestDto visitRequestData)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var agentIdQuery = new NpgsqlCommand("SELECT * FROM visit_request WHERE fk_agent_id = @fk_agent_id and date = @date and start_time = @start_time and end_time = @end_time", conn);
+            agentIdQuery.Parameters.AddWithValue("@fk_agent_id", visitRequestData.FkAgentId);
+            agentIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(visitRequestData.Date));
+            agentIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
+            agentIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
+
+            using (var agentIdReader = await agentIdQuery.ExecuteReaderAsync())
+            {
+                if (agentIdReader.HasRows)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

@@ -32,5 +32,9 @@ namespace RealEstateApi.Repository.Interfaces
         Task<VisitRequestModel?> PutVisitRequestConfirmationByIdAsync(int visitRequestId);
 
         Task<VisitRequestModel?> PostVisitRequestAsync(VisitRequestDto visitRequestData);
+
+        Task<bool> ExistingRealEstateId(VisitRequestDto visitRequestData);
+
+        Task<bool> ExistingAgentId(VisitRequestDto visitRequestData);
     }
 }
