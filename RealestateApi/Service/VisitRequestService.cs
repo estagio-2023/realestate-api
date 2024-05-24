@@ -97,9 +97,7 @@ namespace RealEstateApi.Service
             }
 
             return response;
-        }
-    }
-}
+        }   
 
         /// <summary>
         /// 
