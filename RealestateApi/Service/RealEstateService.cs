@@ -97,21 +97,21 @@ namespace RealEstateApi.Service
 
             try
             {
-                var existingRealEstateType = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.realestate_type.ToString(), realEstateData.RealEstateTypeId);
+                var existingRealEstateType = await _referenceDataRepository.GetRealEstateReferenceDataAsync(realEstateData.RealEstateTypeId);
                 if(existingRealEstateType == null)
                 {
                     response.AdditionalInformation.Add($"Real estate type ID {realEstateData.RealEstateTypeId} was not found.");
                     return response;
                 }
 
-                var existingCity = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.city.ToString(), realEstateData.CityId);
+                var existingCity = await _referenceDataRepository.GetCityReferenceDataAsync(realEstateData.CityId);
                 if (existingCity == null)
                 {
                     response.AdditionalInformation.Add($"City ID {realEstateData.CityId} was not found.");
                     return response;
                 }
 
-                var existingTypology = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.typology.ToString(), realEstateData.TypologyId);
+                var existingTypology = await _referenceDataRepository.GetTypologyReferenceDataAsync(realEstateData.TypologyId);
                 if (existingTypology == null)
                 {
                     response.AdditionalInformation.Add($"Typology ID {realEstateData.TypologyId} was not found.");

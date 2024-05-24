@@ -60,6 +60,27 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
+        /// Https method to get all Visit Requests by RealEstateId
+        /// 
+        /// </summary>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET /api/VisitRequest/RealEstate/{realEstateId}
+        /// 
+        /// <returns> VisitRequestModel </returns>
+        [HttpGet("RealEstate/{realEstateId}", Name = "GetAllVisitRequestsByRealEstateId")]
+        public async Task<ActionResult<VisitRequestModel>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
+        {
+            var response = await _visitRequestService.GetAllVisitRequestsByRealEstateIdAsync(realEstateId);
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
+
+        /// <summary>
+        /// 
         /// Https Delete Method to delete a Visit Request by Id
         /// 
         /// </summary>

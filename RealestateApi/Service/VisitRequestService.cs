@@ -57,7 +57,8 @@ namespace RealEstateApi.Service
                 if(result != null) {
                     response.IsSuccess = true;
                     response.Result = result;
-                }else
+                }
+                else
                 {
                     response.Result = null;
                     response.AdditionalInformation.Add($"Visit request ID {visitRequestId} was not found.");
@@ -71,6 +72,34 @@ namespace RealEstateApi.Service
 
             return response;
         }
+
+        /// <summary>
+        /// 
+        /// Gathers a List of all Visit Requests
+        /// 
+        /// </summary>
+        /// <returns> List<VisitRequestModel> </returns>
+        public async Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
+        {
+            ServiceResult<List<VisitRequestModel>> response = new();
+
+            try
+            {
+                var result = await _visitRequestRepository.GetAllVisitRequestsByRealEstateIdAsync(realEstateId);
+
+                response.Result = result;
+                response.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                response.AdditionalInformation.Add("There was an error while trying to retrieve all visit requests by realestate id.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
+        }
+    }
+}
 
         /// <summary>
         /// 

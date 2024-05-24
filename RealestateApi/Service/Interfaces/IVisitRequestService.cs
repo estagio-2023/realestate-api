@@ -23,6 +23,14 @@ namespace RealEstateApi.Service.Interfaces
 
         /// <summary>
         /// 
+        /// Gathers a List of all Visit Requests
+        /// 
+        /// </summary>
+        /// <returns> List<VisitRequestModel> </returns>
+        Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId);
+
+        /// <summary>
+        /// 
         /// Deletes a Visit Request By Id
         /// 
         /// </summary>
