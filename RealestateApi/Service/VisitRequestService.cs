@@ -97,6 +97,46 @@ namespace RealEstateApi.Service
             }
 
             return response;
+        }   
+
+        /// <summary>
+        /// 
+        /// Deletes a Visit Request by Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<ServiceResult<VisitRequestModel>> DeleteVisitRequestByIdAsync(int visitRequestId)
+        {
+            ServiceResult<VisitRequestModel> response = new();
+
+            try
+            {
+                var existingVisitRequest = await _visitRequestRepository.GetVisitRequestByIdAsync(visitRequestId);
+
+                if (existingVisitRequest == null)
+                {
+                    response.IsSuccess = false;
+                    response.AdditionalInformation.Add($"Visit Request with ID {visitRequestId} was not found");
+                    return response;
+                }
+                var result = await _visitRequestRepository.DeleteVisitRequestByIdAsync(visitRequestId);
+
+                if (result)
+                {
+                    response.IsSuccess = true;
+                    response.Result = existingVisitRequest;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"There was an error while trying to delete visit request ID: {visitRequestId}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
         }
     }
 }

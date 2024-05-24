@@ -7,7 +7,7 @@ namespace RealEstateApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class VisitRequestController: ControllerBase
+    public class VisitRequestController : ControllerBase
     {
         private readonly IVisitRequestService _visitRequestService;
 
@@ -77,6 +77,25 @@ namespace RealEstateApi.Controllers
             return response.IsSuccess
                 ? Ok(response.Result)
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
+
+        /// <summary>
+        /// 
+        /// Https Delete Method to delete a Visit Request by Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get a Visit Request </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     DELETE /api/VisitRequest/{visitRequestId}
+        /// 
+        /// <returns> VisitRequestModel </returns>
+        [HttpDelete("{visitRequestId}", Name = "DeleteVisitRequestById")]
+        public async Task<ActionResult<VisitRequestModel>> DeleteVisitRequestByIdAsync(int visitRequestId)
+        {
+            var deleteVisitRequest = await _visitRequestService.DeleteVisitRequestByIdAsync(visitRequestId);
+            return deleteVisitRequest.IsSuccess ? Ok(deleteVisitRequest.Result) : Problem(deleteVisitRequest.ProblemType, string.Join(",", deleteVisitRequest.AdditionalInformation));
         }
     }
 }

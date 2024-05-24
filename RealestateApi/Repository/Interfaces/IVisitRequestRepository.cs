@@ -23,6 +23,15 @@ namespace RealEstateApi.Repository.Interfaces
 
         /// <summary>
         /// 
+        /// Deletes a Visit Request by Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns></returns>
+        Task<bool> DeleteVisitRequestByIdAsync(int visitRequestId);
+
+        /// <summary>
+        /// 
         /// Gets a List of all Visit Requests by Realestate Id from Database
         /// 
         /// </summary>
