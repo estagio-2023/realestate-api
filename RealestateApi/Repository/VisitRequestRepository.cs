@@ -1,6 +1,9 @@
 ﻿using Npgsql;
 using RealEstateApi.Model;
 using RealEstateApi.Repository.Interfaces;
+using RealEstateApi.Dto.Request;
+using NpgsqlTypes;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
 
 namespace RealEstateApi.Repository
 {
@@ -86,6 +89,51 @@ namespace RealEstateApi.Repository
                         FkAgentId = (int)reader["fk_agent_id"]
                     };
                 }
+
+                return response;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 
+        /// Updates Visit Request Confirmation in the Database
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Visit Request ID to update Visit Request confirmation </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<VisitRequestModel?> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            var visitRequestData = await GetVisitRequestByIdAsync(visitRequestId);
+
+            if(visitRequestData == null)
+            {
+                return null;
+            }
+
+            using var query = new NpgsqlCommand("UPDATE visit_request SET confirmed = @confirmed WHERE id = @visitRequestId", conn);
+            query.Parameters.AddWithValue("@visitRequestId", visitRequestId);
+            query.Parameters.AddWithValue("@confirmed", !visitRequestData.Confirmed);
+
+            var result = await query.ExecuteReaderAsync();
+
+            if(result != null)
+            {
+                var response = new VisitRequestModel
+                {
+                    Id = visitRequestData.Id,
+                    Name = visitRequestData.Name,
+                    Email = visitRequestData.Email,
+                    Date = visitRequestData.Date,
+                    StartTime = visitRequestData.StartTime,
+                    EndTime = visitRequestData.EndTime,
+                    Confirmed = !visitRequestData.Confirmed,
+                    FkRealEstateId = visitRequestData.FkRealEstateId,
+                    FkAgentId = visitRequestData.FkAgentId
+                };
 
                 return response;
             }

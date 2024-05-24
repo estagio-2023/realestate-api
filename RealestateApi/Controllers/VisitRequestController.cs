@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RealEstateApi.Dto.Request;
 using RealEstateApi.Enums;
 using RealEstateApi.Model;
+using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -39,7 +41,7 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
-        /// Https Get Method to a Visit Request by Id
+        /// Https Get Method to gather a Visit Request by Id
         /// 
         /// </summary>
         /// 
@@ -52,6 +54,23 @@ namespace RealEstateApi.Controllers
         public async Task<ActionResult<VisitRequestModel>> GetVisitRequestByIdAsync(int visitRequestId)
         {
             var response = await _visitRequestService.GetVisitRequestByIdAsync(visitRequestId);
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
+
+        /// <summary>
+        /// 
+        /// Https Put Method to update Visit Request confirmation
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to update Visit Request Confirmation </param>
+        /// <returns> VisitRequestModel </returns>
+        [HttpPut("{visitRequestId}/Confirmation", Name = "UpdateVisitRequestById")]
+        public async Task<ActionResult<VisitRequestModel>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
+        {
+            var response = await _visitRequestService.UpdateVisitRequestConfirmationByIdAsync(visitRequestId);
 
             return response.IsSuccess
                 ? Ok(response.Result)
