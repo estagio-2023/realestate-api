@@ -40,6 +40,27 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
+        /// Https Get Method to a Visit Request by Id
+        /// 
+        /// </summary>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET /api/VisitRequest/{visitRequestId}
+        /// 
+        /// <returns> VisitRequestModel </returns>
+        [HttpGet("{visitRequestId}", Name = "GetVisitRequestById")]
+        public async Task<ActionResult<VisitRequestModel>> GetVisitRequestByIdAsync(int visitRequestId)
+        {
+            var response = await _visitRequestService.GetVisitRequestByIdAsync(visitRequestId);
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
+
+        /// <summary>
+        /// 
         /// HTTPs Get Method to gather a List of all Visit Requests by Id
         /// 
         /// </summary>
