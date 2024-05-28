@@ -182,5 +182,35 @@ namespace RealEstateApi.Service
 
             return response;
         }
+
+        public async Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestDto visitRequestData)
+        {
+            ServiceResult<VisitRequestModel> response = new();
+            try
+            {
+
+                if (!await _visitRequestRepository.ExistingRealEstateId(visitRequestData))
+                {
+                    response.AdditionalInformation.Add("Real Estate is not available for visits at this time");
+                    return response;
+                }
+
+                if(!await _visitRequestRepository.ExistingAgentId(visitRequestData))
+                {
+                    response.AdditionalInformation.Add("Agent is not available for visits at this time");
+                    return response;
+                }
+
+                response.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"There was an error while trying to get Visit Request Availability.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+            return response;
+        }
+
     }
 }
