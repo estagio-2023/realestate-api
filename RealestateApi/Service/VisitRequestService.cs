@@ -137,7 +137,7 @@ namespace RealEstateApi.Service
 
             try
             {
-                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(RefDataEnum.realestate_type.ToString(), visitRequestData.FkRealEstateId);
+                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.FkRealEstateId);
                 if (existingRealEstate == null)
                 {
                     response.AdditionalInformation.Add($"Real estate ID {visitRequestData.FkRealEstateId} was not found.");
