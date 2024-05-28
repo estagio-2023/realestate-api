@@ -77,6 +77,18 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        /// <summary>
+        /// 
+        /// Https Post Method to create a Visit Request
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to be created </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     POST /api/VisitRequest
+        ///     
+        /// <returns> VisitRequestModel </returns>
         [HttpPost(Name = "PostVisitRequest")]
         public async Task<ActionResult<VisitRequestModel>> PostVisitRequestAsync(VisitRequestDto visitRequestData)
         {

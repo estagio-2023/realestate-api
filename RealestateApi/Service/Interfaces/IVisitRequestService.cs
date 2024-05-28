@@ -31,6 +31,13 @@ namespace RealEstateApi.Service.Interfaces
         /// <returns> VisitRequestModel </returns>
         Task<ServiceResult<VisitRequestModel>> PutVisitRequestConfirmationByIdAsync(int visitRequestId);
 
+        /// <summary>
+        /// 
+        /// Save a Visit Request
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to be Saved </param>
+        /// <returns> VisitRequestModel </returns>
         Task<ServiceResult<VisitRequestModel>> PostVisitRequestAsync(VisitRequestDto visitRequestData);
     }
 }

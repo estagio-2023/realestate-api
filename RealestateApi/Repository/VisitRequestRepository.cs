@@ -137,6 +137,13 @@ namespace RealEstateApi.Repository
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// Adds a Visit Request to the Database
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to be created </param>
+        /// <returns> VisitRequestModel </returns>
         public async Task<VisitRequestModel?> PostVisitRequestAsync(VisitRequestDto visitRequestData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
@@ -174,6 +181,13 @@ namespace RealEstateApi.Repository
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// Gets a Visit Request by realestate id, date, start_time and end_time from the Database
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to get Visit Request </param>
+        /// <returns> bool </returns>
         public async Task<bool> ExistingRealEstateId(VisitRequestDto visitRequestData) 
         {
             using var conn = await _dataSource.OpenConnectionAsync();
@@ -195,6 +209,13 @@ namespace RealEstateApi.Repository
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// Gets a Visit Request by agent id, date, start_time and end_time from the Database
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to get Visit Request </param>
+        /// <returns> bool </returns>
         public async Task<bool> ExistingAgentId(VisitRequestDto visitRequestData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();

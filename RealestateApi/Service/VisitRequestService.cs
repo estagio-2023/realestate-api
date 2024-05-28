@@ -123,6 +123,13 @@ namespace RealEstateApi.Service
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// Creates a Visit Request
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to be saved </param>
+        /// <returns> VisitRequestModel </returns>
         public async Task<ServiceResult<VisitRequestModel>> PostVisitRequestAsync(VisitRequestDto visitRequestData)
         {
             ServiceResult<VisitRequestModel> response = new();
