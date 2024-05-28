@@ -146,14 +146,14 @@ namespace RealEstateApi.Service
                 var realestate = await _visitRequestRepository.ExistingRealEstateId(visitRequestData);
                 if(realestate == false)
                 {
-                    response.AdditionalInformation.Add($"This Real estate ID {visitRequestData.FkRealEstateId} already exist.");
+                    response.AdditionalInformation.Add($"There is already a visit request scheduled for this Real estate ID: {visitRequestData.FkRealEstateId}.");
                     return response;
                 }
 
                 var agent = await _visitRequestRepository.ExistingAgentId(visitRequestData);
                 if (agent == false)
                 {
-                    response.AdditionalInformation.Add($"This Agent ID {visitRequestData.FkAgentId} already exist.");
+                    response.AdditionalInformation.Add($"There is already a visit request scheduled for this Agent ID {visitRequestData.FkAgentId}.");
                     return response;
                 }
 
