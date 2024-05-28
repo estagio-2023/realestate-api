@@ -38,6 +38,6 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to be Saved </param>
         /// <returns> VisitRequestModel </returns>
-        Task<ServiceResult<VisitRequestModel>> PostVisitRequestAsync(VisitRequestDto visitRequestData);
+        Task<ServiceResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData);
     }
 }

@@ -130,7 +130,7 @@ namespace RealEstateApi.Service
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to be saved </param>
         /// <returns> VisitRequestModel </returns>
-        public async Task<ServiceResult<VisitRequestModel>> PostVisitRequestAsync(VisitRequestDto visitRequestData)
+        public async Task<ServiceResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData)
         {
             ServiceResult<VisitRequestModel> response = new();
 
@@ -164,7 +164,7 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var result = await _visitRequestRepository.PostVisitRequestAsync(visitRequestData);
+                var result = await _visitRequestRepository.AddVisitRequestAsync(visitRequestData);
                 if(result != null)
                 {
                     response.Result = result;

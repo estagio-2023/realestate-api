@@ -89,10 +89,10 @@ namespace RealEstateApi.Controllers
         ///     POST /api/VisitRequest
         ///     
         /// <returns> VisitRequestModel </returns>
-        [HttpPost(Name = "PostVisitRequest")]
-        public async Task<ActionResult<VisitRequestModel>> PostVisitRequestAsync(VisitRequestDto visitRequestData)
+        [HttpPost(Name = "AddVisitRequest")]
+        public async Task<ActionResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData)
         {
-            var response = await _visitRequestService.PostVisitRequestAsync(visitRequestData);
+            var response = await _visitRequestService.AddVisitRequestAsync(visitRequestData);
 
             return response.IsSuccess
                 ? Ok(response.Result)

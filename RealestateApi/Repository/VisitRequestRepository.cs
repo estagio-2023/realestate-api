@@ -144,7 +144,7 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to be created </param>
         /// <returns> VisitRequestModel </returns>
-        public async Task<VisitRequestModel?> PostVisitRequestAsync(VisitRequestDto visitRequestData)
+        public async Task<VisitRequestModel?> AddVisitRequestAsync(VisitRequestDto visitRequestData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
