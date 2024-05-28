@@ -3,7 +3,9 @@ using Microsoft.Extensions.Logging;
 using Npgsql;
 using NpgsqlTypes;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Enums;
 using RealEstateApi.Model;
+using RealEstateApi.Repository;
 using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
 using System.Data.Common;
@@ -13,10 +15,15 @@ namespace RealEstateApi.Service
     public class VisitRequestService: IVisitRequestService
     {
         private readonly IVisitRequestRepository _visitRequestRepository;
+        private readonly IReferenceDataRepository _referenceDataRepository;
+        private readonly IAgentRepository _agentRepository;
 
-        public VisitRequestService(IVisitRequestRepository visitRequestRepository)
+        public VisitRequestService(IVisitRequestRepository visitRequestRepository, IReferenceDataRepository referenceDataRepository, IAgentRepository agentRepository)
         {
             _visitRequestRepository = visitRequestRepository;
+            _visitRequestRepository = visitRequestRepository;
+            _referenceDataRepository = referenceDataRepository;
+            _agentRepository = agentRepository;
         }
 
         /// <summary>
@@ -111,6 +118,63 @@ namespace RealEstateApi.Service
             catch (Exception ex) 
             {
                 response.AdditionalInformation.Add($"There was an error while trying to update Visit Request confirmation.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// 
+        /// Creates a Visit Request
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to be saved </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<ServiceResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData)
+        {
+            ServiceResult<VisitRequestModel> response = new();
+
+            try
+            {
+                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.FkRealEstateId);
+                if (existingRealEstate == null)
+                {
+                    response.AdditionalInformation.Add($"Real estate ID {visitRequestData.FkRealEstateId} was not found.");
+                    return response;
+                }
+
+                var existingAgent = await _agentRepository.GetAgentByIdAsync(visitRequestData.FkAgentId);
+                if (existingAgent == null)
+                {
+                    response.AdditionalInformation.Add($"Agent ID {visitRequestData.FkAgentId} was not found.");
+                    return response;
+                }
+
+                var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData);
+                if(!existingRealEstateVisitRequest)
+                {
+                    response.AdditionalInformation.Add($"There is already a visit request scheduled for this Real estate ID: {visitRequestData.FkRealEstateId}.");
+                    return response;
+                }
+
+                var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData);
+                if (!existingAgentVisitRequest)
+                {
+                    response.AdditionalInformation.Add($"There is already a visit request scheduled for this Agent ID {visitRequestData.FkAgentId}.");
+                    return response;
+                }
+
+                var result = await _visitRequestRepository.AddVisitRequestAsync(visitRequestData);
+                if(result != null)
+                {
+                    response.Result = result;
+                    response.IsSuccess = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.AdditionalInformation.Add($"There was an error while trying to add Visit Request {visitRequestData.Name}.");
                 response.AdditionalInformation.Add(ex.Message);
             }
 

@@ -47,5 +47,32 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <returns> List<VisitRequestModel> </returns>
         Task<List<VisitRequestModel>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId);
+
+        /// <summary>
+        /// 
+        /// Save a Visit Request
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to be Saved </param>
+        /// <returns> VisitRequestModel </returns>
+        Task<VisitRequestModel?> AddVisitRequestAsync(VisitRequestDto visitRequestData);
+
+        /// <summary>
+        /// 
+        /// Gets a Visit Request by realestate id, date, start_time and end_time
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to get Visit Request </param>
+        /// <returns> bool </returns>
+        Task<bool> ExistingRealEstateId(VisitRequestDto visitRequestData);
+
+        /// <summary>
+        /// 
+        /// Gets a Visit Request by agent id,4 date, start_time and end_time
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to get Visit Request </param>
+        /// <returns> bool </returns>
+        Task<bool> ExistingAgentId(VisitRequestDto visitRequestData);
     }
 }
