@@ -110,6 +110,28 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
+        /// Https Post Method to create a Visit Request
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"> Visit Request Data to be created </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     POST /api/VisitRequest
+        ///     
+        /// <returns> VisitRequestModel </returns>
+        [HttpPost(Name = "AddVisitRequest")]
+        public async Task<ActionResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData)
+        {
+            var response = await _visitRequestService.AddVisitRequestAsync(visitRequestData);
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
+
+        /// <summary>
+        /// 
         /// Https Delete Method to delete a Visit Request by Id
         /// 
         /// </summary>

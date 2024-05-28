@@ -35,6 +35,7 @@ builder.Services.AddScoped<IValidator<ReferenceDataRequestDto>, AddReferenceData
 builder.Services.AddScoped<IValidator<CustomerRequestDto>, AddCustomerValidator>();
 builder.Services.AddScoped<IValidator<AgentRequestDto>, AddAgentValidator>();
 builder.Services.AddScoped<IValidator<AddRealEstateRequestDto>, AddRealEstateValidator>();
+builder.Services.AddScoped<IValidator<VisitRequestDto>, AddVisitRequestValidator>();
 
 ValidatorOptions.Global.CascadeMode = CascadeMode.Stop;
 
