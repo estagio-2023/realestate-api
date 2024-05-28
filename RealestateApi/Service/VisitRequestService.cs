@@ -70,7 +70,8 @@ namespace RealEstateApi.Service
                 if(result != null) {
                     response.IsSuccess = true;
                     response.Result = result;
-                }else
+                }
+                else
                 {
                     response.Result = null;
                     response.AdditionalInformation.Add($"Visit request ID {visitRequestId} was not found.");
@@ -87,12 +88,12 @@ namespace RealEstateApi.Service
 
         /// <summary>
         /// 
-        /// Updates a Visit Request confirmation by Id
+        /// Updates Visit Request confirmation by Visit Request Id
         /// 
         /// </summary>
-        /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
+        /// <param name="visitRequestId"> Visit request Id to update Visit Request confirmation </param>
         /// <returns> VisitRequestModel </returns>
-        public async Task<ServiceResult<VisitRequestModel>> PutVisitRequestConfirmationByIdAsync(int visitRequestId)
+        public async Task<ServiceResult<VisitRequestModel>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
         {
             ServiceResult<VisitRequestModel> response = new();
 
@@ -106,7 +107,7 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var result = await _visitRequestRepository.PutVisitRequestConfirmationByIdAsync(visitRequestId);
+                var result = await _visitRequestRepository.UpdateVisitRequestConfirmationByIdAsync(visitRequestId);
 
                 if(result != null) 
                 {
@@ -174,6 +175,72 @@ namespace RealEstateApi.Service
             catch (Exception ex)
             {
                 response.AdditionalInformation.Add($"There was an error while trying to add Visit Request {visitRequestData.Name}.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// 
+        /// Gathers a List of all Visit Requests
+        /// 
+        /// </summary>
+        /// <returns> List<VisitRequestModel> </returns>
+        public async Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
+        {
+            ServiceResult<List<VisitRequestModel>> response = new();
+
+            try
+            {
+                var result = await _visitRequestRepository.GetAllVisitRequestsByRealEstateIdAsync(realEstateId);
+
+                response.Result = result;
+                response.IsSuccess = true;
+            }
+            catch (Exception ex)
+            {
+                response.AdditionalInformation.Add("There was an error while trying to retrieve all visit requests by realestate id.");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+
+            return response;
+        }   
+
+        /// <summary>
+        /// 
+        /// Deletes a Visit Request by Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<ServiceResult<VisitRequestModel>> DeleteVisitRequestByIdAsync(int visitRequestId)
+        {
+            ServiceResult<VisitRequestModel> response = new();
+
+            try
+            {
+                var existingVisitRequest = await _visitRequestRepository.GetVisitRequestByIdAsync(visitRequestId);
+
+                if (existingVisitRequest == null)
+                {
+                    response.IsSuccess = false;
+                    response.AdditionalInformation.Add($"Visit Request with ID {visitRequestId} was not found");
+                    return response;
+                }
+                var result = await _visitRequestRepository.DeleteVisitRequestByIdAsync(visitRequestId);
+
+                if (result)
+                {
+                    response.IsSuccess = true;
+                    response.Result = existingVisitRequest;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.AdditionalInformation.Add($"There was an error while trying to delete visit request ID: {visitRequestId}.");
                 response.AdditionalInformation.Add(ex.Message);
             }
 

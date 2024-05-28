@@ -9,7 +9,7 @@ namespace RealEstateApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class VisitRequestController: ControllerBase
+    public class VisitRequestController : ControllerBase
     {
         private readonly IVisitRequestService _visitRequestService;
 
@@ -62,15 +62,36 @@ namespace RealEstateApi.Controllers
 
         /// <summary>
         /// 
-        /// Https Put Method to updated a Visit Request confirmation
+        /// Https Put Method to update Visit Request confirmation
         /// 
         /// </summary>
-        /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
+        /// <param name="visitRequestId"> Id to update Visit Request Confirmation </param>
         /// <returns> VisitRequestModel </returns>
-        [HttpPut("{visitRequestId}", Name = "PutVisitRequestById")]
-        public async Task<ActionResult<VisitRequestModel>> PutVisitRequestConfirmationByIdAsync(int visitRequestId)
+        [HttpPut("{visitRequestId}/Confirmation", Name = "UpdateVisitRequestById")]
+        public async Task<ActionResult<VisitRequestModel>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
         {
-            var response = await _visitRequestService.PutVisitRequestConfirmationByIdAsync(visitRequestId);
+            var response = await _visitRequestService.UpdateVisitRequestConfirmationByIdAsync(visitRequestId);
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
+
+        /// <summary>
+        /// 
+        /// Https method to get all Visit Requests by RealEstateId
+        /// 
+        /// </summary>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     GET /api/VisitRequest/RealEstate/{realEstateId}
+        /// 
+        /// <returns> VisitRequestModel </returns>
+        [HttpGet("RealEstate/{realEstateId}", Name = "GetAllVisitRequestsByRealEstateId")]
+        public async Task<ActionResult<VisitRequestModel>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
+        {
+            var response = await _visitRequestService.GetAllVisitRequestsByRealEstateIdAsync(realEstateId);
 
             return response.IsSuccess
                 ? Ok(response.Result)
@@ -97,6 +118,25 @@ namespace RealEstateApi.Controllers
             return response.IsSuccess
                 ? Ok(response.Result)
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
+
+        /// <summary>
+        /// 
+        /// Https Delete Method to delete a Visit Request by Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get a Visit Request </param>
+        /// 
+        /// Sample Request:
+        /// 
+        ///     DELETE /api/VisitRequest/{visitRequestId}
+        /// 
+        /// <returns> VisitRequestModel </returns>
+        [HttpDelete("{visitRequestId}", Name = "DeleteVisitRequestById")]
+        public async Task<ActionResult<VisitRequestModel>> DeleteVisitRequestByIdAsync(int visitRequestId)
+        {
+            var deleteVisitRequest = await _visitRequestService.DeleteVisitRequestByIdAsync(visitRequestId);
+            return deleteVisitRequest.IsSuccess ? Ok(deleteVisitRequest.Result) : Problem(deleteVisitRequest.ProblemType, string.Join(",", deleteVisitRequest.AdditionalInformation));
         }
     }
 }

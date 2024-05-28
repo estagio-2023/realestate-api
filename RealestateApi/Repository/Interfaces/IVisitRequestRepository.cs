@@ -24,12 +24,29 @@ namespace RealEstateApi.Repository.Interfaces
 
         /// <summary>
         /// 
-        /// Updates a Visit Request confirmation
+        /// Updates Visit Request confirmation
         /// 
         /// </summary>
-        /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
+        /// <param name="visitRequestId"> Visit Request Id to update Visit Request confirmation </param>
         /// <returns> VisitRequestModel </returns>
-        Task<VisitRequestModel?> PutVisitRequestConfirmationByIdAsync(int visitRequestId);
+        Task<VisitRequestModel?> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId);
+
+        /// <summary>
+        /// 
+        /// Deletes a Visit Request by Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns></returns>
+        Task<bool> DeleteVisitRequestByIdAsync(int visitRequestId);
+
+        /// <summary>
+        /// 
+        /// Gets a List of all Visit Requests by Realestate Id from Database
+        /// 
+        /// </summary>
+        /// <returns> List<VisitRequestModel> </returns>
+        Task<List<VisitRequestModel>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId);
 
         /// <summary>
         /// 

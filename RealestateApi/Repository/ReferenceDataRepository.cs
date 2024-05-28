@@ -115,7 +115,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<ReferenceDataModel?> GetTypologyReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel?> GetTypologyReferenceDataAsync(int refDataId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -152,7 +152,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<ReferenceDataModel?> GetCityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel?> GetCityReferenceDataAsync(int refDataId)
         {
                 using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -189,7 +189,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<ReferenceDataModel?> GetRealEstateReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel?> GetRealEstateReferenceDataAsync(int refDataId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -226,7 +226,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<ReferenceDataModel?> GetAmenityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<ReferenceDataModel?> GetAmenityReferenceDataAsync(int refDataId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -263,7 +263,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refData"> Data to be saved </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<ReferenceDataModel?> AddTypologyReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel?> AddTypologyReferenceDataAsync(ReferenceDataRequestDto refData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -294,7 +294,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refData"> Data to be saved </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<ReferenceDataModel?> AddRealEstateTypeReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel?> AddRealEstateTypeReferenceDataAsync(ReferenceDataRequestDto refData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -325,7 +325,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refData"> Data to be saved </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<ReferenceDataModel?> AddCityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel?> AddCityReferenceDataAsync(ReferenceDataRequestDto refData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -356,7 +356,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refData"> Data to be saved </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<ReferenceDataModel?> AddAmenityReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData)
+        public async Task<ReferenceDataModel?> AddAmenityReferenceDataAsync(ReferenceDataRequestDto refData)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -387,7 +387,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<bool> DeleteTypologyReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<bool> DeleteTypologyReferenceDataAsync(int refDataId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -407,7 +407,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<bool> DeleteRealEstateTypeReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<bool> DeleteRealEstateTypeReferenceDataAsync(int refDataId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -427,7 +427,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<bool> DeleteCityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<bool> DeleteCityReferenceDataAsync(int refDataId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
@@ -447,7 +447,7 @@ namespace RealEstateApi.Repository
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a City </param>
         /// <returns> ReferenceDataModel </returns>
-        public async Task<bool> DeleteAmenityReferenceDataAsync(string refDataType, int refDataId)
+        public async Task<bool> DeleteAmenityReferenceDataAsync(int refDataId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 

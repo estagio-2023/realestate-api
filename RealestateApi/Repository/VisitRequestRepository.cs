@@ -99,16 +99,21 @@ namespace RealEstateApi.Repository
 
         /// <summary>
         /// 
-        /// Updates a Visit Request confirmation by Id to the Database
+        /// Updates Visit Request Confirmation in the Database
         /// 
         /// </summary>
-        /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
+        /// <param name="visitRequestId"> Visit Request ID to update Visit Request confirmation </param>
         /// <returns> VisitRequestModel </returns>
-        public async Task<VisitRequestModel?> PutVisitRequestConfirmationByIdAsync(int visitRequestId)
+        public async Task<VisitRequestModel?> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
             var visitRequestData = await GetVisitRequestByIdAsync(visitRequestId);
+
+            if(visitRequestData == null)
+            {
+                return null;
+            }
 
             using var query = new NpgsqlCommand("UPDATE visit_request SET confirmed = @confirmed WHERE id = @visitRequestId", conn);
             query.Parameters.AddWithValue("@visitRequestId", visitRequestId);
@@ -135,6 +140,64 @@ namespace RealEstateApi.Repository
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// 
+        /// Gets a List of all Visit Requests by Realestate Id from Database
+        /// 
+        /// </summary>
+        /// <returns> List<VisitRequestModel> </returns>
+        public async Task<List<VisitRequestModel>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
+        {
+            List<VisitRequestModel> response = new();
+
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var query = new NpgsqlCommand("SELECT id, name, email, to_char(date, 'DD-MM-YYYY') AS date, start_time, end_time, confirmed, fk_realestate_id, fk_agent_id FROM visit_request WHERE fk_realestate_id = @realEstateId;", conn);
+            query.Parameters.AddWithValue("@realEstateId", realEstateId);
+            using var reader = await query.ExecuteReaderAsync();
+
+            if (reader.HasRows)
+            {
+                while (await reader.ReadAsync())
+                {
+                    var visitRequestModel = new VisitRequestModel
+                    {
+                        Id = (int)reader["id"],
+                        Name = (string)reader["name"],
+                        Email = (string)reader["email"],
+                        Date = (string)reader["date"],
+                        StartTime = (TimeSpan)reader["start_time"],
+                        EndTime = (TimeSpan)reader["end_time"],
+                        Confirmed = (bool)reader["confirmed"],
+                        FkRealEstateId = (int)reader["fk_realestate_id"],
+                        FkAgentId = (int)reader["fk_agent_id"]
+                    };
+                    response.Add(visitRequestModel);
+                }
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// 
+        /// Deletes a Visit Request by Id from the Database
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        public async Task<bool> DeleteVisitRequestByIdAsync(int visitRequestId)
+        {
+            using var conn = await _dataSource.OpenConnectionAsync();
+
+            using var delete = new NpgsqlCommand("DELETE FROM visit_request WHERE id = @visitRequestId", conn);
+            delete.Parameters.AddWithValue("@visitRequestId", visitRequestId);
+
+            var affectedRows = await delete.ExecuteNonQueryAsync();
+
+            return affectedRows > 0;
         }
 
         /// <summary>

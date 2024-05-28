@@ -29,7 +29,24 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
         /// <returns> VisitRequestModel </returns>
-        Task<ServiceResult<VisitRequestModel>> PutVisitRequestConfirmationByIdAsync(int visitRequestId);
+        Task<ServiceResult<VisitRequestModel>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId);
+
+        /// <summary>
+        /// 
+        /// Gathers a List of all Visit Requests
+        /// 
+        /// </summary>
+        /// <returns> List<VisitRequestModel> </returns>
+        Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId);
+
+        /// <summary>
+        /// 
+        /// Deletes a Visit Request By Id
+        /// 
+        /// </summary>
+        /// <param name="visitRequestId"> Id to get a Visit Request </param>
+        /// <returns> VisitRequestModel </returns>
+        Task<ServiceResult<VisitRequestModel>> DeleteVisitRequestByIdAsync(int visitRequestId);
 
         /// <summary>
         /// 

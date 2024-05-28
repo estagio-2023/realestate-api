@@ -34,8 +34,6 @@ namespace RealEstateApi.Validators
                 .MaximumLength(1);
             RuleFor(x => x.CustomerId)
                 .NotEmpty();
-            RuleFor(x => x.AgentId)
-                .NotEmpty();
             RuleFor(x => x.RealEstateTypeId)
                 .NotEmpty();
             RuleFor(x => x.CityId)
