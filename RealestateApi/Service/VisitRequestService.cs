@@ -150,15 +150,15 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var realestate = await _visitRequestRepository.ExistingRealEstateId(visitRequestData);
-                if(realestate == false)
+                var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData);
+                if(!existingRealEstateVisitRequest)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Real estate ID: {visitRequestData.FkRealEstateId}.");
                     return response;
                 }
 
-                var agent = await _visitRequestRepository.ExistingAgentId(visitRequestData);
-                if (agent == false)
+                var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData);
+                if (!existingAgentVisitRequest)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Agent ID {visitRequestData.FkAgentId}.");
                     return response;
