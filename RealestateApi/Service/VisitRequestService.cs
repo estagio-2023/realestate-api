@@ -137,31 +137,31 @@ namespace RealEstateApi.Service
 
             try
             {
-                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.FkRealEstateId);
+                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.RealEstateId);
                 if (existingRealEstate == null)
                 {
-                    response.AdditionalInformation.Add($"Real estate ID {visitRequestData.FkRealEstateId} was not found.");
+                    response.AdditionalInformation.Add($"Real estate ID {visitRequestData.RealEstateId} was not found.");
                     return response;
                 }
 
-                var existingAgent = await _agentRepository.GetAgentByIdAsync(visitRequestData.FkAgentId);
+                var existingAgent = await _agentRepository.GetAgentByIdAsync(visitRequestData.AgentId);
                 if (existingAgent == null)
                 {
-                    response.AdditionalInformation.Add($"Agent ID {visitRequestData.FkAgentId} was not found.");
+                    response.AdditionalInformation.Add($"Agent ID {visitRequestData.AgentId} was not found.");
                     return response;
                 }
 
                 var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData);
                 if(!existingRealEstateVisitRequest)
                 {
-                    response.AdditionalInformation.Add($"There is already a visit request scheduled for this Real estate ID: {visitRequestData.FkRealEstateId}.");
+                    response.AdditionalInformation.Add($"There is already a visit request scheduled for this Real estate ID: {visitRequestData.RealEstateId}.");
                     return response;
                 }
 
                 var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData);
                 if (!existingAgentVisitRequest)
                 {
-                    response.AdditionalInformation.Add($"There is already a visit request scheduled for this Agent ID {visitRequestData.FkAgentId}.");
+                    response.AdditionalInformation.Add($"There is already a visit request scheduled for this Agent ID {visitRequestData.AgentId}.");
                     return response;
                 }
 
