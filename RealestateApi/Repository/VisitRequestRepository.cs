@@ -218,8 +218,8 @@ namespace RealEstateApi.Repository
             query.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
             query.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
             query.Parameters.AddWithValue("@confirmed", false);
-            query.Parameters.AddWithValue("@fk_realestate_id", visitRequestData.FkRealEstateId);
-            query.Parameters.AddWithValue("@fk_agent_id", visitRequestData.FkAgentId);
+            query.Parameters.AddWithValue("@fk_realestate_id", visitRequestData.RealEstateId);
+            query.Parameters.AddWithValue("@fk_agent_id", visitRequestData.AgentId);
 
             var result = await query.ExecuteScalarAsync();
 
@@ -234,8 +234,8 @@ namespace RealEstateApi.Repository
                     StartTime = TimeSpan.Parse(visitRequestData.StartTime),
                     EndTime = TimeSpan.Parse(visitRequestData.EndTime),
                     Confirmed = false,
-                    FkRealEstateId = visitRequestData.FkRealEstateId,
-                    FkAgentId = visitRequestData.FkAgentId
+                    FkRealEstateId = visitRequestData.RealEstateId,
+                    FkAgentId = visitRequestData.AgentId
                 };
 
                 return response;
@@ -256,7 +256,7 @@ namespace RealEstateApi.Repository
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var realEstateIdQuery = new NpgsqlCommand("SELECT * FROM visit_request WHERE fk_realestate_id = @fk_realestate_id AND date = @date AND ((start_time BETWEEN @start_time AND @end_time) OR (end_time BETWEEN @start_time AND @end_time))", conn);
-            realEstateIdQuery.Parameters.AddWithValue("@fk_realestate_id", visitRequestData.FkRealEstateId);
+            realEstateIdQuery.Parameters.AddWithValue("@fk_realestate_id", visitRequestData.RealEstateId);
             realEstateIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(visitRequestData.Date));
             realEstateIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
             realEstateIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
@@ -284,7 +284,7 @@ namespace RealEstateApi.Repository
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var agentIdQuery = new NpgsqlCommand("SELECT * FROM visit_request WHERE fk_agent_id = @fk_agent_id AND date = @date AND ((start_time BETWEEN @start_time AND @end_time) OR (end_time BETWEEN @start_time AND @end_time))", conn);
-            agentIdQuery.Parameters.AddWithValue("@fk_agent_id", visitRequestData.FkAgentId);
+            agentIdQuery.Parameters.AddWithValue("@fk_agent_id", visitRequestData.AgentId);
             agentIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(visitRequestData.Date));
             agentIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
             agentIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
