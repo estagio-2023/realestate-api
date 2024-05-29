@@ -10,7 +10,7 @@
 
         public static VisitRequestAvailabilityDto BuildFrom(string date, string startTime, string endTime, int realEstateId, int agentId)
         {
-            return new VisitRequestAvailabilityDto { RealEstateId = realEstateId, AgentId = agentId, Date = date, EndTime = endTime, StartTime=startTime  };          
+            return new VisitRequestAvailabilityDto { RealEstateId = realEstateId, AgentId = agentId, Date = date, EndTime = endTime, StartTime=startTime};          
         }
     }
 }
