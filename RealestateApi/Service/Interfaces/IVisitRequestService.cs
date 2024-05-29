@@ -57,6 +57,6 @@ namespace RealEstateApi.Service.Interfaces
         /// <returns> VisitRequestModel </returns>
         Task<ServiceResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData);
 
-        Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestDto visitRequestData);
+        Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData);
     }
 }

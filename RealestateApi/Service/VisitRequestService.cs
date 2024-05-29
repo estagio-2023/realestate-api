@@ -151,14 +151,14 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData);
+                var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData.FkRealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
                 if(!existingRealEstateVisitRequest)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Real estate ID: {visitRequestData.FkRealEstateId}.");
                     return response;
                 }
 
-                var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData);
+                var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData.FkAgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
                 if (!existingAgentVisitRequest)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Agent ID {visitRequestData.FkAgentId}.");
@@ -247,18 +247,18 @@ namespace RealEstateApi.Service
             return response;
         }
 
-        public async Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestDto visitRequestData)
+        public async Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData)
         {
             ServiceResult<VisitRequestModel> response = new();
             try
             {
-                if(!await _visitRequestRepository.ExistingAgentId(visitRequestData))
+                if(!await _visitRequestRepository.ExistingAgentId(visitRequestData.FkAgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
                 {
                     response.AdditionalInformation.Add($"Agent not available at this time");
                     return response;
                 }
 
-                if (!await _visitRequestRepository.ExistingRealEstateId(visitRequestData))
+                if (!await _visitRequestRepository.ExistingRealEstateId(visitRequestData.FkRealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
                 {
                     response.AdditionalInformation.Add($"Real Estate not available at this time");
                     return response;

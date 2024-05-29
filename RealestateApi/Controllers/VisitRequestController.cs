@@ -121,8 +121,9 @@ namespace RealEstateApi.Controllers
         }
 
         [HttpGet("Availability", Name = "GetVisitRequestAvailability")]
-        public async Task<ActionResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestDto visitRequestData)
+        public async Task<ActionResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync([FromQuery] string date, [FromQuery] string startTime, [FromQuery] string endTime, [FromQuery] int realEstateId, [FromQuery] int agentId)
         {
+            var visitRequestData = VisitRequestAvailabilityDto.BuildFrom(date,startTime,endTime,realEstateId, agentId);
             var response = await _visitRequestService.GetVisitRequestAvailabilityAsync(visitRequestData);
 
             return response.IsSuccess

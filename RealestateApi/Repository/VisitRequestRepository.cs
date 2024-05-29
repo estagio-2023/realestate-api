@@ -251,15 +251,15 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to get Visit Request </param>
         /// <returns> bool </returns>
-        public async Task<bool> ExistingRealEstateId(VisitRequestDto visitRequestData) 
+        public async Task<bool> ExistingRealEstateId(int realestateId, string date, string startTime, string endTime) 
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var realEstateIdQuery = new NpgsqlCommand("SELECT * FROM visit_request WHERE fk_realestate_id = @fk_realestate_id AND date = @date AND ((start_time BETWEEN @start_time AND @end_time) OR (end_time BETWEEN @start_time AND @end_time))", conn);
-            realEstateIdQuery.Parameters.AddWithValue("@fk_realestate_id", visitRequestData.FkRealEstateId);
-            realEstateIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(visitRequestData.Date));
-            realEstateIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
-            realEstateIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
+            realEstateIdQuery.Parameters.AddWithValue("@fk_realestate_id", realestateId);
+            realEstateIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(date));
+            realEstateIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(startTime));
+            realEstateIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(endTime));
 
             using (var realEstateIdReader = await realEstateIdQuery.ExecuteReaderAsync())
             {
@@ -279,15 +279,15 @@ namespace RealEstateApi.Repository
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to get Visit Request </param>
         /// <returns> bool </returns>
-        public async Task<bool> ExistingAgentId(VisitRequestDto visitRequestData)
+        public async Task<bool> ExistingAgentId(int agentId, string date, string startTime, string endTime)
         {
             using var conn = await _dataSource.OpenConnectionAsync();
 
             using var agentIdQuery = new NpgsqlCommand("SELECT * FROM visit_request WHERE fk_agent_id = @fk_agent_id AND date = @date AND ((start_time BETWEEN @start_time AND @end_time) OR (end_time BETWEEN @start_time AND @end_time))", conn);
-            agentIdQuery.Parameters.AddWithValue("@fk_agent_id", visitRequestData.FkAgentId);
-            agentIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(visitRequestData.Date));
-            agentIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
-            agentIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
+            agentIdQuery.Parameters.AddWithValue("@fk_agent_id", agentId);
+            agentIdQuery.Parameters.AddWithValue("@date", DateTime.Parse(date));
+            agentIdQuery.Parameters.AddWithValue("@start_time", TimeSpan.Parse(startTime));
+            agentIdQuery.Parameters.AddWithValue("@end_time", TimeSpan.Parse(endTime));
 
             using (var agentIdReader = await agentIdQuery.ExecuteReaderAsync())
             {
