@@ -57,6 +57,13 @@ namespace RealEstateApi.Service.Interfaces
         /// <returns> VisitRequestModel </returns>
         Task<ServiceResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData);
 
+        /// <summary>
+        /// 
+        /// Get the availability of the visit request based on the parameters
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"></param>
+        /// <returns></returns>
         Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData);
     }
 }

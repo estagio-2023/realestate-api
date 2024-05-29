@@ -247,6 +247,13 @@ namespace RealEstateApi.Service
             return response;
         }
 
+        /// <summary>
+        /// 
+        /// Get the availability of the visit request based on the parameters
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"></param>
+        /// <returns></returns>
         public async Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData)
         {
             ServiceResult<VisitRequestModel> response = new();

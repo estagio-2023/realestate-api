@@ -125,6 +125,17 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        /// <summary>
+        /// 
+        /// Get the availability of the visit request based on the parameters
+        /// 
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="realEstateId"></param>
+        /// <param name="agentId"></param>
+        /// <returns></returns>
         [HttpGet("Availability", Name = "GetVisitRequestAvailability")]
         public async Task<ActionResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync([FromQuery] string date, [FromQuery] string startTime, [FromQuery] string endTime, [FromQuery] int realEstateId, [FromQuery] int agentId)
         {
