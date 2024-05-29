@@ -151,14 +151,14 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData.FkRealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
+                var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData.RealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
                 if(!existingRealEstateVisitRequest)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Real estate ID: {visitRequestData.RealEstateId}.");
                     return response;
                 }
 
-                var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData.FkAgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
+                var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData.AgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
                 if (!existingAgentVisitRequest)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Agent ID {visitRequestData.AgentId}.");
@@ -252,27 +252,27 @@ namespace RealEstateApi.Service
             ServiceResult<VisitRequestModel> response = new();
             try
             {
-                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.FkRealEstateId);
+                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.RealEstateId);
                 if (existingRealEstate == null)
                 {
-                    response.AdditionalInformation.Add($"Real estate ID {visitRequestData.FkRealEstateId} was not found.");
+                    response.AdditionalInformation.Add($"Real estate ID {visitRequestData.RealEstateId} was not found.");
                     return response;
                 }
 
-                var existingAgent = await _agentRepository.GetAgentByIdAsync(visitRequestData.FkAgentId);
+                var existingAgent = await _agentRepository.GetAgentByIdAsync(visitRequestData.AgentId);
                 if (existingAgent == null)
                 {
-                    response.AdditionalInformation.Add($"Agent ID {visitRequestData.FkAgentId} was not found.");
+                    response.AdditionalInformation.Add($"Agent ID {visitRequestData.AgentId} was not found.");
                     return response;
                 }
 
-                if (!await _visitRequestRepository.ExistingAgentId(visitRequestData.FkAgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
+                if (!await _visitRequestRepository.ExistingAgentId(visitRequestData.AgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
                 {
                     response.AdditionalInformation.Add($"Agent not available at this time");
                     return response;
                 }
 
-                if (!await _visitRequestRepository.ExistingRealEstateId(visitRequestData.FkRealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
+                if (!await _visitRequestRepository.ExistingRealEstateId(visitRequestData.RealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
                 {
                     response.AdditionalInformation.Add($"Real Estate not available at this time");
                     return response;
