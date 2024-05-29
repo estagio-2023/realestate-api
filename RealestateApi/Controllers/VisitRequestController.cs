@@ -60,16 +60,6 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
-        [HttpGet(Name = "GetVisitRequestAvailability")]
-        public async Task<ActionResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestDto visitRequestData)
-        {
-            var response = await _visitRequestService.GetVisitRequestAvailabilityAsync(visitRequestData);
-
-            return response.IsSuccess
-                ?Ok()
-                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
-        }
-
         /// <summary>
         /// 
         /// Https Put Method to update Visit Request confirmation
@@ -130,7 +120,7 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
-        [HttpGet("VisitRequest/Availability", Name = "GetVisitRequestAvailability")]
+        [HttpGet("Availability", Name = "GetVisitRequestAvailability")]
         public async Task<ActionResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestDto visitRequestData)
         {
             var response = await _visitRequestService.GetVisitRequestAvailabilityAsync(visitRequestData);
