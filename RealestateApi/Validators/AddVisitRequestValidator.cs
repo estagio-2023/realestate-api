@@ -24,9 +24,9 @@ namespace RealEstateApi.Validators
             RuleFor(x => x.EndTime)
                 .NotEmpty()
                 .Matches(@"^(?:[01]\d|2[0-3]):(?:[0-5]\d)$").WithMessage("End time must be in the format HH:MM.");
-            RuleFor(x => x.FkRealEstateId)
+            RuleFor(x => x.RealEstateId)
                 .NotEmpty();
-            RuleFor(x => x.FkAgentId)
+            RuleFor(x => x.AgentId)
                 .NotEmpty();
             
         }

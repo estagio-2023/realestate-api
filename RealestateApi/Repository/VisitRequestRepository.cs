@@ -218,8 +218,8 @@ namespace RealEstateApi.Repository
             query.Parameters.AddWithValue("@start_time", TimeSpan.Parse(visitRequestData.StartTime));
             query.Parameters.AddWithValue("@end_time", TimeSpan.Parse(visitRequestData.EndTime));
             query.Parameters.AddWithValue("@confirmed", false);
-            query.Parameters.AddWithValue("@fk_realestate_id", visitRequestData.FkRealEstateId);
-            query.Parameters.AddWithValue("@fk_agent_id", visitRequestData.FkAgentId);
+            query.Parameters.AddWithValue("@fk_realestate_id", visitRequestData.RealEstateId);
+            query.Parameters.AddWithValue("@fk_agent_id", visitRequestData.AgentId);
 
             var result = await query.ExecuteScalarAsync();
 
@@ -234,8 +234,8 @@ namespace RealEstateApi.Repository
                     StartTime = TimeSpan.Parse(visitRequestData.StartTime),
                     EndTime = TimeSpan.Parse(visitRequestData.EndTime),
                     Confirmed = false,
-                    FkRealEstateId = visitRequestData.FkRealEstateId,
-                    FkAgentId = visitRequestData.FkAgentId
+                    FkRealEstateId = visitRequestData.RealEstateId,
+                    FkAgentId = visitRequestData.AgentId
                 };
 
                 return response;
