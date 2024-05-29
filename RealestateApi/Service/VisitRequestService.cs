@@ -252,7 +252,21 @@ namespace RealEstateApi.Service
             ServiceResult<VisitRequestModel> response = new();
             try
             {
-                if(!await _visitRequestRepository.ExistingAgentId(visitRequestData.FkAgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
+                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.FkRealEstateId);
+                if (existingRealEstate == null)
+                {
+                    response.AdditionalInformation.Add($"Real estate ID {visitRequestData.FkRealEstateId} was not found.");
+                    return response;
+                }
+
+                var existingAgent = await _agentRepository.GetAgentByIdAsync(visitRequestData.FkAgentId);
+                if (existingAgent == null)
+                {
+                    response.AdditionalInformation.Add($"Agent ID {visitRequestData.FkAgentId} was not found.");
+                    return response;
+                }
+
+                if (!await _visitRequestRepository.ExistingAgentId(visitRequestData.FkAgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
                 {
                     response.AdditionalInformation.Add($"Agent not available at this time");
                     return response;
