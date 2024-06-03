@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Enums;
+using RealEstateApi.Helpers;
 using RealEstateApi.Model;
 using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
@@ -12,10 +14,13 @@ namespace RealEstateApi.Controllers
     public class VisitRequestController : ControllerBase
     {
         private readonly IVisitRequestService _visitRequestService;
+        private readonly IValidator<VisitRequestAvailabilityDto> _visitRequestAvailabilityValidator;
 
-        public VisitRequestController(IVisitRequestService visitRequestService)
+        public VisitRequestController(IVisitRequestService visitRequestService, IValidator<VisitRequestAvailabilityDto> visitRequestAvailabilityValidator)
         {
             _visitRequestService = visitRequestService;
+            _visitRequestAvailabilityValidator = visitRequestAvailabilityValidator;
+
         }
 
         /// <summary>
@@ -120,6 +125,33 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        /// <summary>
+        /// 
+        /// Get the availability of the visit request based on the parameters
+        /// 
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
+        /// <param name="realEstateId"></param>
+        /// <param name="agentId"></param>
+        /// <returns></returns>
+        [HttpGet("Availability", Name = "GetVisitRequestAvailability")]
+        public async Task<ActionResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync([FromQuery] string date, [FromQuery] string startTime, [FromQuery] string endTime, [FromQuery] int realEstateId, [FromQuery] int agentId)
+        {
+            var visitRequestData = VisitRequestAvailabilityDto.BuildFrom(date,startTime,endTime,realEstateId, agentId);
+
+            var validationResult = _visitRequestAvailabilityValidator.Validate(visitRequestData);
+            if (!validationResult.IsValid)
+            {
+                return Problem(ProblemTypes.ValidationError, string.Join(",", validationResult.Errors));
+            }
+            var response = await _visitRequestService.GetVisitRequestAvailabilityAsync(visitRequestData);
+
+            return response.IsSuccess
+                ? Ok(response.Result)
+                : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
+        }
         /// <summary>
         /// 
         /// Https Delete Method to delete a Visit Request by Id

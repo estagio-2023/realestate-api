@@ -151,14 +151,14 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData);
+                var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData.RealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
                 if(!existingRealEstateVisitRequest)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Real estate ID: {visitRequestData.RealEstateId}.");
                     return response;
                 }
 
-                var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData);
+                var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData.AgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
                 if (!existingAgentVisitRequest)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Agent ID {visitRequestData.AgentId}.");
@@ -246,5 +246,56 @@ namespace RealEstateApi.Service
 
             return response;
         }
+
+        /// <summary>
+        /// 
+        /// Get the availability of the visit request based on the parameters
+        /// 
+        /// </summary>
+        /// <param name="visitRequestData"></param>
+        /// <returns></returns>
+        public async Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData)
+        {
+            ServiceResult<VisitRequestModel> response = new();
+            try
+            {
+                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.RealEstateId);
+                if (existingRealEstate == null)
+                {
+                    response.AdditionalInformation.Add($"Real estate ID {visitRequestData.RealEstateId} was not found.");
+                    return response;
+                }
+
+                var existingAgent = await _agentRepository.GetAgentByIdAsync(visitRequestData.AgentId);
+                if (existingAgent == null)
+                {
+                    response.AdditionalInformation.Add($"Agent ID {visitRequestData.AgentId} was not found.");
+                    return response;
+                }
+
+                if (!await _visitRequestRepository.ExistingAgentId(visitRequestData.AgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
+                {
+                    response.AdditionalInformation.Add($"Agent not available at this time");
+                    return response;
+                }
+
+                if (!await _visitRequestRepository.ExistingRealEstateId(visitRequestData.RealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
+                {
+                    response.AdditionalInformation.Add($"Real Estate not available at this time");
+                    return response;
+                }
+
+                response.IsSuccess = true;
+
+            }
+            catch (Exception ex)
+            {
+                response.AdditionalInformation.Add($"There was an error while trying to get visit request availability");
+                response.AdditionalInformation.Add(ex.Message);
+            }
+        
+            return response;
+        }
+
     }
 }

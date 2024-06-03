@@ -64,7 +64,7 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to get Visit Request </param>
         /// <returns> bool </returns>
-        Task<bool> ExistingRealEstateId(VisitRequestDto visitRequestData);
+        Task<bool> ExistingRealEstateId(int agentId, string date, string startTime, string endTime);
 
         /// <summary>
         /// 
@@ -73,6 +73,6 @@ namespace RealEstateApi.Repository.Interfaces
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to get Visit Request </param>
         /// <returns> bool </returns>
-        Task<bool> ExistingAgentId(VisitRequestDto visitRequestData);
+        Task<bool> ExistingAgentId(int agentId, string date, string startTime, string endTime);
     }
 }
