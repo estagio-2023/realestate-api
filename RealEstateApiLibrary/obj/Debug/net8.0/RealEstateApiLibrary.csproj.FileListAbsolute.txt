@@ -1,0 +1,15 @@
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\bin\Debug\net8.0\RealEstateApiLibrary.deps.json
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\bin\Debug\net8.0\RealEstateApiLibrary.runtimeconfig.json
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\bin\Debug\net8.0\RealEstateApiLibrary.dll
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\bin\Debug\net8.0\RealEstateApiLibrary.pdb
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\RealEstateApiLibrary.csproj.AssemblyReference.cache
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\RealEstateApiLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\RealEstateApiLibrary.AssemblyInfoInputs.cache
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\RealEstateApiLibrary.AssemblyInfo.cs
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\RealEstateApiLibrary.csproj.CoreCompileInputs.cache
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\RealEstateApiLibrary.sourcelink.json
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\RealEstateApiLibrary.dll
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\refint\RealEstateApiLibrary.dll
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\RealEstateApiLibrary.pdb
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\RealEstateApiLibrary.genruntimeconfig.cache
+C:\Users\jonathan.d.osorio\source\repos\realestate-api\RealEstateApiLibrary\obj\Debug\net8.0\ref\RealEstateApiLibrary.dll

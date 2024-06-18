@@ -6,6 +6,7 @@ using RealEstateApi.Service;
 using FluentValidation.AspNetCore;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Validators;
+using RealEstateApiLibrary.DataAccess;
 using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +21,7 @@ configuration.AddUserSecrets<Program>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
+builder.Services.AddDbContext<RealEstateContext>();
 
 builder.Services.AddCors(options =>
 {
