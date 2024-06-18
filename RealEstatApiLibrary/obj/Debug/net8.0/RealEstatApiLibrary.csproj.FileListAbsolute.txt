@@ -1,0 +1,15 @@
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\bin\Debug\net8.0\RealEstatApiLibrary.deps.json
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\bin\Debug\net8.0\RealEstatApiLibrary.runtimeconfig.json
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\bin\Debug\net8.0\RealEstatApiLibrary.dll
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\bin\Debug\net8.0\RealEstatApiLibrary.pdb
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\RealEstatApiLibrary.csproj.AssemblyReference.cache
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\RealEstatApiLibrary.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\RealEstatApiLibrary.AssemblyInfoInputs.cache
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\RealEstatApiLibrary.AssemblyInfo.cs
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\RealEstatApiLibrary.csproj.CoreCompileInputs.cache
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\RealEstatApiLibrary.sourcelink.json
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\RealEstatApiLibrary.dll
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\refint\RealEstatApiLibrary.dll
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\RealEstatApiLibrary.pdb
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\RealEstatApiLibrary.genruntimeconfig.cache
+C:\Users\diogomaria.santos\Documents\code\angular\casas\realestate-api\RealEstatApiLibrary\obj\Debug\net8.0\ref\RealEstatApiLibrary.dll
