@@ -1,18 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace RealEstateApiLibrary.Entity
+﻿namespace RealEstateApiLibrary.Entity
 {
     public class RealEstateHasAmenities
     {
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
-        public int RealEstateId { get; set; }
-
-        [Required]
-        public int AmenitiesId { get; set; }
+        public int id { get; set; }
+        public int realestate_id { get; set; }
+        public int amenities_id { get; set; }
 
         public RealEstate RealEstate { get; set; }
         public Amenities Amenities { get; set; }

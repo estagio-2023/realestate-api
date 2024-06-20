@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RealEstateApiLibrary")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2921b5e4ff620dab6c6eb7026981779fb1453db")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9a86e4bb0d31e85f55e6496c925861eb8ac4bfa0")]
 [assembly: System.Reflection.AssemblyProductAttribute("RealEstateApiLibrary")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RealEstateApiLibrary")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -33,28 +33,60 @@ namespace RealEstateApiLibrary.DataAccess
             }
         }
 
-        public DbSet<Agent> Agents { get; set; }
-        public DbSet<Amenities> Amenities { get; set; }
-        public DbSet<City> Cities { get; set; }
-        public DbSet<Customer> Customeres { get; set; }
-        public DbSet<RealEstateHasAmenities> Realestate_has_amenities { get; set; }
-        public DbSet<RealEstate> RealEstates { get; set; }
-        public DbSet<RealEstateType> Realestate_types { get; set; }
-        public DbSet<Typology> Typologies { get; set; }
-        public DbSet<VisitRequest> Visit_requests { get; set; }
+        public DbSet<Agent> agents { get; set; }
+        public DbSet<Amenities> amenities { get; set; }
+        public DbSet<City> cities { get; set; }
+        public DbSet<Customer> customers { get; set; }
+        public DbSet<RealEstateHasAmenities> realestate_has_amenities { get; set; }
+        public DbSet<RealEstate> realestates { get; set; }
+        public DbSet<RealEstateType> realestate_types { get; set; }
+        public DbSet<Typology> typologies { get; set; }
+        public DbSet<VisitRequest> visit_requests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Agent>().HasMany(x => x.VisitRequests).WithOne(x => x.Agent).HasForeignKey(x => x.AgentId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<RealEstate>().HasMany(x => x.VisitRequests).WithOne(x => x.RealEstate).HasForeignKey(x => x.RealEstateId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Agent>()
+                .HasMany(x => x.VisitRequests)
+                .WithOne(x => x.Agent)
+                .HasForeignKey(x => x.agent_id)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<RealEstate>()
+                .HasMany(x => x.VisitRequests)
+                .WithOne(x => x.RealEstate)
+                .HasForeignKey(x => x.realestate_id)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<RealEstate>().HasMany(x => x.RealEstateHasAmenities).WithOne(x => x.RealEstate).HasForeignKey(x => x.RealEstateId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Amenities>().HasMany(x => x.RealEstateHasAmenities).WithOne(x => x.Amenities).HasForeignKey(x => x.AmenitiesId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<RealEstate>()
+                .HasMany(x => x.RealEstateHasAmenities)
+                .WithOne(x => x.RealEstate)
+                .HasForeignKey(x => x.realestate_id)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Amenities>()
+                .HasMany(x => x.RealEstateHasAmenities)
+                .WithOne(x => x.Amenities)
+                .HasForeignKey(x => x.amenities_id)
+                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<City>().HasMany(x => x.RealEstates).WithOne(x => x.City).HasForeignKey(x => x.CityId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Customer>().HasMany(x => x.RealEstates).WithOne(x => x.Customer).HasForeignKey(x => x.CustomerId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<RealEstateType>().HasMany(x => x.RealEstates).WithOne(x => x.RealEstateType).HasForeignKey(x => x.RealEstateTypeId).OnDelete(DeleteBehavior.Restrict);
-            modelBuilder.Entity<Typology>().HasMany(x => x.RealEstates).WithOne(x => x.Typology).HasForeignKey(x => x.TypologyId).OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<City>()
+                .HasMany(x => x.RealEstates)
+                .WithOne(x => x.City)
+                .HasForeignKey(x => x.city_id)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Customer>()
+                .HasMany(x => x.RealEstates)
+                .WithOne(x => x.Customer)
+                .HasForeignKey(x => x.customer_id)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<RealEstateType>()
+                .HasMany(x => x.RealEstates)
+                .WithOne(x => x.RealEstateType)
+                .HasForeignKey(x => x.realestate_id)
+                .OnDelete(DeleteBehavior.Restrict);
+            modelBuilder.Entity<Typology>()
+                .HasMany(x => x.RealEstates)
+                .WithOne(x => x.Typology)
+                .HasForeignKey(x => x.typology_id)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

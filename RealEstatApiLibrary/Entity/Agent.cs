@@ -1,30 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace RealEstateApiLibrary.Entity
+﻿namespace RealEstateApiLibrary.Entity
 {
     public class Agent
     {
-        [Key]
-        [Required]
-        public int Id { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public string phone_number { get; set; }
+        public string email { get; set; }
 
-        [Required]
-        [MaxLength(150)]
-        [Column(TypeName = "varchar(150)")]
-        public string Name { get; set; }
-
-        [Required]
-        [MaxLength(13)]
-        [Column(TypeName = "varchar(13)")]
-        public string PhoneNumber { get; set; }
-
-        [Required]
-        [MaxLength(150)]
-        [Column(TypeName = "varchar(150)")]
-        public string Email { get; set; }
-
-        [Required]
-        public List<VisitRequest> VisitRequests { get; set; }
+        public List<VisitRequest> VisitRequests { get; set; } = new List<VisitRequest>();
     }
 }

@@ -1,68 +1,26 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace RealEstateApiLibrary.Entity
+﻿namespace RealEstateApiLibrary.Entity
 {
     public class RealEstate
     {
-        [Key]
-        public int Id { get; set; }
-
-        [Required]
-        [MaxLength(100)]
-        [Column(TypeName = "varchar(100)")]
-        public string Title { get; set; } = null!;
-
-        [Required]
-        [MaxLength(200)]
-        [Column(TypeName = "varchar(200)")]
-        public string Address { get; set; } = null!;
-
-        [Required]
-        [MaxLength(8)]
-        [Column(TypeName = "varchar(8)")]
-        public string ZipCode { get; set; } = null!;
-
-        [Required]
-        [MaxLength(200)]
-        [Column(TypeName = "varchar(200)")]
-        public string Description { get; set; } = null!;
-
-        [Required]
-        public int BuildDate { get; set; }
-
-        [Required]
-        [Column(TypeName = "decimal(8,2)")]
-        public decimal Price { get; set; }
-
-        [Required]
-        public int SquareMeter { get; set; }
-
-        [Required]
-        [Column(TypeName = "char")]
-        public string EnergyClass { get; set; } = null!;
-
-        [Required]
-        public int CityId { get; set; }
-
-        [Required]
-        public int CustomerId { get; set; }
-
-        [Required]
-        public int RealEstateTypeId { get; set; }
-
-        [Required]
-        public int TypologyId { get; set; }
-
+        public int id { get; set; }
+        public string title { get; set; } = null!;
+        public string address { get; set; } = null!;
+        public string zip_code { get; set; } = null!;
+        public string description { get; set; } = null!;
+        public int build_date { get; set; }
+        public decimal price { get; set; }
+        public int square_meter { get; set; }
+        public string energy_class { get; set; } = null!;
+        public int city_id { get; set; }
+        public int customer_id { get; set; }
+        public int realestate_id { get; set; }
+        public int typology_id { get; set; }
         public City City { get; set; }
         public Customer Customer { get; set; }
         public RealEstateType RealEstateType { get; set; }
         public Typology Typology { get; set; }
 
-        [Required]
-        public List<RealEstateHasAmenities> RealEstateHasAmenities { get; set; }
-
-        [Required]
-        public List<VisitRequest> VisitRequests { get; set; }
+        public List<RealEstateHasAmenities> RealEstateHasAmenities { get; set; } = new List<RealEstateHasAmenities>();
+        public List<VisitRequest> VisitRequests { get; set; } = new List<VisitRequest>();
     }
 }

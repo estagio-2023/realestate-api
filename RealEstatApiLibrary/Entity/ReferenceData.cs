@@ -1,17 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace RealEstateApiLibrary.Entity
+﻿namespace RealEstateApiLibrary.Entity
 {
     public class ReferenceData
     {
-        [Key]
-        [Required]
-        public int Id { get; set; }
+        public int id { get; set; }
+        public string description { get; set; } = null!;
 
-        [Required]
-        [MaxLength(50)]
-        [Column(TypeName = "varchar(50)")]
-        public string Description { get; set; } = null!;
+        public List<RealEstate> RealEstates { get; set; } = new List<RealEstate>();
     }
 }

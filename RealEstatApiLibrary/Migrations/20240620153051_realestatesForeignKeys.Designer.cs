@@ -12,8 +12,8 @@ using RealEstateApiLibrary.DataAccess;
 namespace RealEstateApiLibrary.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    [Migration("20240618124734_CreateDb")]
-    partial class CreateDb
+    [Migration("20240620153051_realestatesForeignKeys")]
+    partial class realestatesForeignKeys
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,289 +27,273 @@ namespace RealEstateApiLibrary.Migrations
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.Agent", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Email")
+                    b.Property<string>("email")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                        .HasColumnType("text");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                        .HasColumnType("text");
 
-                    b.Property<string>("PhoneNumber")
+                    b.Property<string>("phone_number")
                         .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("varchar(13)");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("Agents");
+                    b.ToTable("agents");
                 });
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.Amenities", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("description")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("Amenities");
+                    b.ToTable("amenities");
                 });
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.City", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("cities");
                 });
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.Customer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.Property<string>("email")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.ToTable("Customeres");
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("customers");
                 });
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.RealEstate", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Address")
+                    b.Property<string>("address")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("text");
 
-                    b.Property<int>("BuildDate")
+                    b.Property<int>("build_date")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CityId")
+                    b.Property<int>("city_id")
                         .HasColumnType("integer");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int>("customer_id")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Description")
+                    b.Property<string>("description")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)");
+                        .HasColumnType("text");
 
-                    b.Property<string>("EnergyClass")
+                    b.Property<string>("energy_class")
                         .IsRequired()
-                        .HasColumnType("char");
+                        .HasColumnType("text");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(8,2)");
+                    b.Property<decimal>("price")
+                        .HasColumnType("numeric");
 
-                    b.Property<int>("RealEstateTypeId")
+                    b.Property<int>("realestate_id")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SquareMeter")
+                    b.Property<int>("square_meter")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("title")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("text");
 
-                    b.Property<int>("TypologyId")
+                    b.Property<int>("typology_id")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ZipCode")
+                    b.Property<string>("zip_code")
                         .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("varchar(8)");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.HasIndex("CityId");
+                    b.HasIndex("city_id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("customer_id");
 
-                    b.HasIndex("RealEstateTypeId");
+                    b.HasIndex("realestate_id");
 
-                    b.HasIndex("TypologyId");
+                    b.HasIndex("typology_id");
 
-                    b.ToTable("RealEstates");
+                    b.ToTable("realestates");
                 });
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.RealEstateHasAmenities", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("AmenitiesId")
+                    b.Property<int>("amenities_id")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RealEstateId")
+                    b.Property<int>("realestate_id")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.HasIndex("AmenitiesId");
+                    b.HasIndex("amenities_id");
 
-                    b.HasIndex("RealEstateId");
+                    b.HasIndex("realestate_id");
 
-                    b.ToTable("Realestate_has_amenities");
+                    b.ToTable("realestate_has_amenities");
                 });
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.RealEstateType", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("Realestate_types");
+                    b.ToTable("realestate_types");
                 });
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.Typology", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("description")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.ToTable("Typologies");
+                    b.ToTable("typologies");
                 });
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.VisitRequest", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
 
-                    b.Property<int>("AgentId")
+                    b.Property<int>("agent_id")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("Confirmed")
+                    b.Property<bool>("confirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<DateOnly>("Date")
+                    b.Property<DateOnly>("date")
                         .HasColumnType("date");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("email")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                        .HasColumnType("text");
 
-                    b.Property<TimeSpan>("EndTime")
-                        .HasColumnType("time");
+                    b.Property<TimeSpan>("end_time")
+                        .HasColumnType("interval");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("name")
                         .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("varchar(150)");
+                        .HasColumnType("text");
 
-                    b.Property<int>("RealEstateId")
+                    b.Property<int>("realestate_id")
                         .HasColumnType("integer");
 
-                    b.Property<TimeSpan>("StartTime")
-                        .HasColumnType("time");
+                    b.Property<TimeSpan>("start_time")
+                        .HasColumnType("interval");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.HasIndex("AgentId");
+                    b.HasIndex("agent_id");
 
-                    b.HasIndex("RealEstateId");
+                    b.HasIndex("realestate_id");
 
-                    b.ToTable("Visit_requests");
+                    b.ToTable("visit_requests");
                 });
 
             modelBuilder.Entity("RealEstateApiLibrary.Entity.RealEstate", b =>
                 {
                     b.HasOne("RealEstateApiLibrary.Entity.City", "City")
                         .WithMany("RealEstates")
-                        .HasForeignKey("CityId")
+                        .HasForeignKey("city_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RealEstateApiLibrary.Entity.Customer", "Customer")
                         .WithMany("RealEstates")
-                        .HasForeignKey("CustomerId")
+                        .HasForeignKey("customer_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RealEstateApiLibrary.Entity.RealEstateType", "RealEstateType")
                         .WithMany("RealEstates")
-                        .HasForeignKey("RealEstateTypeId")
+                        .HasForeignKey("realestate_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RealEstateApiLibrary.Entity.Typology", "Typology")
                         .WithMany("RealEstates")
-                        .HasForeignKey("TypologyId")
+                        .HasForeignKey("typology_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -326,13 +310,13 @@ namespace RealEstateApiLibrary.Migrations
                 {
                     b.HasOne("RealEstateApiLibrary.Entity.Amenities", "Amenities")
                         .WithMany("RealEstateHasAmenities")
-                        .HasForeignKey("AmenitiesId")
+                        .HasForeignKey("amenities_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RealEstateApiLibrary.Entity.RealEstate", "RealEstate")
                         .WithMany("RealEstateHasAmenities")
-                        .HasForeignKey("RealEstateId")
+                        .HasForeignKey("realestate_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -345,13 +329,13 @@ namespace RealEstateApiLibrary.Migrations
                 {
                     b.HasOne("RealEstateApiLibrary.Entity.Agent", "Agent")
                         .WithMany("VisitRequests")
-                        .HasForeignKey("AgentId")
+                        .HasForeignKey("agent_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("RealEstateApiLibrary.Entity.RealEstate", "RealEstate")
                         .WithMany("VisitRequests")
-                        .HasForeignKey("RealEstateId")
+                        .HasForeignKey("realestate_id")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

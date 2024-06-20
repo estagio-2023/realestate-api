@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using RealEstateApiLibrary.DataAccess;
@@ -11,9 +12,11 @@ using RealEstateApiLibrary.DataAccess;
 namespace RealEstateApiLibrary.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    partial class RealEstateContextModelSnapshot : ModelSnapshot
+    [Migration("20240620152851_realestate_has_amenitiesForeignKeys")]
+    partial class realestate_has_amenitiesForeignKeys
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -157,14 +160,6 @@ namespace RealEstateApiLibrary.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("city_id");
-
-                    b.HasIndex("customer_id");
-
-                    b.HasIndex("realestate_id");
-
-                    b.HasIndex("typology_id");
-
                     b.ToTable("realestates");
                 });
 
@@ -268,41 +263,6 @@ namespace RealEstateApiLibrary.Migrations
                     b.ToTable("visit_requests");
                 });
 
-            modelBuilder.Entity("RealEstateApiLibrary.Entity.RealEstate", b =>
-                {
-                    b.HasOne("RealEstateApiLibrary.Entity.City", "City")
-                        .WithMany("RealEstates")
-                        .HasForeignKey("city_id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("RealEstateApiLibrary.Entity.Customer", "Customer")
-                        .WithMany("RealEstates")
-                        .HasForeignKey("customer_id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("RealEstateApiLibrary.Entity.RealEstateType", "RealEstateType")
-                        .WithMany("RealEstates")
-                        .HasForeignKey("realestate_id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("RealEstateApiLibrary.Entity.Typology", "Typology")
-                        .WithMany("RealEstates")
-                        .HasForeignKey("typology_id")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("City");
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("RealEstateType");
-
-                    b.Navigation("Typology");
-                });
-
             modelBuilder.Entity("RealEstateApiLibrary.Entity.RealEstateHasAmenities", b =>
                 {
                     b.HasOne("RealEstateApiLibrary.Entity.Amenities", "Amenities")
@@ -351,31 +311,11 @@ namespace RealEstateApiLibrary.Migrations
                     b.Navigation("RealEstateHasAmenities");
                 });
 
-            modelBuilder.Entity("RealEstateApiLibrary.Entity.City", b =>
-                {
-                    b.Navigation("RealEstates");
-                });
-
-            modelBuilder.Entity("RealEstateApiLibrary.Entity.Customer", b =>
-                {
-                    b.Navigation("RealEstates");
-                });
-
             modelBuilder.Entity("RealEstateApiLibrary.Entity.RealEstate", b =>
                 {
                     b.Navigation("RealEstateHasAmenities");
 
                     b.Navigation("VisitRequests");
-                });
-
-            modelBuilder.Entity("RealEstateApiLibrary.Entity.RealEstateType", b =>
-                {
-                    b.Navigation("RealEstates");
-                });
-
-            modelBuilder.Entity("RealEstateApiLibrary.Entity.Typology", b =>
-                {
-                    b.Navigation("RealEstates");
                 });
 #pragma warning restore 612, 618
         }
