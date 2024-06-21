@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
+using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApiLibraryEF.DataAccess;
 using RealEstateApiLibraryEF.Entity;
@@ -105,9 +106,9 @@ namespace RealEstateApi.Service
                 var agent = await _DbContext.Agents.AddAsync(toEntity);
                 await _DbContext.SaveChangesAsync();
 
-                var result = _mapper.Map<AgentResponseDto>(agent);
+                var result = _mapper.Map<AgentResponseDto>(agent.Entity);
 
-                if (result != null)
+                if (toEntity != null)
                 {
                     response.Result = result;
                     response.IsSuccess = true;
@@ -123,7 +124,7 @@ namespace RealEstateApi.Service
             return response;
         }
 
-        /*
+
         /// <summary>
         /// 
         /// Deletes a Agent by Id
@@ -131,13 +132,13 @@ namespace RealEstateApi.Service
         /// </summary>
         /// <param name="agentId"> Id to delete Agent </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
+        public async Task<ServiceResult<AgentResponseDto>> DeleteAgentByIdAsync(int agentId)
         {
-            ServiceResult<AgentModel> response = new();
+            ServiceResult<AgentResponseDto> response = new();
 
             try
             {
-                var existingAgent = await _agentRepository.GetAgentByIdAsync(agentId);
+                var existingAgent = await _DbContext.Agents.FindAsync(agentId);
 
                 if (existingAgent == null)
                 {
@@ -146,13 +147,13 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var result = await _agentRepository.DeleteAgentByIdAsync(agentId);
+                _DbContext.Agents.Remove(existingAgent);
+                await _DbContext.SaveChangesAsync();
 
-                if (result)
-                {
-                    response.IsSuccess = true;
-                    response.Result = existingAgent;
-                }
+                var result = _mapper.Map<AgentResponseDto>(existingAgent);
+
+                response.IsSuccess = true;
+                response.Result = result;
             }
             catch (Exception ex)
             {
@@ -164,6 +165,8 @@ namespace RealEstateApi.Service
             return response;
         }
 
+
+        /*
         /// <summary>
         /// 
         /// Updates an Agent by Id

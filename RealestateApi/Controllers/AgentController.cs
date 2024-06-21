@@ -88,7 +88,19 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
-        /*
+
+        /// <summary>
+        /// 
+        /// Https Delete Method to delete a Agent by Id
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to get Agent </param>
+        /// 
+        ///  Sample Request:
+        /// 
+        ///     DELETE api/Agent/{agentId}
+        ///     
+        /// <returns> AgentModel </returns>
         [HttpDelete("{agentId}", Name = "DeleteAgentById")]
         public async Task<ActionResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
         {
@@ -99,6 +111,7 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        /*
         /// <summary>
         /// 
         /// Https Put Method to updated an Agent
