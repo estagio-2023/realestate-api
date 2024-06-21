@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Enums;
-using RealEstateApi.Helpers;
 using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 
@@ -33,7 +33,7 @@ namespace RealEstateApi.Controllers
         /// 
         /// <returns> List<CustomerModel> </returns>
         [HttpGet(Name = "GetAllCustomers")]
-        public async Task<ActionResult<List<CustomerModel>>> GetAllCustomersAsync()
+        public async Task<ActionResult<List<CustomerResponseDto>>> GetAllCustomersAsync()
         {
             var response = await _customerService.GetAllCustomersAsync();
                 
@@ -55,7 +55,7 @@ namespace RealEstateApi.Controllers
         ///     
         /// <returns> CustomerModel </returns>
         [HttpPost(Name = "AddCustomer")]
-        public async Task<ActionResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
+        public async Task<ActionResult<CustomerResponseDto>> AddCustomerAsync(CustomerRequestDto customerData)
         {
             var response = await _customerService.AddCustomerAsync(customerData);
 
@@ -77,7 +77,7 @@ namespace RealEstateApi.Controllers
         ///     
         /// <returns> CustomerModel </returns>
         [HttpGet("{customerId}", Name = "GetCustomerById")]
-        public async Task<ActionResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
+        public async Task<ActionResult<CustomerResponseDto>> GetCustomerByIdAsync(int customerId)
         {
             var response = await _customerService.GetCustomerByIdAsync(customerId);
 
@@ -99,7 +99,7 @@ namespace RealEstateApi.Controllers
         ///     
         /// <returns> CustomerModel </returns>
         [HttpDelete("{customerId}", Name = "DeleteCustomerById")]
-        public async Task<ActionResult<CustomerModel>> DeleteCustomerByIdAsync(int customerId)
+        public async Task<ActionResult<CustomerResponseDto>> DeleteCustomerByIdAsync(int customerId)
         {
             var response = await _customerService.DeleteCustomerByIdAsync(customerId);
 

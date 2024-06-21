@@ -1,8 +1,8 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Enums;
-using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -34,7 +34,7 @@ namespace RealEstateApi.Controllers
         /// 
         /// <returns> List<AgentModel> </returns>
         [HttpGet(Name = "GetAllAgents")]
-        public async Task<ActionResult<List<AgentModel>>> GetAllAgentsAsync()
+        public async Task<ActionResult<List<AgentResponseDto>>> GetAllAgentsAsync()
         {
             var response = await _agentService.GetAllAgentsAsync();
             
@@ -55,7 +55,7 @@ namespace RealEstateApi.Controllers
         /// 
         /// <returns> AgentModel </returns>
         [HttpGet("{agentId}", Name = "GetAgentById")]
-        public async Task<ActionResult<AgentModel>> GetAgentByIdAsync(int agentId)
+        public async Task<ActionResult<AgentResponseDto>> GetAgentByIdAsync(int agentId)
         {            
             var response = await _agentService.GetAgentByIdAsync(agentId);
 
@@ -77,7 +77,7 @@ namespace RealEstateApi.Controllers
         ///     
         /// <returns> AgentModel </returns>
         [HttpPost(Name = "AddAgent")]
-        public async Task<ActionResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData)
+        public async Task<ActionResult<AgentResponseDto>> AddAgentAsync(AgentRequestDto agentData)
         {
             var response = await _agentService.AddAgentAsync(agentData);
 
@@ -99,7 +99,7 @@ namespace RealEstateApi.Controllers
         ///     
         /// <returns> AgentModel </returns>
         [HttpDelete("{agentId}", Name = "DeleteAgentById")]
-        public async Task<ActionResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
+        public async Task<ActionResult<AgentResponseDto>> DeleteAgentByIdAsync(int agentId)
         {
             var response = await _agentService.DeleteAgentByIdAsync(agentId);
 
@@ -117,7 +117,7 @@ namespace RealEstateApi.Controllers
         /// <param name="newAgentData"> Agent Data to be updated </param>
         /// <returns> AgentModel </returns>
         [HttpPut("{agentId}", Name = "PutAgentById")]
-        public async Task<ActionResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
+        public async Task<ActionResult<AgentResponseDto>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
         {
             var response = await _agentService.PutAgentByIdAsync(agentId, newAgentData);
 
