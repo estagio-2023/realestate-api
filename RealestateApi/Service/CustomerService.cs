@@ -100,6 +100,7 @@ namespace RealEstateApi.Service
             {
                 var toEntity = _mapper.Map<Customer>(customerData);
                 var customer = await _DbContext.Customers.AddAsync(toEntity);
+                await _DbContext.SaveChangesAsync();
 
                 var result = _mapper.Map<CustomerResponseDto>(customer.Entity);
 
