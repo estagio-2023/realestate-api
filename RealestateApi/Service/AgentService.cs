@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
@@ -26,7 +27,7 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <returns> List<AgentModel> </returns>
-        public async Task<ServiceResult<List<AgentResponseDto?>>> GetAllAgentsAsync()
+        public async Task<ServiceResult<List<AgentResponseDto>>> GetAllAgentsAsync()
         {
             ServiceResult<List<AgentResponseDto>> response = new();
 
@@ -56,14 +57,14 @@ namespace RealEstateApi.Service
         /// </summary>
         /// <param name="agentId"> Id to get Agent </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentResponseDto?>> GetAgentByIdAsync(int agentId)
+        public async Task<ServiceResult<AgentResponseDto>> GetAgentByIdAsync(int agentId)
         {
-            ServiceResult<AgentResponseDto?> response = new();
+            ServiceResult<AgentResponseDto> response = new();
 
             try
             {
                 var agent = await _DbContext.Agents.FindAsync(agentId);
-                var result = _mapper.Map<AgentResponseDto?>(agent);
+                var result = _mapper.Map<AgentResponseDto>(agent);
 
                 if (result != null)
                 {
@@ -101,11 +102,12 @@ namespace RealEstateApi.Service
 
             try
             {
-                var result = _mapper.Map<AgentResponseDto?>(agentData);
+                var toEntity = _mapper.Map<Agent>(agentData);
 
-                var agent = await _DbContext.Agents.AddAsync(result);
+                var agent = await _DbContext.Agents.AddAsync(toEntity);
                 await _DbContext.SaveChangesAsync();
 
+                var result = _mapper.Map<AgentResponseDto>(agent);
 
                 if (result != null)
                 {

@@ -30,7 +30,7 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="agentData"> Agent Data to be Saved </param>
         /// <returns> AgentModel </returns>
-        Task<ServiceResult<AgentResponseDto?>> AddAgentAsync(AgentRequestDto agentData);
+        Task<ServiceResult<AgentResponseDto >> AddAgentAsync(AgentRequestDto agentData);
 
         /*
         Task<ServiceResult<AgentModel>> DeleteAgentByIdAsync(int agentId);

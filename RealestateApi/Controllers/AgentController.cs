@@ -65,7 +65,7 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
-        /*
+        
         /// <summary>
         /// 
         /// Https Post Method to create an Agent
@@ -88,6 +88,7 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        /*
         [HttpDelete("{agentId}", Name = "DeleteAgentById")]
         public async Task<ActionResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
         {
