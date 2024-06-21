@@ -1,17 +1,23 @@
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Model;
-using RealEstateApi.Repository.Interfaces;
 using RealEstateApi.Service.Interfaces;
+using RealEstateApiLibraryEF.DataAccess;
+using RealEstateApiLibraryEF.Entity;
 
 namespace RealEstateApi.Service
 {
     public class AgentService : IAgentService
     {
-        private readonly IAgentRepository _agentRepository;
+        private readonly RealEstateContext _DbContext;
+        private readonly IMapper _mapper;
 
-        public AgentService(IAgentRepository agentRepository)
+        public AgentService(RealEstateContext dbContext, IMapper mapper)
         {
-            _agentRepository = agentRepository;
+            _DbContext = dbContext;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -20,13 +26,14 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <returns> List<AgentModel> </returns>
-        public async Task<ServiceResult<List<AgentModel>>> GetAllAgentsAsync()
+        public async Task<ServiceResult<List<AgentResponseDto?>>> GetAllAgentsAsync()
         {
-            ServiceResult<List<AgentModel>> response = new();
+            ServiceResult<List<AgentResponseDto>> response = new();
 
             try
             {
-                var result = await _agentRepository.GetAllAgentsAsync();
+                var agents = await _DbContext.Agents.ToListAsync();
+                var result = _mapper.Map<List<AgentResponseDto>>(agents);
 
                 response.Result = result;
                 response.IsSuccess = true;
@@ -41,6 +48,7 @@ namespace RealEstateApi.Service
             return response;
         }
 
+        
         /// <summary>
         /// 
         /// Gets a Agent by Id
@@ -48,13 +56,14 @@ namespace RealEstateApi.Service
         /// </summary>
         /// <param name="agentId"> Id to get Agent </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentModel?>> GetAgentByIdAsync(int agentId)
+        public async Task<ServiceResult<AgentResponseDto?>> GetAgentByIdAsync(int agentId)
         {
-            ServiceResult<AgentModel?> response = new();
+            ServiceResult<AgentResponseDto?> response = new();
 
             try
             {
-                var result = await _agentRepository.GetAgentByIdAsync(agentId);
+                var agent = await _DbContext.Agents.FindAsync(agentId);
+                var result = _mapper.Map<AgentResponseDto?>(agent);
 
                 if (result != null)
                 {
@@ -78,6 +87,7 @@ namespace RealEstateApi.Service
             return response;
         }
 
+
         /// <summary>
         /// 
         /// Creates a Agent
@@ -85,13 +95,17 @@ namespace RealEstateApi.Service
         /// </summary>
         /// <param name="agentData"> Data to be saved </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData) 
+        public async Task<ServiceResult<AgentResponseDto>> AddAgentAsync(AgentRequestDto agentData)
         {
-            ServiceResult<AgentModel> response = new();
+            ServiceResult<AgentResponseDto> response = new();  
 
             try
             {
-                var result = await _agentRepository.AddAgentAsync(agentData);
+                var result = _mapper.Map<AgentResponseDto?>(agentData);
+
+                var agent = await _DbContext.Agents.AddAsync(result);
+                await _DbContext.SaveChangesAsync();
+
 
                 if (result != null)
                 {
@@ -109,6 +123,7 @@ namespace RealEstateApi.Service
             return response;
         }
 
+        /*
         /// <summary>
         /// 
         /// Deletes a Agent by Id
@@ -186,6 +201,6 @@ namespace RealEstateApi.Service
             }
 
             return response;
-        }
+        }*/
     }
 }

@@ -43,6 +43,7 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        
         /// <summary>
         /// 
         /// Https Get Method to an Agent by Id
@@ -64,6 +65,7 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        /*
         /// <summary>
         /// 
         /// Https Post Method to create an Agent
@@ -112,6 +114,6 @@ namespace RealEstateApi.Controllers
             return response.IsSuccess
                 ? Ok(response.Result)
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
-        }
+        }*/
     }
 }
