@@ -1,38 +1,32 @@
-﻿using RealEstateApi.Dto.Request;
-using RealEstateApi.Enums;
-using RealEstateApi.Model;
-using RealEstateApi.Repository.Interfaces;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using RealEstateApi.Dto.Request;
 using RealEstateApi.Service.Interfaces;
+using RealEstateApiLibraryEF.DataAccess;
+using RealEstateApiLibraryEF.Entity;
+using RealEstateApi.Dto.Response;
 
 namespace RealEstateApi.Service
 {
     public class RealEstateService : IRealEstateService
     {
-        private readonly IRealEstateRepository _realEstateRepository;
-        private readonly IReferenceDataRepository _referenceDataRepository;
-        private readonly ICustomerRepository _customerRepository;
-      
+        private readonly RealEstateContext _DbContext;
+        private readonly IMapper _mapper;
 
-        public RealEstateService(IRealEstateRepository realEstateRepository, IReferenceDataRepository referenceDataRepository, ICustomerRepository customerRepository)
+        public RealEstateService(RealEstateContext dbContext, IMapper mapper)
         {
-            _realEstateRepository = realEstateRepository;
-            _referenceDataRepository = referenceDataRepository;
-            _customerRepository = customerRepository;
+            _DbContext = dbContext;
+            _mapper = mapper;
         }
 
-        /// <summary>
-        /// 
-        /// Gather a List of all Real Estate
-        /// 
-        /// </summary>
-        /// <returns> List<RealEstateRequestDto> </returns>
-        public async Task<ServiceResult<List<RealEstateRequestDto>>> GetAllRealEstateAsync()
+        public async Task<ServiceResult<List<RealEstateResponseDto>>> GetAllRealEstateAsync()
         {
-            ServiceResult<List<RealEstateRequestDto>> response = new();
+            ServiceResult<List<RealEstateResponseDto>> response = new();
 
             try
             {
-                var result = await _realEstateRepository.GetAllRealEstateAsync();
+                var realEstates = await _DbContext.RealEstates.ToListAsync();
+                var result = _mapper.Map<List<RealEstateResponseDto>>(realEstates);
 
                 response.Result = result;
                 response.IsSuccess = true;
@@ -47,20 +41,14 @@ namespace RealEstateApi.Service
             return response;
         }
 
-        /// <summary>
-        /// 
-        /// Gets a Real Estate by Id
-        /// 
-        /// </summary>
-        /// <param name="realEstateId"> Id to get Real Estate </param>
-        /// <returns> RealEstateModel </returns>
-        public async Task<ServiceResult<RealEstateModel?>> GetRealEstateByIdAsync(int realEstateId)
+        public async Task<ServiceResult<RealEstateResponseDto>> GetRealEstateByIdAsync(int realEstateId)
         {
-            ServiceResult<RealEstateModel?> response = new();
+            ServiceResult<RealEstateResponseDto?> response = new();
 
             try
             {
-                var result = await _realEstateRepository.GetRealEstateByIdAsync(realEstateId);
+                var realEstate = await _DbContext.RealEstates.FindAsync(realEstateId);
+                var result = _mapper.Map<RealEstateResponseDto>(realEstate);
 
                 if (result != null)
                 {
@@ -84,53 +72,47 @@ namespace RealEstateApi.Service
             return response;
         }
 
-        /// <summary>
-        /// 
-        /// Creates a Real Estate
-        /// 
-        /// </summary>
-        /// <param name="realEstateDto"> Real Estate Data to be saved </param>
-        /// <returns> RealEstateModel </returns>
-        public async Task<ServiceResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
+        public async Task<ServiceResult<RealEstateResponseDto>> AddRealEstateAsync(AddRealEstateRequestDto realEstateData)
         {
-            ServiceResult<RealEstateModel> response = new();
+            ServiceResult<RealEstateResponseDto> response = new();
 
             try
             {
-                var existingRealEstateType = await _referenceDataRepository.GetRealEstateReferenceDataAsync(realEstateData.RealEstateTypeId);
-                if(existingRealEstateType == null)
+                var existingRealEstateType = await _DbContext.RealEstateTypes.FindAsync(realEstateData.RealEstateTypeId);
+                if (existingRealEstateType == null)
                 {
                     response.AdditionalInformation.Add($"Real estate type ID {realEstateData.RealEstateTypeId} was not found.");
                     return response;
                 }
 
-                var existingCity = await _referenceDataRepository.GetCityReferenceDataAsync(realEstateData.CityId);
+                var existingCity = await _DbContext.Cities.FindAsync(realEstateData.CityId);
                 if (existingCity == null)
                 {
                     response.AdditionalInformation.Add($"City ID {realEstateData.CityId} was not found.");
                     return response;
                 }
 
-                var existingTypology = await _referenceDataRepository.GetTypologyReferenceDataAsync(realEstateData.TypologyId);
+                var existingTypology = await _DbContext.Typologies.FindAsync(realEstateData.TypologyId);
                 if (existingTypology == null)
                 {
                     response.AdditionalInformation.Add($"Typology ID {realEstateData.TypologyId} was not found.");
                     return response;
                 }
 
-                var existingCustomer = await _customerRepository.GetCustomerByIdAsync(realEstateData.CustomerId);
+                var existingCustomer = await _DbContext.Customers.FindAsync(realEstateData.CustomerId);
                 if (existingCustomer == null)
                 {
                     response.AdditionalInformation.Add($"Customer ID {realEstateData.CustomerId} was not found.");
                     return response;
                 }
 
-                var result = await _realEstateRepository.AddRealEstateAsync(realEstateData);
-                if (result != null)
-                {
-                    response.Result = result;
-                    response.IsSuccess = true;
-                }
+                var realEstate = _mapper.Map<RealEstate>(realEstateData);
+                var addedRealEstate = await _DbContext.RealEstates.AddAsync(realEstate);
+                await _DbContext.SaveChangesAsync();
+
+                var result = _mapper.Map<RealEstateResponseDto>(addedRealEstate.Entity);
+                response.Result = result;
+                response.IsSuccess = true;
             }
             catch (Exception ex)
             {
@@ -142,20 +124,13 @@ namespace RealEstateApi.Service
             return response;
         }
 
-        /// <summary>
-        /// 
-        /// Deletes a Real Estate by Id
-        /// 
-        /// </summary>
-        /// <param name="realEstateId">Id to get Real Estate</param>
-        /// <returns> RealEstateModel </returns>
-        public async Task<ServiceResult<RealEstateModel>> DeleteRealEstateByIdAsync(int realEstateId)
+        public async Task<ServiceResult<RealEstateResponseDto>> DeleteRealEstateByIdAsync(int realEstateId)
         {
-            ServiceResult<RealEstateModel> response = new();
+            ServiceResult<RealEstateResponseDto> response = new();
 
             try
             {
-                var existingRealEstate = await _realEstateRepository.GetRealEstateByIdAsync(realEstateId);
+                var existingRealEstate = await _DbContext.RealEstates.FindAsync(realEstateId);
 
                 if (existingRealEstate == null)
                 {
@@ -164,13 +139,12 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var result = await _realEstateRepository.DeleteRealEstateByIdAsync(realEstateId);
+                _DbContext.RealEstates.Remove(existingRealEstate);
+                await _DbContext.SaveChangesAsync();
 
-                if (result)
-                {
-                    response.IsSuccess = true;
-                    response.Result = existingRealEstate;
-                }
+                var result = _mapper.Map<RealEstateResponseDto>(existingRealEstate);
+                response.IsSuccess = true;
+                response.Result = result;
             }
             catch (Exception ex)
             {

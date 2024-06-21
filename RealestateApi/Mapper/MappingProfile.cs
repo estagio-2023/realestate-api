@@ -24,5 +24,14 @@ public class MappingProfile : Profile
         CreateMap<Customer, CustomerResponseDto>();
 
         CreateMap<CustomerRequestDto, Customer>();
+
+        /// <summary>
+        /// 
+        /// Mappers for Real Estate Service
+        /// 
+        /// </summary>
+        CreateMap<RealEstate, RealEstateResponseDto>();
+
+        CreateMap<AddRealEstateRequestDto, RealEstate>();
     }
 }

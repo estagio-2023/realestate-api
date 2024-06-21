@@ -1,6 +1,6 @@
-﻿namespace RealEstateApiLibraryEF.Entity
+﻿namespace RealEstateApi.Dto.Response
 {
-    public class RealEstate
+    public class RealEstateResponseDto
     {
         public int Id { get; set; }
 
@@ -27,17 +27,5 @@
         public int RealEstateTypeId { get; set; }
 
         public int TypologyId { get; set; }
-
-        public City City { get; set; }
-
-        public Customer Customer { get; set; }
-
-        public RealEstateType RealEstateType { get; set; }
-
-        public Typology Typology { get; set; }
-
-        public List<RealEstateHasAmenities> RealEstateHasAmenities { get; set; }
-
-        public List<VisitRequest> VisitRequests { get; set; }
     }
 }

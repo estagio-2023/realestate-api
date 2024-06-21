@@ -32,7 +32,7 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/Agent
         /// 
-        /// <returns> List<AgentModel> </returns>
+        /// <returns> List<AgentResponseDto> </returns>
         [HttpGet(Name = "GetAllAgents")]
         public async Task<ActionResult<List<AgentResponseDto>>> GetAllAgentsAsync()
         {
@@ -53,7 +53,7 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/Agent/{agentId}
         /// 
-        /// <returns> AgentModel </returns>
+        /// <returns> AgentResponseDto </returns>
         [HttpGet("{agentId}", Name = "GetAgentById")]
         public async Task<ActionResult<AgentResponseDto>> GetAgentByIdAsync(int agentId)
         {            
@@ -75,7 +75,7 @@ namespace RealEstateApi.Controllers
         /// 
         ///     POST /api/Agent
         ///     
-        /// <returns> AgentModel </returns>
+        /// <returns> AgentResponseDto </returns>
         [HttpPost(Name = "AddAgent")]
         public async Task<ActionResult<AgentResponseDto>> AddAgentAsync(AgentRequestDto agentData)
         {
@@ -97,7 +97,7 @@ namespace RealEstateApi.Controllers
         /// 
         ///     DELETE api/Agent/{agentId}
         ///     
-        /// <returns> AgentModel </returns>
+        /// <returns> AgentResponseDto </returns>
         [HttpDelete("{agentId}", Name = "DeleteAgentById")]
         public async Task<ActionResult<AgentResponseDto>> DeleteAgentByIdAsync(int agentId)
         {

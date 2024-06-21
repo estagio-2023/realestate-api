@@ -31,7 +31,7 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/Customer
         /// 
-        /// <returns> List<CustomerModel> </returns>
+        /// <returns> List<CustomerResponseDto> </returns>
         [HttpGet(Name = "GetAllCustomers")]
         public async Task<ActionResult<List<CustomerResponseDto>>> GetAllCustomersAsync()
         {
@@ -53,7 +53,7 @@ namespace RealEstateApi.Controllers
         /// 
         ///     POST /api/Customer
         ///     
-        /// <returns> CustomerModel </returns>
+        /// <returns> CustomerResponseDto </returns>
         [HttpPost(Name = "AddCustomer")]
         public async Task<ActionResult<CustomerResponseDto>> AddCustomerAsync(CustomerRequestDto customerData)
         {
@@ -75,7 +75,7 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET api/Customer/{customerId}
         ///     
-        /// <returns> CustomerModel </returns>
+        /// <returns> CustomerResponseDto </returns>
         [HttpGet("{customerId}", Name = "GetCustomerById")]
         public async Task<ActionResult<CustomerResponseDto>> GetCustomerByIdAsync(int customerId)
         {
@@ -97,7 +97,7 @@ namespace RealEstateApi.Controllers
         /// 
         ///     DELETE api/Customer/{customerId}
         ///     
-        /// <returns> CustomerModel </returns>
+        /// <returns> CustomerResponseDto </returns>
         [HttpDelete("{customerId}", Name = "DeleteCustomerById")]
         public async Task<ActionResult<CustomerResponseDto>> DeleteCustomerByIdAsync(int customerId)
         {

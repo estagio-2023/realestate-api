@@ -1,5 +1,5 @@
 ﻿using RealEstateApi.Dto.Request;
-using RealEstateApi.Model;
+using RealEstateApi.Dto.Response;
 
 namespace RealEstateApi.Service.Interfaces
 {
@@ -11,7 +11,7 @@ namespace RealEstateApi.Service.Interfaces
         /// 
         /// </summary>
         /// <returns> List<RealEstateRequestDto> </returns>
-        Task<ServiceResult<List<RealEstateRequestDto>>> GetAllRealEstateAsync();
+        Task<ServiceResult<List<RealEstateResponseDto>>> GetAllRealEstateAsync();
 
         /// <summary>
         /// 
@@ -20,7 +20,7 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="realEstateId"> Id to get Real Estate </param>
         /// <returns> RealEstateModel </returns>
-        Task<ServiceResult<RealEstateModel?>> GetRealEstateByIdAsync(int realEstateId);
+        Task<ServiceResult<RealEstateResponseDto>> GetRealEstateByIdAsync(int realEstateId);
 
         /// <summary>
         /// 
@@ -29,7 +29,7 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="realEstateData"> Real Estate Data to be saved </param>
         /// <returns> RealEstateModel </returns>
-        Task<ServiceResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateData);        
+        Task<ServiceResult<RealEstateResponseDto>> AddRealEstateAsync(AddRealEstateRequestDto realEstateData);        
 
         /// <summary>
         /// 
@@ -38,6 +38,6 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="realEstateId"></param>
         /// <returns></returns>
-        Task<ServiceResult<RealEstateModel>> DeleteRealEstateByIdAsync(int realEstateId);
+        Task<ServiceResult<RealEstateResponseDto>> DeleteRealEstateByIdAsync(int realEstateId);
     }
 }
