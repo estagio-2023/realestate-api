@@ -9,5 +9,6 @@ public class MappingProfile : Profile
     {
         CreateMap<Agent, AgentResponseDto>();
         CreateMap<AgentRequestDto, Agent>();
+        CreateMap<AgentResponseDto, Agent>();
     }
 }

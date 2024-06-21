@@ -1,9 +1,7 @@
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
-using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApiLibraryEF.DataAccess;
 using RealEstateApiLibraryEF.Entity;

@@ -12,7 +12,7 @@ using RealEstateApiLibraryEF.DataAccess;
 namespace RealEstateApiLibraryEF.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    [Migration("20240621152048_createdb")]
+    [Migration("20240621152754_createdb")]
     partial class createdb
     {
         /// <inheritdoc />
