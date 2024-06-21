@@ -80,7 +80,6 @@ namespace RealEstateApiLibraryEF.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(100)
                         .HasColumnType("integer")
                         .HasColumnName("id");
 
@@ -88,8 +87,8 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("description");
 
                     b.HasKey("Id")
@@ -109,17 +108,20 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("email");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("name");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("password");
 
                     b.HasKey("Id")
@@ -139,7 +141,8 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Address")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
                         .HasColumnName("address");
 
                     b.Property<int?>("AmenitiesId")
@@ -160,16 +163,19 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
                         .HasColumnName("description");
 
                     b.Property<string>("EnergyClass")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(1)
+                        .HasColumnType("character varying(1)")
                         .HasColumnName("energy_class");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric")
+                        .HasPrecision(8, 2)
+                        .HasColumnType("numeric(8,2)")
                         .HasColumnName("price");
 
                     b.Property<int>("RealEstateTypeId")
@@ -182,7 +188,8 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)")
                         .HasColumnName("title");
 
                     b.Property<int>("TypologyId")
@@ -191,7 +198,8 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("ZipCode")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(8)
+                        .HasColumnType("character varying(8)")
                         .HasColumnName("zip_code");
 
                     b.HasKey("Id")
@@ -233,15 +241,15 @@ namespace RealEstateApiLibraryEF.Migrations
                         .HasColumnName("real_estate_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_realestate_has_amenities");
+                        .HasName("pk_real_estate_has_amenities");
 
                     b.HasIndex("AmenitiesId")
-                        .HasDatabaseName("ix_realestate_has_amenities_amenities_id");
+                        .HasDatabaseName("ix_real_estate_has_amenities_amenities_id");
 
                     b.HasIndex("RealEstateId")
-                        .HasDatabaseName("ix_realestate_has_amenities_real_estate_id");
+                        .HasDatabaseName("ix_real_estate_has_amenities_real_estate_id");
 
-                    b.ToTable("realestate_has_amenities", (string)null);
+                    b.ToTable("real_estate_has_amenities", (string)null);
                 });
 
             modelBuilder.Entity("RealEstateApiLibraryEF.Entity.RealEstateType", b =>
@@ -255,7 +263,8 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("description");
 
                     b.HasKey("Id")
@@ -275,7 +284,8 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("description");
 
                     b.HasKey("Id")
@@ -392,14 +402,14 @@ namespace RealEstateApiLibraryEF.Migrations
                         .HasForeignKey("AmenitiesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_realestate_has_amenities_amenities_amenities_id");
+                        .HasConstraintName("fk_real_estate_has_amenities_amenities_amenities_id");
 
                     b.HasOne("RealEstateApiLibraryEF.Entity.RealEstate", "RealEstate")
                         .WithMany("RealEstateHasAmenities")
                         .HasForeignKey("RealEstateId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("fk_realestate_has_amenities_real_estates_real_estate_id");
+                        .HasConstraintName("fk_real_estate_has_amenities_real_estates_real_estate_id");
 
                     b.Navigation("Amenities");
 

@@ -103,11 +103,6 @@ namespace RealEstateApiLibraryEF.DataAccess
                       .IsRequired();
             });
 
-            modelBuilder.Entity<RealEstateHasAmenities>(entity =>
-            {
-                entity.ToTable("realestate_has_amenities");
-            });
-
             modelBuilder.Entity<RealEstate>(entity =>
             {
                 entity.ToTable("real_estates");
@@ -121,6 +116,51 @@ namespace RealEstateApiLibraryEF.DataAccess
                 .WithOne(x => x.RealEstate)
                 .HasForeignKey(x => x.RealEstateId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Title)
+                      .HasMaxLength(100)
+                      .IsRequired();
+
+                entity.Property(e => e.Address)
+                      .HasMaxLength(200)
+                      .IsRequired();
+
+                entity.Property(e => e.ZipCode)
+                      .HasMaxLength(8)
+                      .IsRequired();
+
+                entity.Property(e => e.Description)
+                      .HasMaxLength(200)
+                      .IsRequired();
+
+                entity.Property(e => e.BuildDate)
+                      .IsRequired();
+
+                entity.Property(e => e.Price)
+                      .HasPrecision(8, 2)
+                      .IsRequired();
+
+                entity.Property(e => e.SquareMeter)
+                      .IsRequired();
+
+                entity.Property(e => e.EnergyClass)
+                      .HasMaxLength(1)
+                      .IsRequired();
+
+                entity.Property(e => e.CustomerId)
+                      .IsRequired();
+
+                entity.Property(e => e.RealEstateTypeId)
+                      .IsRequired();
+
+                entity.Property(e => e.CityId)
+                      .IsRequired();
+
+                entity.Property(e => e.TypologyId)
+                      .IsRequired();
+
             });
 
             modelBuilder.Entity<City>(entity =>
@@ -132,12 +172,10 @@ namespace RealEstateApiLibraryEF.DataAccess
                 .HasForeignKey(x => x.CityId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-                entity.Property(e => e.Id)
-                .HasMaxLength(100)
-                .IsRequired();
+                entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.Description)
-                .HasMaxLength(200)
+                .HasMaxLength(50)
                 .IsRequired();
             });
 
@@ -150,6 +188,20 @@ namespace RealEstateApiLibraryEF.DataAccess
                 .WithOne(x => x.Customer)
                 .HasForeignKey(x => x.CustomerId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Name)
+                      .HasMaxLength(100)
+                      .IsRequired();
+
+                entity.Property(e => e.Email)
+                      .HasMaxLength(150)
+                      .IsRequired();
+
+                entity.Property(e => e.Password)
+                      .HasMaxLength(150)
+                      .IsRequired();
             });
 
             modelBuilder.Entity<RealEstateType>(entity =>
@@ -160,6 +212,12 @@ namespace RealEstateApiLibraryEF.DataAccess
                 .WithOne(x => x.RealEstateType)
                 .HasForeignKey(x => x.RealEstateTypeId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .IsRequired();
             });
 
             modelBuilder.Entity<Typology>(entity =>
@@ -170,6 +228,12 @@ namespace RealEstateApiLibraryEF.DataAccess
                 .WithOne(x => x.Typology)
                 .HasForeignKey(x => x.TypologyId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .IsRequired();
             });
 
         }

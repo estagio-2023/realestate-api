@@ -44,9 +44,9 @@ namespace RealEstateApiLibraryEF.Migrations
                 name: "cities",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "integer", maxLength: 100, nullable: false)
+                    id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false)
+                    description = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,9 +59,9 @@ namespace RealEstateApiLibraryEF.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    email = table.Column<string>(type: "text", nullable: false),
-                    password = table.Column<string>(type: "text", nullable: false)
+                    name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    email = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    password = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -74,7 +74,7 @@ namespace RealEstateApiLibraryEF.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    description = table.Column<string>(type: "text", nullable: false)
+                    description = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -87,7 +87,7 @@ namespace RealEstateApiLibraryEF.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    description = table.Column<string>(type: "text", nullable: false)
+                    description = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -100,14 +100,14 @@ namespace RealEstateApiLibraryEF.Migrations
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    title = table.Column<string>(type: "text", nullable: false),
-                    address = table.Column<string>(type: "text", nullable: false),
-                    zip_code = table.Column<string>(type: "text", nullable: false),
-                    description = table.Column<string>(type: "text", nullable: false),
+                    title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    address = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    zip_code = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
+                    description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     build_date = table.Column<int>(type: "integer", nullable: false),
-                    price = table.Column<decimal>(type: "numeric", nullable: false),
+                    price = table.Column<decimal>(type: "numeric(8,2)", precision: 8, scale: 2, nullable: false),
                     square_meter = table.Column<int>(type: "integer", nullable: false),
-                    energy_class = table.Column<string>(type: "text", nullable: false),
+                    energy_class = table.Column<string>(type: "character varying(1)", maxLength: 1, nullable: false),
                     city_id = table.Column<int>(type: "integer", nullable: false),
                     customer_id = table.Column<int>(type: "integer", nullable: false),
                     real_estate_type_id = table.Column<int>(type: "integer", nullable: false),
@@ -149,7 +149,7 @@ namespace RealEstateApiLibraryEF.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "realestate_has_amenities",
+                name: "real_estate_has_amenities",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "integer", nullable: false)
@@ -159,15 +159,15 @@ namespace RealEstateApiLibraryEF.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("pk_realestate_has_amenities", x => x.id);
+                    table.PrimaryKey("pk_real_estate_has_amenities", x => x.id);
                     table.ForeignKey(
-                        name: "fk_realestate_has_amenities_amenities_amenities_id",
+                        name: "fk_real_estate_has_amenities_amenities_amenities_id",
                         column: x => x.amenities_id,
                         principalTable: "amenities",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "fk_realestate_has_amenities_real_estates_real_estate_id",
+                        name: "fk_real_estate_has_amenities_real_estates_real_estate_id",
                         column: x => x.real_estate_id,
                         principalTable: "real_estates",
                         principalColumn: "id",
@@ -207,6 +207,16 @@ namespace RealEstateApiLibraryEF.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "ix_real_estate_has_amenities_amenities_id",
+                table: "real_estate_has_amenities",
+                column: "amenities_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_real_estate_has_amenities_real_estate_id",
+                table: "real_estate_has_amenities",
+                column: "real_estate_id");
+
+            migrationBuilder.CreateIndex(
                 name: "ix_real_estates_amenities_id",
                 table: "real_estates",
                 column: "amenities_id");
@@ -232,16 +242,6 @@ namespace RealEstateApiLibraryEF.Migrations
                 column: "typology_id");
 
             migrationBuilder.CreateIndex(
-                name: "ix_realestate_has_amenities_amenities_id",
-                table: "realestate_has_amenities",
-                column: "amenities_id");
-
-            migrationBuilder.CreateIndex(
-                name: "ix_realestate_has_amenities_real_estate_id",
-                table: "realestate_has_amenities",
-                column: "real_estate_id");
-
-            migrationBuilder.CreateIndex(
                 name: "ix_visits_requests_agent_id",
                 table: "visits_requests",
                 column: "agent_id");
@@ -256,7 +256,7 @@ namespace RealEstateApiLibraryEF.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "realestate_has_amenities");
+                name: "real_estate_has_amenities");
 
             migrationBuilder.DropTable(
                 name: "visits_requests");
