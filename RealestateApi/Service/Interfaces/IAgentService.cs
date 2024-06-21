@@ -32,9 +32,15 @@ namespace RealEstateApi.Service.Interfaces
         /// <returns> AgentModel </returns>
         Task<ServiceResult<AgentResponseDto>> AddAgentAsync(AgentRequestDto agentData);
 
-        
+        /// <summary>
+        /// 
+        /// Deletes a Agent By Id
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to get Agent </param>
+        /// <returns> AgentModel </returns>
         Task<ServiceResult<AgentResponseDto>> DeleteAgentByIdAsync(int agentId);
-        /*
+        
         /// <summary>
         /// 
         /// Updates an Agent
@@ -43,6 +49,6 @@ namespace RealEstateApi.Service.Interfaces
         /// <param name="agentId"> Id to update an Agent </param>
         /// <param name="newAgentData"> Agent Data to be Updated </param>
         /// <returns> AgentModel </returns>
-        Task<ServiceResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData);*/
+        Task<ServiceResult<AgentResponseDto>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData);
     }
 }

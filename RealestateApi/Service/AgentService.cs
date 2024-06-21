@@ -2,7 +2,6 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
-using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApiLibraryEF.DataAccess;
 using RealEstateApiLibraryEF.Entity;
@@ -47,7 +46,6 @@ namespace RealEstateApi.Service
 
             return response;
         }
-
         
         /// <summary>
         /// 
@@ -87,7 +85,6 @@ namespace RealEstateApi.Service
             return response;
         }
 
-
         /// <summary>
         /// 
         /// Creates a Agent
@@ -123,7 +120,6 @@ namespace RealEstateApi.Service
 
             return response;
         }
-
 
         /// <summary>
         /// 
@@ -165,8 +161,6 @@ namespace RealEstateApi.Service
             return response;
         }
 
-
-        /*
         /// <summary>
         /// 
         /// Updates an Agent by Id
@@ -175,35 +169,37 @@ namespace RealEstateApi.Service
         /// <param name="agentId"> Id to update an Agent </param>
         /// <param name="newAgentData"> Data to be updated </param>
         /// <returns> AgentModel </returns>
-        public async Task<ServiceResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
+        public async Task<ServiceResult<AgentResponseDto>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
         {
-            ServiceResult<AgentModel> response = new();
+            ServiceResult<AgentResponseDto> response = new();
 
             try
             {
-                var existingAgent = await _agentRepository.GetAgentByIdAsync(agentId);
+                var existingAgent = await _DbContext.Agents.FindAsync(agentId);
 
                 if (existingAgent == null)
                 {
+                    response.IsSuccess = false;
                     response.AdditionalInformation.Add($"Agent ID {agentId} was not found");
                     return response;
                 }
 
-                var result = await _agentRepository.PutAgentByIdAsync(agentId, newAgentData);
+                _mapper.Map(newAgentData, existingAgent);
+                await _DbContext.SaveChangesAsync();
 
-                if (result != null)
-                {
-                    response.Result = result;
-                    response.IsSuccess = true;
-                }
+                var updatedAgentDto = _mapper.Map<AgentResponseDto>(existingAgent);
+
+                response.IsSuccess = true;
+                response.Result = updatedAgentDto;
             }
             catch (Exception ex)
             {
+                response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to update agent, ID: {agentId}.");
                 response.AdditionalInformation.Add(ex.Message);
             }
 
             return response;
-        }*/
+        }
     }
 }
