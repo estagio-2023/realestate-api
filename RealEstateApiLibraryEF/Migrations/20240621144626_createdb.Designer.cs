@@ -12,7 +12,7 @@ using RealEstateApiLibraryEF.DataAccess;
 namespace RealEstateApiLibraryEF.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    [Migration("20240621121332_createdb")]
+    [Migration("20240621144626_createdb")]
     partial class createdb
     {
         /// <inheritdoc />
@@ -36,17 +36,20 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("email");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("name");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)")
                         .HasColumnName("phone_number");
 
                     b.HasKey("Id")
@@ -66,7 +69,8 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("description");
 
                     b.HasKey("Id")
@@ -306,7 +310,8 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("email");
 
                     b.Property<TimeSpan>("EndTime")
@@ -315,12 +320,13 @@ namespace RealEstateApiLibraryEF.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)")
                         .HasColumnName("name");
 
                     b.Property<int>("RealEstateId")
                         .HasColumnType("integer")
-                        .HasColumnName("realestate_id");
+                        .HasColumnName("real_estate_id");
 
                     b.Property<TimeSpan>("StartTime")
                         .HasColumnType("interval")
