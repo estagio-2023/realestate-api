@@ -1,6 +1,5 @@
 ﻿using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
-using RealEstateApi.Model;
 
 namespace RealEstateApi.Service.Interfaces
 {
@@ -22,7 +21,7 @@ namespace RealEstateApi.Service.Interfaces
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refData"> Data to be saved </param>
         /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
+        Task<ServiceResult<ReferenceDataResponseDto>> AddReferenceDataAsync(string refDataType, ReferenceDataRequestDto refData);
 
         /// <summary>
         /// 
@@ -32,7 +31,7 @@ namespace RealEstateApi.Service.Interfaces
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to delete a Reference Data </param>
         /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> DeleteReferenceDataAsync(string refDataType, int refDataId);
+        Task<ServiceResult<ReferenceDataResponseDto>> DeleteReferenceDataAsync(string refDataType, int refDataId);
 
         /// <summary>
         /// 
@@ -42,6 +41,6 @@ namespace RealEstateApi.Service.Interfaces
         /// <param name="refDataType"> Reference Data Type </param>
         /// <param name="refDataId"> Id to get Reference Data </param>
         /// <returns> ReferenceDataModel </returns>
-        Task<ServiceResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId);
+        Task<ServiceResult<ReferenceDataResponseDto>> GetReferenceDataByIdAsync(string refDataType, int refDataId);
     }
 }

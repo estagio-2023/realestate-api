@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Dto.Response;
 using RealEstateApi.Enums;
-using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers

@@ -33,5 +33,23 @@ public class MappingProfile : Profile
         CreateMap<RealEstate, RealEstateResponseDto>();
 
         CreateMap<AddRealEstateRequestDto, RealEstate>();
+
+        /// <summary>
+        /// 
+        /// Mappers for Reference DataService
+        /// 
+        /// </summary>
+        CreateMap<ReferenceData, ReferenceDataDto>();
+
+        CreateMap<ReferenceDataRequestDto, RealEstate>();
+
+        /// <summary>
+        /// 
+        /// Mappers for Visit Requests Service
+        /// 
+        /// </summary>
+        CreateMap<VisitRequest, VisitRequestResponseDto>();
+
+        CreateMap<VisitRequestDto, VisitRequest>();
     }
 }

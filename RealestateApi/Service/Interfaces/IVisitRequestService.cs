@@ -1,5 +1,5 @@
 ﻿using RealEstateApi.Dto.Request;
-using RealEstateApi.Model;
+using RealEstateApi.Dto.Response;
 
 namespace RealEstateApi.Service.Interfaces
 {
@@ -11,7 +11,7 @@ namespace RealEstateApi.Service.Interfaces
         /// 
         /// </summary>
         /// <returns> List<VisitRequestModel> </returns>
-        Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsAsync();
+        Task<ServiceResult<List<VisitRequestResponseDto>>> GetAllVisitRequestsAsync();
 
         /// <summary>
         /// 
@@ -20,7 +20,7 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="visitRequestId"> Id to get Visit Request </param>
         /// <returns> VisitRequestModel </returns>
-        Task<ServiceResult<VisitRequestModel?>> GetVisitRequestByIdAsync(int visitRequestId);
+        Task<ServiceResult<VisitRequestResponseDto?>> GetVisitRequestByIdAsync(int visitRequestId);
 
         /// <summary>
         /// 
@@ -29,7 +29,7 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="visitRequestId"> Id to update a Visit Request confirmation </param>
         /// <returns> VisitRequestModel </returns>
-        Task<ServiceResult<VisitRequestModel>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId);
+        Task<ServiceResult<VisitRequestResponseDto>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId);
 
         /// <summary>
         /// 
@@ -37,7 +37,7 @@ namespace RealEstateApi.Service.Interfaces
         /// 
         /// </summary>
         /// <returns> List<VisitRequestModel> </returns>
-        Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId);
+        Task<ServiceResult<List<VisitRequestResponseDto>>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId);
 
         /// <summary>
         /// 
@@ -46,7 +46,7 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="visitRequestId"> Id to get a Visit Request </param>
         /// <returns> VisitRequestModel </returns>
-        Task<ServiceResult<VisitRequestModel>> DeleteVisitRequestByIdAsync(int visitRequestId);
+        Task<ServiceResult<VisitRequestResponseDto>> DeleteVisitRequestByIdAsync(int visitRequestId);
 
         /// <summary>
         /// 
@@ -55,7 +55,7 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to be Saved </param>
         /// <returns> VisitRequestModel </returns>
-        Task<ServiceResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData);
+        Task<ServiceResult<VisitRequestResponseDto>> AddVisitRequestAsync(VisitRequestDto visitRequestData);
 
         /// <summary>
         /// 
@@ -64,6 +64,6 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="visitRequestData"></param>
         /// <returns></returns>
-        Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData);
+        Task<ServiceResult<VisitRequestAvailabilityDto>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData);
     }
 }
