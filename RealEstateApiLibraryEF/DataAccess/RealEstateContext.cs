@@ -38,6 +38,12 @@ namespace RealEstateApiLibraryEF.DataAccess
             modelBuilder.Entity<Amenities>(entity =>
             {
                 entity.ToTable("amenities");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Description)
+                .HasMaxLength(50)
+                .IsRequired();
             });
 
             modelBuilder.Entity<VisitRequest>(entity =>
@@ -47,26 +53,30 @@ namespace RealEstateApiLibraryEF.DataAccess
                 entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.Name)
+                .HasMaxLength(150)
                 .IsRequired();
 
                 entity.Property(e => e.Email)
+                .HasMaxLength(150)
                 .IsRequired();
 
                 entity.Property(e => e.Date)
                 .IsRequired();
 
-                entity.Property(e => e.StartTime).HasColumnName("start_time")
+                entity.Property(e => e.StartTime)
                 .IsRequired();
 
-                entity.Property(e => e.EndTime).HasColumnName("end_time")
+                entity.Property(e => e.EndTime)
                 .IsRequired();
 
                 entity.Property(e => e.Confirmed)
                 .IsRequired();
 
-                entity.Property(e => e.AgentId);
-           
-                entity.Property(e => e.RealEstateId).HasColumnName("realestate_id");
+                entity.Property(e => e.AgentId)
+                .IsRequired();
+
+                entity.Property(e => e.RealEstateId)
+                .IsRequired();
             });
 
             modelBuilder.Entity<Agent>(entity =>
@@ -81,12 +91,15 @@ namespace RealEstateApiLibraryEF.DataAccess
                 entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.Name)
+                      .HasMaxLength(150)
                       .IsRequired();
 
                 entity.Property(e => e.Email)
+                      .HasMaxLength(150)
                       .IsRequired();
 
                 entity.Property(e => e.PhoneNumber)
+                      .HasMaxLength(13)
                       .IsRequired();
             });
 

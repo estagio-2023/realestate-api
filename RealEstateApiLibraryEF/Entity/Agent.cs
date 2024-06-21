@@ -10,6 +10,6 @@
 
         public string Email { get; set; } = null!;
 
-        public List<VisitRequest> VisitRequests { get; set; } = null!;
+        public List<VisitRequest> VisitRequests { get; set; }
     }
 }
