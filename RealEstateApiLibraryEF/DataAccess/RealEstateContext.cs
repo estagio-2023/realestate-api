@@ -181,7 +181,6 @@ namespace RealEstateApiLibraryEF.DataAccess
 
             modelBuilder.Entity<Customer>(entity =>
             {
-
                 entity.ToTable("customers");
 
                 entity.HasMany(x => x.RealEstates)
@@ -235,7 +234,6 @@ namespace RealEstateApiLibraryEF.DataAccess
                 .HasMaxLength(50)
                 .IsRequired();
             });
-
         }
     }
 }
