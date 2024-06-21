@@ -76,7 +76,7 @@ namespace RealEstateApi.Service
                         result.Typologies = new List<ReferenceDataDto> { _mapper.Map<ReferenceDataDto>(typology) };
                         break;
 
-                    case "realestatetype":
+                    case "realestate_type":
                         var realEstateType = await _dbContext.RealEstateTypes.FindAsync(refDataId);
                         result.RealEstateTypes = new List<ReferenceDataDto> { _mapper.Map<ReferenceDataDto>(realEstateType) };
                         break;
@@ -137,7 +137,7 @@ namespace RealEstateApi.Service
                         response.Result = new ReferenceDataResponseDto { Typologies = new List<ReferenceDataDto> { _mapper.Map<ReferenceDataDto>(addedTypology.Entity) } };
                         break;
 
-                    case "realestatetype":
+                    case "realestate_type":
                         var realEstateTypeToAdd = _mapper.Map<RealEstateType>(refData);
                         var addedRealEstateType = await _dbContext.RealEstateTypes.AddAsync(realEstateTypeToAdd);
                         await _dbContext.SaveChangesAsync();
@@ -219,7 +219,7 @@ namespace RealEstateApi.Service
                         }
                         break;
 
-                    case "realestatetype":
+                    case "realestate_type":
                         var realEstateTypeToDelete = await _dbContext.RealEstateTypes.FindAsync(refDataId);
                         if (realEstateTypeToDelete != null)
                         {

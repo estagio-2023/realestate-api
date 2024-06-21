@@ -43,6 +43,22 @@ public class MappingProfile : Profile
 
         CreateMap<ReferenceDataRequestDto, RealEstate>();
 
+        CreateMap<Amenities, ReferenceDataDto>();
+
+        CreateMap<ReferenceDataRequestDto, Amenities>();
+
+        CreateMap<City, ReferenceDataDto>();
+
+        CreateMap<ReferenceDataRequestDto, City>();
+
+        CreateMap<Typology, ReferenceDataDto>();
+
+        CreateMap<ReferenceDataRequestDto, Typology>();
+
+        CreateMap<RealEstateType, ReferenceDataDto>();
+
+        CreateMap<ReferenceDataRequestDto, RealEstateType>();
+
         /// <summary>
         /// 
         /// Mappers for Visit Requests Service
