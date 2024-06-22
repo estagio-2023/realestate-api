@@ -25,7 +25,7 @@ namespace RealEstateApi.Service
         /// Gathers a List of all Visit Requests
         /// 
         /// </summary>
-        /// <returns> List<VisitRequestModel> </returns>
+        /// <returns> List<VisitRequestResponseDto> </returns>
         public async Task<ServiceResult<List<VisitRequestResponseDto>>> GetAllVisitRequestsAsync()
         {
             ServiceResult<List<VisitRequestResponseDto>> response = new();
@@ -53,7 +53,7 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="visitRequestId"> Id to get Visit Request </param>
-        /// <returns> VisitRequestModel </returns>
+        /// <returns> VisitRequestResponseDto </returns>
         public async Task<ServiceResult<VisitRequestResponseDto>> GetVisitRequestByIdAsync(int visitRequestId)
         {
             ServiceResult<VisitRequestResponseDto> response = new();
@@ -88,7 +88,7 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="visitRequestId"> Visit request Id to update Visit Request confirmation </param>
-        /// <returns> VisitRequestModel </returns>
+        /// <returns> VisitRequestResponseDto </returns>
         public async Task<ServiceResult<VisitRequestResponseDto>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
         {
             ServiceResult<VisitRequestResponseDto> response = new();
@@ -127,7 +127,7 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to be saved </param>
-        /// <returns> VisitRequestModel </returns>
+        /// <returns> VisitRequestResponseDto </returns>
         public async Task<ServiceResult<VisitRequestResponseDto>> AddVisitRequestAsync(VisitRequestDto visitRequestData)
         {
             ServiceResult<VisitRequestResponseDto> response = new();
@@ -148,11 +148,16 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                if (!DateOnly.TryParse(visitRequestData.Date, out DateOnly date) ||
-                    !TimeSpan.TryParse(visitRequestData.StartTime, out TimeSpan startTime) ||
+                if (!DateOnly.TryParse(visitRequestData.Date, out DateOnly date))
+                {
+                    response.AdditionalInformation.Add("Invalid date format.");
+                    return response;
+                }
+
+                if (!TimeSpan.TryParse(visitRequestData.StartTime, out TimeSpan startTime) ||
                     !TimeSpan.TryParse(visitRequestData.EndTime, out TimeSpan endTime))
                 {
-                    response.AdditionalInformation.Add("Invalid date or time format.");
+                    response.AdditionalInformation.Add("Invalid time format.");
                     return response;
                 }
 
@@ -181,9 +186,10 @@ namespace RealEstateApi.Service
                 }
 
                 var visitRequest = _mapper.Map<VisitRequest>(visitRequestData);
+
                 visitRequest.Date = date;
-                visitRequest.StartTime = startTime; 
-                visitRequest.EndTime = endTime; 
+                visitRequest.StartTime = startTime;
+                visitRequest.EndTime = endTime;
 
                 _DbContext.VisitRequests.Add(visitRequest);
                 await _DbContext.SaveChangesAsync();
@@ -201,6 +207,7 @@ namespace RealEstateApi.Service
 
             return response;
         }
+
 
         /// <summary>
         /// 
@@ -239,7 +246,7 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="visitRequestId">Id of the Visit Request to delete</param>
-        /// <returns>ServiceResult indicating success or failure</returns>
+        /// <returns> VisitRequestResponseDto </returns>
         public async Task<ServiceResult<VisitRequestResponseDto>> DeleteVisitRequestByIdAsync(int visitRequestId)
         {
             ServiceResult<VisitRequestResponseDto> response = new ();
@@ -277,12 +284,11 @@ namespace RealEstateApi.Service
         /// Get the availability of the visit request based on the parameters
         /// 
         /// </summary>
-        /// <param name="visitRequestData">Data containing parameters for visit request</param>
-        /// <returns>ServiceResult indicating availability and any additional information</returns>
+        /// <param name="visitRequestData">Visit Request Data</param>
+        /// <returns> VisitRequestResponseDto </returns>
         public async Task<ServiceResult<VisitRequestAvailabilityDto>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData)
         {
             ServiceResult<VisitRequestAvailabilityDto> response = new();
-
             try
             {
                 var existingRealEstate = await _DbContext.RealEstates.FindAsync(visitRequestData.RealEstateId);
@@ -299,27 +305,42 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                TimeSpan startTime = TimeSpan.Parse(visitRequestData.StartTime);
-                TimeSpan endTime = TimeSpan.Parse(visitRequestData.EndTime);
-
-
-                var isAgentAvailable = await _DbContext.VisitRequests
-                    .AnyAsync(vr => vr.AgentId == visitRequestData.AgentId &&
-                                    !(startTime >= vr.EndTime || endTime <= vr.StartTime));
-
-                if (!isAgentAvailable)
+                if (!DateOnly.TryParse(visitRequestData.Date, out DateOnly date))
                 {
-                    response.AdditionalInformation.Add($"Agent is not available at this time.");
+                    response.AdditionalInformation.Add("Invalid date format.");
                     return response;
                 }
 
-                var isRealEstateAvailable = await _DbContext.VisitRequests
+                if (!TimeSpan.TryParse(visitRequestData.StartTime, out TimeSpan startTime) ||
+                    !TimeSpan.TryParse(visitRequestData.EndTime, out TimeSpan endTime))
+                {
+                    response.AdditionalInformation.Add("Invalid time format.");
+                    return response;
+                }
+
+                var isAgentAvailable = !await _DbContext.VisitRequests
+                    .AnyAsync(vr => vr.AgentId == visitRequestData.AgentId &&
+                                    vr.Date == date &&
+                                    ((vr.StartTime < endTime && vr.StartTime >= startTime) ||
+                                     (vr.EndTime > startTime && vr.EndTime <= endTime) ||
+                                     (vr.StartTime <= startTime && vr.EndTime >= endTime)));
+
+                if (!isAgentAvailable)
+                {
+                    response.AdditionalInformation.Add($"Agent not available at this time");
+                    return response;
+                }
+
+                var isRealEstateAvailable = !await _DbContext.VisitRequests
                     .AnyAsync(vr => vr.RealEstateId == visitRequestData.RealEstateId &&
-                                    !(startTime >= vr.EndTime || endTime <= vr.StartTime));
+                                    vr.Date == date &&
+                                    ((vr.StartTime < endTime && vr.StartTime >= startTime) ||
+                                     (vr.EndTime > startTime && vr.EndTime <= endTime) ||
+                                     (vr.StartTime <= startTime && vr.EndTime >= endTime)));
 
                 if (!isRealEstateAvailable)
                 {
-                    response.AdditionalInformation.Add($"Real Estate is not available at this time.");
+                    response.AdditionalInformation.Add($"Real Estate not available at this time");
                     return response;
                 }
 
@@ -327,8 +348,7 @@ namespace RealEstateApi.Service
             }
             catch (Exception ex)
             {
-                response.IsSuccess = false;
-                response.AdditionalInformation.Add($"There was an error while trying to get visit request availability.");
+                response.AdditionalInformation.Add("There was an error while trying to get visit request availability");
                 response.AdditionalInformation.Add(ex.Message);
             }
 

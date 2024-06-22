@@ -66,6 +66,9 @@ public class MappingProfile : Profile
         /// </summary>
         CreateMap<VisitRequest, VisitRequestResponseDto>();
 
-        CreateMap<VisitRequestDto, VisitRequest>();
+        CreateMap<VisitRequestDto, VisitRequest>()
+            .ForMember(dest => dest.Date, opt => opt.Ignore())
+            .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => TimeSpan.Parse(src.StartTime)))
+            .ForMember(dest => dest.EndTime, opt => opt.MapFrom(src => TimeSpan.Parse(src.EndTime)));
     }
 }
