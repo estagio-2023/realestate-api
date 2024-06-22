@@ -103,7 +103,7 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                existingVisitRequest.Confirmed = true; 
+                existingVisitRequest.Confirmed = !existingVisitRequest.Confirmed;
 
                 await _DbContext.SaveChangesAsync();
 
