@@ -208,13 +208,12 @@ namespace RealEstateApi.Service
             return response;
         }
 
-
         /// <summary>
         /// 
         /// Gathers a List of all Visit Requests
         /// 
         /// </summary>
-        /// <returns> List<VisitRequestModel> </returns>
+        /// <returns> List<VisitRequestResponseDto> </returns>
         public async Task<ServiceResult<List<VisitRequestResponseDto>>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
         {
             ServiceResult<List<VisitRequestResponseDto>> response = new();
@@ -278,14 +277,13 @@ namespace RealEstateApi.Service
             return response;
         }
 
-
         /// <summary>
         /// 
         /// Get the availability of the visit request based on the parameters
         /// 
         /// </summary>
         /// <param name="visitRequestData">Visit Request Data</param>
-        /// <returns> VisitRequestResponseDto </returns>
+        /// <returns> VisitRequestAvailabilityDto </returns>
         public async Task<ServiceResult<VisitRequestAvailabilityDto>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData)
         {
             ServiceResult<VisitRequestAvailabilityDto> response = new();
