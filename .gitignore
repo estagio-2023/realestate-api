@@ -16,3 +16,5 @@ RealestateApi/obj/*
 /RealestateApi/.vs/ProjectEvaluation
 /RealEstateApiLibraryEF/bin/Debug/net8.0
 /RealEstateApiLibraryEF/obj
+/RealEstateXUnitTest/bin/Debug/net8.0
+/RealEstateXUnitTest/obj
