@@ -1,27 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using RealEstateApiLibraryEF.Entity;
 
 namespace RealEstateApiLibraryEF.DataAccess
 {
     public class RealEstateContext : DbContext
     {
-        public IConfiguration _configuration;
+        public RealEstateContext(DbContextOptions<RealEstateContext> options) : base(options) { }
 
-        public RealEstateContext(DbContextOptions<RealEstateContext> options, IConfiguration configuration) : base(options)
-        {
-            _configuration = configuration;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var typeDatabase = _configuration["TypeDatabase"];
-            var connectionString = _configuration.GetConnectionString(typeDatabase);
-
-            optionsBuilder
-                .UseNpgsql(connectionString)
-                .UseSnakeCaseNamingConvention();
-        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){}
 
         public DbSet<Agent> Agents { get; set; }
         public DbSet<Amenities> Amenities { get; set; }
@@ -160,7 +146,6 @@ namespace RealEstateApiLibraryEF.DataAccess
 
                 entity.Property(e => e.TypologyId)
                       .IsRequired();
-
             });
 
             modelBuilder.Entity<City>(entity =>

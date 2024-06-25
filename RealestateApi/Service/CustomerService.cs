@@ -24,7 +24,7 @@ namespace RealEstateApi.Service
         /// Gather a List of all Customers
         /// 
         /// </summary>
-        /// <returns> List<CustomerModel> </returns>
+        /// <returns> List<CustomerResponseDto> </returns>
         public async Task<ServiceResult<List<CustomerResponseDto>>> GetAllCustomersAsync()
         {
             ServiceResult<List<CustomerResponseDto>> response = new();
@@ -53,7 +53,7 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="customerId"> Id to get Customer </param>
-        /// <returns> CustomerModel </returns>
+        /// <returns> CustomerResponseDto </returns>
         public async Task<ServiceResult<CustomerResponseDto>> GetCustomerByIdAsync(int customerId)
         {
             ServiceResult<CustomerResponseDto> response = new();
@@ -91,7 +91,7 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="customerData"></param>
-        /// <returns> CustomerModel </returns>
+        /// <returns> CustomerResponseDto </returns>
         public async Task<ServiceResult<CustomerResponseDto>> AddCustomerAsync(CustomerRequestDto customerData)
         {
             ServiceResult<CustomerResponseDto> response = new();
@@ -126,7 +126,7 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="customerId"> Id to get Customer </param>
-        /// <returns> CustomerModel </returns>
+        /// <returns> CustomerResponseDto </returns>
         public async Task<ServiceResult<CustomerResponseDto>> DeleteCustomerByIdAsync(int customerId)
         {
             ServiceResult<CustomerResponseDto> response = new();
