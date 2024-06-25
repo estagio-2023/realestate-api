@@ -96,6 +96,7 @@ namespace RealEstateApi.Service
         {
             ServiceResult<CustomerResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
                 var toEntity = _mapper.Map<Customer>(customerData);
@@ -109,9 +110,12 @@ namespace RealEstateApi.Service
                     response.Result = result;
                     response.IsSuccess = true;
                 }
+
+                await transaction.CommitAsync();
             }
             catch(Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to add customer {customerData.Name}.");
                 response.AdditionalInformation.Add(ex.Message);
@@ -131,6 +135,7 @@ namespace RealEstateApi.Service
         {
             ServiceResult<CustomerResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
                 var existingCustomer = await _DbContext.Customers.FindAsync(customerId);
@@ -158,9 +163,12 @@ namespace RealEstateApi.Service
 
                 response.IsSuccess = true;
                 response.Result = result;
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to delete customer ID: {customerId}.");
                 response.AdditionalInformation.Add(ex.Message);
