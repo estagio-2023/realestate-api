@@ -94,8 +94,9 @@ namespace RealEstateApi.Service
         /// <returns> AgentResponseDto </returns>
         public async Task<ServiceResult<AgentResponseDto>> AddAgentAsync(AgentRequestDto agentData)
         {
-            ServiceResult<AgentResponseDto> response = new();  
+            ServiceResult<AgentResponseDto> response = new();
 
+            using var transaction = await _DbContext.Database.BeginTransactionAsync();
             try
             {
                 var toEntity = _mapper.Map<Agent>(agentData);
@@ -110,9 +111,12 @@ namespace RealEstateApi.Service
                     response.Result = result;
                     response.IsSuccess = true;
                 }
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to add Agent {agentData.Name}.");
                 response.AdditionalInformation.Add(ex.Message);
@@ -132,6 +136,7 @@ namespace RealEstateApi.Service
         {
             ServiceResult<AgentResponseDto> response = new();
 
+            using var transaction = await _DbContext.Database.BeginTransactionAsync();
             try
             {
                 var existingAgent = await _DbContext.Agents.FindAsync(agentId);
@@ -150,9 +155,12 @@ namespace RealEstateApi.Service
 
                 response.IsSuccess = true;
                 response.Result = result;
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to delete agent ID: {agentId}.");
                 response.AdditionalInformation.Add(ex.Message);
@@ -173,6 +181,7 @@ namespace RealEstateApi.Service
         {
             ServiceResult<AgentResponseDto> response = new();
 
+            var transaction = await _DbContext.Database.BeginTransactionAsync();
             try
             {
                 var existingAgent = await _DbContext.Agents.FindAsync(agentId);
@@ -191,9 +200,12 @@ namespace RealEstateApi.Service
 
                 response.IsSuccess = true;
                 response.Result = updatedAgentDto;
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to update agent, ID: {agentId}.");
                 response.AdditionalInformation.Add(ex.Message);

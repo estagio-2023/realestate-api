@@ -76,6 +76,7 @@ namespace RealEstateApi.Service
         {
             ServiceResult<RealEstateResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
                 var existingRealEstateType = await _DbContext.RealEstateTypes.FindAsync(realEstateData.RealEstateTypeId);
@@ -113,9 +114,12 @@ namespace RealEstateApi.Service
                 var result = _mapper.Map<RealEstateResponseDto>(addedRealEstate.Entity);
                 response.Result = result;
                 response.IsSuccess = true;
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to add real estate {realEstateData.Title}.");
                 response.AdditionalInformation.Add(ex.Message);
@@ -128,6 +132,7 @@ namespace RealEstateApi.Service
         {
             ServiceResult<RealEstateResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
                 var existingRealEstate = await _DbContext.RealEstates.FindAsync(realEstateId);
@@ -145,9 +150,12 @@ namespace RealEstateApi.Service
                 var result = _mapper.Map<RealEstateResponseDto>(existingRealEstate);
                 response.IsSuccess = true;
                 response.Result = result;
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to delete real estate ID: {realEstateId}.");
                 response.AdditionalInformation.Add(ex.Message);

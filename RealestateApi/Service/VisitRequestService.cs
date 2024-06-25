@@ -93,6 +93,7 @@ namespace RealEstateApi.Service
         {
             ServiceResult<VisitRequestResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
                 var existingVisitRequest = await _DbContext.VisitRequests.FindAsync(visitRequestId);
@@ -111,9 +112,12 @@ namespace RealEstateApi.Service
 
                 response.IsSuccess = true;
                 response.Result = resultDto;
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.AdditionalInformation.Add($"There was an error while trying to update Visit Request confirmation.");
                 response.AdditionalInformation.Add(ex.Message);
             }
@@ -132,6 +136,7 @@ namespace RealEstateApi.Service
         {
             ServiceResult<VisitRequestResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
                 var existingRealEstate = await _DbContext.RealEstates.FindAsync(visitRequestData.RealEstateId);
@@ -198,9 +203,12 @@ namespace RealEstateApi.Service
 
                 response.Result = result;
                 response.IsSuccess = true;
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.AdditionalInformation.Add($"There was an error while trying to add Visit Request {visitRequestData.Name}.");
                 response.AdditionalInformation.Add(ex.Message);
             }
@@ -250,6 +258,7 @@ namespace RealEstateApi.Service
         {
             ServiceResult<VisitRequestResponseDto> response = new ();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
                 var existingVisitRequest = await _DbContext.VisitRequests.FindAsync(visitRequestId);
@@ -266,9 +275,12 @@ namespace RealEstateApi.Service
 
                 response.IsSuccess = true;
                 response.Result = _mapper.Map<VisitRequestResponseDto>(existingVisitRequest);
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to delete visit request ID: {visitRequestId}.");
                 response.AdditionalInformation.Add(ex.Message);
@@ -287,6 +299,8 @@ namespace RealEstateApi.Service
         public async Task<ServiceResult<VisitRequestAvailabilityDto>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData)
         {
             ServiceResult<VisitRequestAvailabilityDto> response = new();
+
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
                 var existingRealEstate = await _DbContext.RealEstates.FindAsync(visitRequestData.RealEstateId);
@@ -343,9 +357,12 @@ namespace RealEstateApi.Service
                 }
 
                 response.IsSuccess = true;
+                
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.AdditionalInformation.Add("There was an error while trying to get visit request availability");
                 response.AdditionalInformation.Add(ex.Message);
             }
