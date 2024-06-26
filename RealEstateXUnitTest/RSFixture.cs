@@ -17,7 +17,7 @@ namespace RealEstateXUnitTest
             var serviceProvider = new Mock<IServiceProvider>();
             var options = new DbContextOptionsBuilder<RealEstateContext>()
                 .UseInMemoryDatabase("test")
-            .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+                .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
                 .Options;
             serviceProvider.Setup(x => x.GetService(typeof(RealEstateContext))).Returns(new RealEstateContext(options: options));
 
@@ -30,12 +30,12 @@ namespace RealEstateXUnitTest
             serviceProvider.Setup(x => x.GetService(typeof(IServiceScopeFactory))).Returns(serviceScopeFactory.Object);
 
             _serviceProvider = serviceProvider.Object;
-
         }
 
         public void Initialize() {
             var options = new DbContextOptionsBuilder<RealEstateContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning))
             .Options;
 
             DbContext = new RealEstateContext(options);

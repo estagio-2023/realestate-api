@@ -673,6 +673,7 @@
           "FluentValidation.AspNetCore": "11.3.0",
           "Microsoft.AspNetCore.Cors": "2.1.1",
           "Microsoft.EntityFrameworkCore": "8.0.6",
+          "Microsoft.EntityFrameworkCore.InMemory": "8.0.6",
           "Npgsql": "8.0.3",
           "Npgsql.DependencyInjection": "8.0.3",
           "RealEstateApiLibraryEF": "1.0.0",

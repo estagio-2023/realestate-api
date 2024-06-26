@@ -12,6 +12,7 @@
           "FluentValidation.AspNetCore": "11.3.0",
           "Microsoft.AspNetCore.Cors": "2.1.1",
           "Microsoft.EntityFrameworkCore": "8.0.6",
+          "Microsoft.EntityFrameworkCore.InMemory": "8.0.6",
           "Microsoft.EntityFrameworkCore.Tools": "8.0.6",
           "Npgsql": "8.0.3",
           "Npgsql.DependencyInjection": "8.0.3",
@@ -376,6 +377,17 @@
         },
         "runtime": {
           "lib/net8.0/Microsoft.EntityFrameworkCore.Design.dll": {
+            "assemblyVersion": "8.0.6.0",
+            "fileVersion": "8.0.624.26904"
+          }
+        }
+      },
+      "Microsoft.EntityFrameworkCore.InMemory/8.0.6": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore": "8.0.6"
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.EntityFrameworkCore.InMemory.dll": {
             "assemblyVersion": "8.0.6.0",
             "fileVersion": "8.0.624.26904"
           }
@@ -810,6 +822,13 @@
       "sha512": "sha512-4OT+mH+8EB4Kfn1ENpDx2Ssx459j200gvdhDOKq5lkHmHzkRpmEDKS5GfqaLZvBLJKWu1FVGQ7Wnczcjb0hX4g==",
       "path": "microsoft.entityframeworkcore.design/8.0.6",
       "hashPath": "microsoft.entityframeworkcore.design.8.0.6.nupkg.sha512"
+    },
+    "Microsoft.EntityFrameworkCore.InMemory/8.0.6": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/ATG+iNpRELMJ1HJgcGPWgqOFGARrK2LCuZtX8yPXK421HS7krDe0zkyFVucS9YVHnMWk1Asa8zZCtvHqVkk2g==",
+      "path": "microsoft.entityframeworkcore.inmemory/8.0.6",
+      "hashPath": "microsoft.entityframeworkcore.inmemory.8.0.6.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore.Relational/8.0.6": {
       "type": "package",

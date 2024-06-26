@@ -7,6 +7,7 @@ using RealEstateApi.Validators;
 using FluentValidation;
 using RealEstateApiLibraryEF.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
-using Castle.Core.Resource;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
@@ -25,88 +24,146 @@ namespace RealEstateXUnitTest.Tests
         }
 
         [Fact]
-        public async Task ShouldAddCustomer()
+        public async Task ShouldAddRealEstate()
         {
-            var customerService = GetInstance();
+            var realEstateService = GetInstance();
 
-            var customerData = new AddRealEstateRequestDto
+            var realestateData = new AddRealEstateRequestDto
+            {
+                Title = "Titleee",
+                Address = "RUA tal e tal",
+                ZipCode = "2950-486",
+                Description = "Teste das cenas",
+                BuildDate = 2021,
+                Price = 125,
+                SquareMeter = 7,
+                EnergyClass = "A",
+                CustomerId = 3,
+                RealEstateTypeId = 11,
+                CityId = 39,
+                TypologyId = 13
+            };
+
+            var result = await realEstateService.AddRealEstateAsync(realestateData);
+
+            Assert.True(result.IsSuccess);
+            Assert.NotNull(result.Result);
+            Assert.Equal("Titleee", result.Result.Title);
+
+            var savedRealEstate = await _fixture.DbContext.RealEstates.FindAsync(result.Result.Id);
+            Assert.NotNull(savedRealEstate);
+            Assert.Equal("Titleee", savedRealEstate.Title);
+        }
+
+        [Fact]
+        public async Task ShouldGetAllRealEstates()
+        {
+            var realestateService = GetInstance();
+
+            _fixture.DbContext.RealEstates.Add(new RealEstate
             {
                 Title = "John Doe",
                 Address = "RUA tal e tal",
                 ZipCode = "2950-486",
                 Description = "Teste das cenas",
-                BuildDate = "2021",
-                Price = "",
-                SquareMeter = "",
-                EnergyClass = "",
-                CustomerId = "",
-                RealEstateTypeId = "",
-                CityId = "",
-                TypologyId = ""
-            };
+                BuildDate = 2021,
+                Price = 125,
+                SquareMeter = 7,
+                EnergyClass = "A",
+                CustomerId = 1,
+                RealEstateTypeId = 1,
+                CityId = 1,
+                TypologyId = 1
+            });
 
-            var result = await customerService.AddCustomerAsync(customerData);
+            _fixture.DbContext.RealEstates.Add(new RealEstate 
+            { 
+                Title = "Lebron James",
+                Address = "RUA tal e tal", 
+                ZipCode = "2950-486",
+                Description = "Teste das cenas",
+                BuildDate = 2021,
+                Price = 125,
+                SquareMeter = 7, 
+                EnergyClass = "A",
+                CustomerId = 1, 
+                RealEstateTypeId = 1,
+                CityId = 1, 
+                TypologyId = 1 
+            });
 
-            Assert.True(result.IsSuccess);
-            Assert.NotNull(result.Result);
-            Assert.Equal("John Doe", result.Result.Name);
-
-            var savedCustomer = await _fixture.DbContext.Customers.FindAsync(result.Result.Id);
-            Assert.NotNull(savedCustomer);
-            Assert.Equal("John Doe", savedCustomer.Name);
-        }
-
-        [Fact]
-        public async Task ShouldGetAllCustomer()
-        {
-            var customerService = GetInstance();
-
-            _fixture.DbContext.Customers.Add(new Customer { Name = "Lebron James", Email = "james@lebron.com", Password = "987654321" });
-            _fixture.DbContext.Customers.Add(new Customer { Name = "James Lebron", Email = "lebron@james.com", Password = "987654321" });
             await _fixture.DbContext.SaveChangesAsync();
 
-            var result = await customerService.GetAllCustomersAsync();
+            var result = await realestateService.GetAllRealEstateAsync();
 
             Assert.True(result.IsSuccess);
             Assert.Equal(2, result.Result.Count);
-            Assert.Contains(result.Result, customer => customer.Name == "Lebron James");
-            Assert.Contains(result.Result, customer => customer.Name == "James Lebron");
+            Assert.Contains(result.Result, realestate => realestate.Title == "John Doe");
+            Assert.Contains(result.Result, realestate => realestate.Title == "Lebron James");
         }
 
         [Fact]
-        public async Task ShouldGetCustomerById()
+        public async Task ShouldGetRealEstateById()
         {
-            var customerService = GetInstance();
+            var realestateService = GetInstance();
 
-            var customer = new Customer { Name = "testeId", Email = "testeId@example.com", Password = "1234567890" };
-            _fixture.DbContext.Customers.Add(customer);
+            var realestate = new RealEstate
+            {
+                Title = "Lebron James",
+                Address = "RUA tal e tal",
+                ZipCode = "2950-486",
+                Description = "Teste das cenas",
+                BuildDate = 2021,
+                Price = 125,
+                SquareMeter = 7,
+                EnergyClass = "A",
+                CustomerId = 1,
+                RealEstateTypeId = 1,
+                CityId = 1,
+                TypologyId = 1
+            };
+            _fixture.DbContext.RealEstates.Add(realestate);
             await _fixture.DbContext.SaveChangesAsync();
 
-            var result = await customerService.GetCustomerByIdAsync(customer.Id);
+            var result = await realestateService.GetRealEstateByIdAsync(realestate.Id);
 
             Assert.True(result.IsSuccess);
             Assert.NotNull(result.Result);
-            Assert.Equal("testeId", result.Result.Name);
+            Assert.Equal("Lebron James", result.Result.Title);
         }
 
         [Fact]
-        public async Task ShouldDeleteCustomer()
+        public async Task ShouldDeleteRealEstate()
         {
-            var customerService = GetInstance();
+            var realestateService = GetInstance();
 
-            var customer = new Customer { Name = "deleted", Email = "deleted@example.com", Password = "1234567890" };
-            _fixture.DbContext.Customers.Add(customer);
+            var realestate = new RealEstate
+            {
+                Title = "Lebron James",
+                Address = "RUA tal e tal",
+                ZipCode = "2950-486",
+                Description = "Teste das cenas",
+                BuildDate = 2021,
+                Price = 125,
+                SquareMeter = 7,
+                EnergyClass = "A",
+                CustomerId = 1,
+                RealEstateTypeId = 1,
+                CityId = 1,
+                TypologyId = 1
+            };
+            _fixture.DbContext.RealEstates.Add(realestate);
             await _fixture.DbContext.SaveChangesAsync();
 
-            var result = await customerService.DeleteCustomerByIdAsync(customer.Id);
+            var result = await realestateService.DeleteRealEstateByIdAsync(realestate.Id);
 
             Assert.True(result.IsSuccess);
 
-            var deletedCustomer = await _fixture.DbContext.RealEstates.FindAsync(customer.Id);
-            Assert.Null(deletedCustomer);
+            var deletedRealEstate = await _fixture.DbContext.RealEstates.FindAsync(realestate.Id);
+            Assert.Null(deletedRealEstate);
         }
 
-        private ICustomerService GetInstance()
+        private IRealEstateService GetInstance()
         {
             return new RealEstateService(_fixture.DbContext, _mapper);
         }
