@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Dto.Request;
-using RealEstateApi.Model;
 using FluentValidation;
 using RealEstateApi.Enums;
 using RealEstateApi.Helpers;
@@ -59,7 +58,7 @@ namespace RealEstateApi.Controllers
         /// 
         /// <returns> ReferenceDataModel </returns>
         [HttpPost("{referenceDataType}", Name = "AddReferenceData")]
-        public async Task<ActionResult<ReferenceDataModel>> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
+        public async Task<ActionResult<ReferenceDataResponseDto>> AddReferenceDataAsync(string referenceDataType, ReferenceDataRequestDto refData)
         {
             if (!ValidateReferenceDataType(referenceDataType))
             {
@@ -112,7 +111,7 @@ namespace RealEstateApi.Controllers
         /// 
         /// <returns> ReferenceDataModel </returns>
         [HttpGet("{refDataType}/{refDataId}", Name = "ReferenceData")]
-        public async Task<ActionResult<ReferenceDataModel>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
+        public async Task<ActionResult<ReferenceDataResponseDto>> GetReferenceDataByIdAsync(string refDataType, int refDataId)
         {
             if (!ValidateReferenceDataType(refDataType))
             {

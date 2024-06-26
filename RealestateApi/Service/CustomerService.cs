@@ -1,19 +1,22 @@
-﻿using RealEstateApi.Dto.Request;
-using RealEstateApi.Model;
-using RealEstateApi.Repository.Interfaces;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Service.Interfaces;
+using RealEstateApiLibraryEF.DataAccess;
+using RealEstateApiLibraryEF.Entity;
 
 namespace RealEstateApi.Service
 {
     public class CustomerService : ICustomerService
     {
-        private readonly ICustomerRepository _customerRepository;
-        private readonly IRealEstateRepository _realEstateRepository;
+        private readonly RealEstateContext _DbContext;
+        private readonly IMapper _mapper;
 
-        public CustomerService(ICustomerRepository customerRepository, IRealEstateRepository realEstateRepository)
+        public CustomerService(RealEstateContext dbContext, IMapper mapper)
         {
-            _customerRepository = customerRepository;
-            _realEstateRepository = realEstateRepository;
+            _DbContext = dbContext;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -22,13 +25,14 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <returns> List<CustomerModel> </returns>
-        public async Task<ServiceResult<List<CustomerModel>>> GetAllCustomersAsync()
+        public async Task<ServiceResult<List<CustomerResponseDto>>> GetAllCustomersAsync()
         {
-            ServiceResult<List<CustomerModel>> response = new();
+            ServiceResult<List<CustomerResponseDto>> response = new();
 
             try
             {
-                var result = await _customerRepository.GetAllCustomersAsync();
+                var customers = await _DbContext.Customers.ToListAsync();
+                var result = _mapper.Map<List<CustomerResponseDto>>(customers);
 
                 response.Result = result;
                 response.IsSuccess = true;
@@ -50,13 +54,14 @@ namespace RealEstateApi.Service
         /// </summary>
         /// <param name="customerId"> Id to get Customer </param>
         /// <returns> CustomerModel </returns>
-        public async Task<ServiceResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
+        public async Task<ServiceResult<CustomerResponseDto>> GetCustomerByIdAsync(int customerId)
         {
-            ServiceResult<CustomerModel> response = new();
+            ServiceResult<CustomerResponseDto> response = new();
 
             try
             {
-                var result = await _customerRepository.GetCustomerByIdAsync(customerId);
+                var customer = await _DbContext.Customers.FindAsync(customerId);
+                var result = _mapper.Map<CustomerResponseDto>(customer);
 
                 if (result != null)
                 {
@@ -87,29 +92,37 @@ namespace RealEstateApi.Service
         /// </summary>
         /// <param name="customerData"></param>
         /// <returns> CustomerModel </returns>
-        public async Task<ServiceResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
+        public async Task<ServiceResult<CustomerResponseDto>> AddCustomerAsync(CustomerRequestDto customerData)
         {
-            ServiceResult<CustomerModel> response = new();
+            ServiceResult<CustomerResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
-                var result = await _customerRepository.AddCustomerAsync(customerData);
+                var toEntity = _mapper.Map<Customer>(customerData);
+                var customer = await _DbContext.Customers.AddAsync(toEntity);
+                await _DbContext.SaveChangesAsync();
+
+                var result = _mapper.Map<CustomerResponseDto>(customer.Entity);
 
                 if(result != null)
                 {
                     response.Result = result;
                     response.IsSuccess = true;
                 }
+
+                await transaction.CommitAsync();
             }
             catch(Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to add customer {customerData.Name}.");
                 response.AdditionalInformation.Add(ex.Message);
             }
 
             return response;
-        }        
+        }
 
         /// <summary>
         /// 
@@ -118,13 +131,14 @@ namespace RealEstateApi.Service
         /// </summary>
         /// <param name="customerId"> Id to get Customer </param>
         /// <returns> CustomerModel </returns>
-        public async Task<ServiceResult<CustomerModel>> DeleteCustomerByIdAsync(int customerId)
+        public async Task<ServiceResult<CustomerResponseDto>> DeleteCustomerByIdAsync(int customerId)
         {
-            ServiceResult<CustomerModel> response = new();
+            ServiceResult<CustomerResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
-                var existingCustomer = await _customerRepository.GetCustomerByIdAsync(customerId);
+                var existingCustomer = await _DbContext.Customers.FindAsync(customerId);
 
                 if (existingCustomer == null)
                 {
@@ -133,29 +147,32 @@ namespace RealEstateApi.Service
                     return response;
                 }
 
-                var customerHasRealEstates = await _realEstateRepository.GetRealEstateByCustomerIdAsync(customerId);
+                var customerHasRealEstates = await _DbContext.RealEstates.AnyAsync(res => res.CustomerId == customerId);
 
-                if(customerHasRealEstates != null)
+                if (customerHasRealEstates)
                 {
                     response.IsSuccess = false;
-                    response.AdditionalInformation.Add($"Customer ID {customerId} belongs to a real estate and cannot be deleted.");
+                    response.AdditionalInformation.Add($"Customer ID {customerId} is associated with real estates and cannot be deleted.");
                     return response;
                 }
 
-                var result = await _customerRepository.DeleteCustomerByIdAsync(customerId);
+                _DbContext.Customers.Remove(existingCustomer);
+                await _DbContext.SaveChangesAsync();
 
-                if (result)
-                {
-                    response.IsSuccess = true;
-                    response.Result = existingCustomer;
-                }
+                var result = _mapper.Map<CustomerResponseDto>(existingCustomer);
+
+                response.IsSuccess = true;
+                response.Result = result;
+
+                await transaction.CommitAsync();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to delete customer ID: {customerId}.");
                 response.AdditionalInformation.Add(ex.Message);
-            }          
+            }
 
             return response;
         }

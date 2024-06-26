@@ -1,29 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc.Diagnostics;
-using Microsoft.Extensions.Logging;
-using Npgsql;
-using NpgsqlTypes;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RealEstateApi.Dto.Request;
-using RealEstateApi.Enums;
-using RealEstateApi.Model;
-using RealEstateApi.Repository;
-using RealEstateApi.Repository.Interfaces;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Service.Interfaces;
-using System.Data.Common;
+using RealEstateApiLibraryEF.DataAccess;
+using RealEstateApiLibraryEF.Entity;
 
 namespace RealEstateApi.Service
 {
     public class VisitRequestService: IVisitRequestService
     {
-        private readonly IVisitRequestRepository _visitRequestRepository;
-        private readonly IReferenceDataRepository _referenceDataRepository;
-        private readonly IAgentRepository _agentRepository;
+        private readonly RealEstateContext _DbContext;
+        private readonly IMapper _mapper;
 
-        public VisitRequestService(IVisitRequestRepository visitRequestRepository, IReferenceDataRepository referenceDataRepository, IAgentRepository agentRepository)
+        public VisitRequestService(RealEstateContext DbContext, IMapper mapper)
         {
-            _visitRequestRepository = visitRequestRepository;
-            _visitRequestRepository = visitRequestRepository;
-            _referenceDataRepository = referenceDataRepository;
-            _agentRepository = agentRepository;
+            _DbContext = DbContext;
+            _mapper = mapper;
+  
         }
 
         /// <summary>
@@ -31,14 +25,15 @@ namespace RealEstateApi.Service
         /// Gathers a List of all Visit Requests
         /// 
         /// </summary>
-        /// <returns> List<VisitRequestModel> </returns>
-        public async Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsAsync()
+        /// <returns> List<VisitRequestResponseDto> </returns>
+        public async Task<ServiceResult<List<VisitRequestResponseDto>>> GetAllVisitRequestsAsync()
         {
-            ServiceResult<List<VisitRequestModel>> response = new();
+            ServiceResult<List<VisitRequestResponseDto>> response = new();
 
             try
             {
-                var result = await _visitRequestRepository.GetAllVisitRequestsAsync();
+                var visitRequests = await _DbContext.VisitRequests.ToListAsync();
+                var result = _mapper.Map<List<VisitRequestResponseDto>>(visitRequests);
 
                 response.Result = result;
                 response.IsSuccess = true;
@@ -58,16 +53,17 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="visitRequestId"> Id to get Visit Request </param>
-        /// <returns> VisitRequestModel </returns>
-        public async Task<ServiceResult<VisitRequestModel?>> GetVisitRequestByIdAsync(int visitRequestId)
+        /// <returns> VisitRequestResponseDto </returns>
+        public async Task<ServiceResult<VisitRequestResponseDto>> GetVisitRequestByIdAsync(int visitRequestId)
         {
-            ServiceResult<VisitRequestModel?> response = new();
+            ServiceResult<VisitRequestResponseDto> response = new();
 
             try
             {
-                var result = await _visitRequestRepository.GetVisitRequestByIdAsync(visitRequestId);
+                var visitRequest = await _DbContext.VisitRequests.FindAsync(visitRequestId);
+                var result = _mapper.Map<VisitRequestResponseDto>(visitRequest);
 
-                if(result != null) {
+                if (result != null) {
                     response.IsSuccess = true;
                     response.Result = result;
                 }
@@ -92,31 +88,36 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="visitRequestId"> Visit request Id to update Visit Request confirmation </param>
-        /// <returns> VisitRequestModel </returns>
-        public async Task<ServiceResult<VisitRequestModel>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
+        /// <returns> VisitRequestResponseDto </returns>
+        public async Task<ServiceResult<VisitRequestResponseDto>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
         {
-            ServiceResult<VisitRequestModel> response = new();
+            ServiceResult<VisitRequestResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
-                var existingVisitRequest = await _visitRequestRepository.GetVisitRequestByIdAsync(visitRequestId);
+                var existingVisitRequest = await _DbContext.VisitRequests.FindAsync(visitRequestId);
 
-                if(existingVisitRequest == null) 
+                if (existingVisitRequest == null)
                 {
                     response.AdditionalInformation.Add($"Visit request with ID {visitRequestId} was not found");
                     return response;
                 }
 
-                var result = await _visitRequestRepository.UpdateVisitRequestConfirmationByIdAsync(visitRequestId);
+                existingVisitRequest.Confirmed = !existingVisitRequest.Confirmed;
 
-                if(result != null) 
-                {
-                    response.IsSuccess = true;
-                    response.Result = result;
-                }
+                await _DbContext.SaveChangesAsync();
+
+                var resultDto = _mapper.Map<VisitRequestResponseDto>(existingVisitRequest);
+
+                response.IsSuccess = true;
+                response.Result = resultDto;
+
+                await transaction.CommitAsync();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.AdditionalInformation.Add($"There was an error while trying to update Visit Request confirmation.");
                 response.AdditionalInformation.Add(ex.Message);
             }
@@ -130,50 +131,84 @@ namespace RealEstateApi.Service
         /// 
         /// </summary>
         /// <param name="visitRequestData"> Visit Request Data to be saved </param>
-        /// <returns> VisitRequestModel </returns>
-        public async Task<ServiceResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData)
+        /// <returns> VisitRequestResponseDto </returns>
+        public async Task<ServiceResult<VisitRequestResponseDto>> AddVisitRequestAsync(VisitRequestDto visitRequestData)
         {
-            ServiceResult<VisitRequestModel> response = new();
+            ServiceResult<VisitRequestResponseDto> response = new();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
-                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.RealEstateId);
+                var existingRealEstate = await _DbContext.RealEstates.FindAsync(visitRequestData.RealEstateId);
                 if (existingRealEstate == null)
                 {
                     response.AdditionalInformation.Add($"Real estate ID {visitRequestData.RealEstateId} was not found.");
                     return response;
                 }
 
-                var existingAgent = await _agentRepository.GetAgentByIdAsync(visitRequestData.AgentId);
+                var existingAgent = await _DbContext.Agents.FindAsync(visitRequestData.AgentId);
                 if (existingAgent == null)
                 {
                     response.AdditionalInformation.Add($"Agent ID {visitRequestData.AgentId} was not found.");
                     return response;
                 }
 
-                var existingRealEstateVisitRequest = await _visitRequestRepository.ExistingRealEstateId(visitRequestData.RealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
-                if(!existingRealEstateVisitRequest)
+                if (!DateOnly.TryParse(visitRequestData.Date, out DateOnly date))
+                {
+                    response.AdditionalInformation.Add("Invalid date format.");
+                    return response;
+                }
+
+                if (!TimeSpan.TryParse(visitRequestData.StartTime, out TimeSpan startTime) ||
+                    !TimeSpan.TryParse(visitRequestData.EndTime, out TimeSpan endTime))
+                {
+                    response.AdditionalInformation.Add("Invalid time format.");
+                    return response;
+                }
+
+                var isRealEstateVisitRequestExisting = await _DbContext.VisitRequests
+                    .AnyAsync(vr => vr.RealEstateId == visitRequestData.RealEstateId &&
+                                    vr.Date == date &&
+                                    vr.StartTime == startTime &&
+                                    vr.EndTime == endTime);
+
+                if (isRealEstateVisitRequestExisting)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Real estate ID: {visitRequestData.RealEstateId}.");
                     return response;
                 }
 
-                var existingAgentVisitRequest = await _visitRequestRepository.ExistingAgentId(visitRequestData.AgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime);
-                if (!existingAgentVisitRequest)
+                var isAgentVisitRequestExisting = await _DbContext.VisitRequests
+                    .AnyAsync(vr => vr.AgentId == visitRequestData.AgentId &&
+                                    vr.Date == date &&
+                                    vr.StartTime == startTime &&
+                                    vr.EndTime == endTime);
+
+                if (isAgentVisitRequestExisting)
                 {
                     response.AdditionalInformation.Add($"There is already a visit request scheduled for this Agent ID {visitRequestData.AgentId}.");
                     return response;
                 }
 
-                var result = await _visitRequestRepository.AddVisitRequestAsync(visitRequestData);
-                if(result != null)
-                {
-                    response.Result = result;
-                    response.IsSuccess = true;
-                }
+                var visitRequest = _mapper.Map<VisitRequest>(visitRequestData);
+
+                visitRequest.Date = date;
+                visitRequest.StartTime = startTime;
+                visitRequest.EndTime = endTime;
+
+                _DbContext.VisitRequests.Add(visitRequest);
+                await _DbContext.SaveChangesAsync();
+
+                var result = _mapper.Map<VisitRequestResponseDto>(visitRequest);
+
+                response.Result = result;
+                response.IsSuccess = true;
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.AdditionalInformation.Add($"There was an error while trying to add Visit Request {visitRequestData.Name}.");
                 response.AdditionalInformation.Add(ex.Message);
             }
@@ -186,59 +221,66 @@ namespace RealEstateApi.Service
         /// Gathers a List of all Visit Requests
         /// 
         /// </summary>
-        /// <returns> List<VisitRequestModel> </returns>
-        public async Task<ServiceResult<List<VisitRequestModel>>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
+        /// <returns> List<VisitRequestResponseDto> </returns>
+        public async Task<ServiceResult<List<VisitRequestResponseDto>>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
         {
-            ServiceResult<List<VisitRequestModel>> response = new();
+            ServiceResult<List<VisitRequestResponseDto>> response = new();
 
             try
             {
-                var result = await _visitRequestRepository.GetAllVisitRequestsByRealEstateIdAsync(realEstateId);
+                var visitRequests = await _DbContext.VisitRequests
+                    .Where(vr => vr.RealEstateId == realEstateId)
+                    .ToListAsync();
+
+                var result = _mapper.Map<List<VisitRequestResponseDto>>(visitRequests);
 
                 response.Result = result;
                 response.IsSuccess = true;
             }
             catch (Exception ex)
             {
+                response.IsSuccess = false;
                 response.AdditionalInformation.Add("There was an error while trying to retrieve all visit requests by realestate id.");
                 response.AdditionalInformation.Add(ex.Message);
             }
 
             return response;
-        }   
+        }
 
         /// <summary>
         /// 
         /// Deletes a Visit Request by Id
         /// 
         /// </summary>
-        /// <param name="visitRequestId"> Id to get Visit Request </param>
-        /// <returns> VisitRequestModel </returns>
-        public async Task<ServiceResult<VisitRequestModel>> DeleteVisitRequestByIdAsync(int visitRequestId)
+        /// <param name="visitRequestId">Id of the Visit Request to delete</param>
+        /// <returns> VisitRequestResponseDto </returns>
+        public async Task<ServiceResult<VisitRequestResponseDto>> DeleteVisitRequestByIdAsync(int visitRequestId)
         {
-            ServiceResult<VisitRequestModel> response = new();
+            ServiceResult<VisitRequestResponseDto> response = new ();
 
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
-                var existingVisitRequest = await _visitRequestRepository.GetVisitRequestByIdAsync(visitRequestId);
+                var existingVisitRequest = await _DbContext.VisitRequests.FindAsync(visitRequestId);
 
                 if (existingVisitRequest == null)
                 {
                     response.IsSuccess = false;
-                    response.AdditionalInformation.Add($"Visit Request with ID {visitRequestId} was not found");
+                    response.AdditionalInformation.Add($"Visit Request with ID {visitRequestId} was not found.");
                     return response;
                 }
-                var result = await _visitRequestRepository.DeleteVisitRequestByIdAsync(visitRequestId);
 
-                if (result)
-                {
-                    response.IsSuccess = true;
-                    response.Result = existingVisitRequest;
-                }
+                _DbContext.VisitRequests.Remove(existingVisitRequest);
+                await _DbContext.SaveChangesAsync();
 
+                response.IsSuccess = true;
+                response.Result = _mapper.Map<VisitRequestResponseDto>(existingVisitRequest);
+
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync();
                 response.IsSuccess = false;
                 response.AdditionalInformation.Add($"There was an error while trying to delete visit request ID: {visitRequestId}.");
                 response.AdditionalInformation.Add(ex.Message);
@@ -252,50 +294,80 @@ namespace RealEstateApi.Service
         /// Get the availability of the visit request based on the parameters
         /// 
         /// </summary>
-        /// <param name="visitRequestData"></param>
-        /// <returns></returns>
-        public async Task<ServiceResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData)
+        /// <param name="visitRequestData">Visit Request Data</param>
+        /// <returns> VisitRequestAvailabilityDto </returns>
+        public async Task<ServiceResult<VisitRequestAvailabilityDto>> GetVisitRequestAvailabilityAsync(VisitRequestAvailabilityDto visitRequestData)
         {
-            ServiceResult<VisitRequestModel> response = new();
+            ServiceResult<VisitRequestAvailabilityDto> response = new();
+
+            var transaction = _DbContext.Database.BeginTransaction();
             try
             {
-                var existingRealEstate = await _referenceDataRepository.GetRealEstateReferenceDataAsync(visitRequestData.RealEstateId);
+                var existingRealEstate = await _DbContext.RealEstates.FindAsync(visitRequestData.RealEstateId);
                 if (existingRealEstate == null)
                 {
                     response.AdditionalInformation.Add($"Real estate ID {visitRequestData.RealEstateId} was not found.");
                     return response;
                 }
 
-                var existingAgent = await _agentRepository.GetAgentByIdAsync(visitRequestData.AgentId);
+                var existingAgent = await _DbContext.Agents.FindAsync(visitRequestData.AgentId);
                 if (existingAgent == null)
                 {
                     response.AdditionalInformation.Add($"Agent ID {visitRequestData.AgentId} was not found.");
                     return response;
                 }
 
-                if (!await _visitRequestRepository.ExistingAgentId(visitRequestData.AgentId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
+                if (!DateOnly.TryParse(visitRequestData.Date, out DateOnly date))
+                {
+                    response.AdditionalInformation.Add("Invalid date format.");
+                    return response;
+                }
+
+                if (!TimeSpan.TryParse(visitRequestData.StartTime, out TimeSpan startTime) ||
+                    !TimeSpan.TryParse(visitRequestData.EndTime, out TimeSpan endTime))
+                {
+                    response.AdditionalInformation.Add("Invalid time format.");
+                    return response;
+                }
+
+                var isAgentAvailable = !await _DbContext.VisitRequests
+                    .AnyAsync(vr => vr.AgentId == visitRequestData.AgentId &&
+                                    vr.Date == date &&
+                                    ((vr.StartTime < endTime && vr.StartTime >= startTime) ||
+                                     (vr.EndTime > startTime && vr.EndTime <= endTime) ||
+                                     (vr.StartTime <= startTime && vr.EndTime >= endTime)));
+
+                if (!isAgentAvailable)
                 {
                     response.AdditionalInformation.Add($"Agent not available at this time");
                     return response;
                 }
 
-                if (!await _visitRequestRepository.ExistingRealEstateId(visitRequestData.RealEstateId, visitRequestData.Date, visitRequestData.StartTime, visitRequestData.EndTime))
+                var isRealEstateAvailable = !await _DbContext.VisitRequests
+                    .AnyAsync(vr => vr.RealEstateId == visitRequestData.RealEstateId &&
+                                    vr.Date == date &&
+                                    ((vr.StartTime < endTime && vr.StartTime >= startTime) ||
+                                     (vr.EndTime > startTime && vr.EndTime <= endTime) ||
+                                     (vr.StartTime <= startTime && vr.EndTime >= endTime)));
+
+                if (!isRealEstateAvailable)
                 {
                     response.AdditionalInformation.Add($"Real Estate not available at this time");
                     return response;
                 }
 
                 response.IsSuccess = true;
-
+                
+                await transaction.CommitAsync();
             }
             catch (Exception ex)
             {
-                response.AdditionalInformation.Add($"There was an error while trying to get visit request availability");
+                await transaction.RollbackAsync();
+                response.AdditionalInformation.Add("There was an error while trying to get visit request availability");
                 response.AdditionalInformation.Add(ex.Message);
             }
-        
+
             return response;
         }
-
     }
 }

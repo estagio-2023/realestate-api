@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Enums;
-using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -29,9 +29,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/RealEstate
         /// 
-        /// <returns> List<RealEstateRequestDto </returns>
+        /// <returns> List<RealEstateResponseDto> </returns>
         [HttpGet(Name = "GetAllRealEstate")]
-        public async Task<ActionResult<List<RealEstateRequestDto>>> GetAllRealEstate()
+        public async Task<ActionResult<List<RealEstateResponseDto>>> GetAllRealEstate()
         {
             var response = await _realEstateService.GetAllRealEstateAsync();
 
@@ -51,9 +51,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     POST /api/RealEstate
         /// 
-        /// <returns> RealEstateModel </returns>
+        /// <returns> RealEstateResponseDto </returns>
         [HttpPost(Name = "AddRealEstate")]
-        public async Task<ActionResult<RealEstateModel>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
+        public async Task<ActionResult<RealEstateResponseDto>> AddRealEstateAsync(AddRealEstateRequestDto realEstateDto)
         {
             var response = await _realEstateService.AddRealEstateAsync(realEstateDto);
 
@@ -73,9 +73,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET api/RealEstate/{realEstateId}
         /// 
-        /// <returns> RealEstateModel </returns>
+        /// <returns> RealEstateResponseDto </returns>
         [HttpGet("{realEstateId}", Name = "GetRealEstateById")]
-        public async Task<ActionResult<RealEstateModel>> GetRealEstateById(int realEstateId)
+        public async Task<ActionResult<RealEstateResponseDto>> GetRealEstateById(int realEstateId)
         {
             var response = await _realEstateService.GetRealEstateByIdAsync(realEstateId);
 
@@ -84,8 +84,20 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        /// <summary>
+        /// 
+        /// Https Delete Method to delete a Real Estate by Id
+        /// 
+        /// </summary>
+        /// <param name="realEstateId"> Id to get Real Estate </param>
+        /// 
+        ///  Sample Request:
+        /// 
+        ///     DELETE api/RealEstate/{realEstateId}
+        ///     
+        /// <returns> RealEstateResponseDto </returns>
         [HttpDelete("{realEstateId}", Name = "DeleteRealEstateById")]
-        public async Task<ActionResult<RealEstateModel>> DeleteRealEstateByIdAsync(int realEstateId)
+        public async Task<ActionResult<RealEstateResponseDto>> DeleteRealEstateByIdAsync(int realEstateId)
         {
             var response = await _realEstateService.DeleteRealEstateByIdAsync(realEstateId);
 

@@ -1,8 +1,8 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Enums;
-using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -32,9 +32,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/Agent
         /// 
-        /// <returns> List<AgentModel> </returns>
+        /// <returns> List<AgentResponseDto> </returns>
         [HttpGet(Name = "GetAllAgents")]
-        public async Task<ActionResult<List<AgentModel>>> GetAllAgentsAsync()
+        public async Task<ActionResult<List<AgentResponseDto>>> GetAllAgentsAsync()
         {
             var response = await _agentService.GetAllAgentsAsync();
             
@@ -53,9 +53,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/Agent/{agentId}
         /// 
-        /// <returns> AgentModel </returns>
+        /// <returns> AgentResponseDto </returns>
         [HttpGet("{agentId}", Name = "GetAgentById")]
-        public async Task<ActionResult<AgentModel>> GetAgentByIdAsync(int agentId)
+        public async Task<ActionResult<AgentResponseDto>> GetAgentByIdAsync(int agentId)
         {            
             var response = await _agentService.GetAgentByIdAsync(agentId);
 
@@ -75,9 +75,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     POST /api/Agent
         ///     
-        /// <returns> AgentModel </returns>
+        /// <returns> AgentResponseDto </returns>
         [HttpPost(Name = "AddAgent")]
-        public async Task<ActionResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData)
+        public async Task<ActionResult<AgentResponseDto>> AddAgentAsync(AgentRequestDto agentData)
         {
             var response = await _agentService.AddAgentAsync(agentData);
 
@@ -86,8 +86,20 @@ namespace RealEstateApi.Controllers
                 : Problem(response.ProblemType, string.Join(",", response.AdditionalInformation), (int)HttpCodesEnum.BadRequest);
         }
 
+        /// <summary>
+        /// 
+        /// Https Delete Method to delete a Agent by Id
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to get Agent </param>
+        /// 
+        ///  Sample Request:
+        /// 
+        ///     DELETE api/Agent/{agentId}
+        ///     
+        /// <returns> AgentResponseDto </returns>
         [HttpDelete("{agentId}", Name = "DeleteAgentById")]
-        public async Task<ActionResult<AgentModel>> DeleteAgentByIdAsync(int agentId)
+        public async Task<ActionResult<AgentResponseDto>> DeleteAgentByIdAsync(int agentId)
         {
             var response = await _agentService.DeleteAgentByIdAsync(agentId);
 
@@ -105,7 +117,7 @@ namespace RealEstateApi.Controllers
         /// <param name="newAgentData"> Agent Data to be updated </param>
         /// <returns> AgentModel </returns>
         [HttpPut("{agentId}", Name = "PutAgentById")]
-        public async Task<ActionResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
+        public async Task<ActionResult<AgentResponseDto>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData)
         {
             var response = await _agentService.PutAgentByIdAsync(agentId, newAgentData);
 

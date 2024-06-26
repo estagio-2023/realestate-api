@@ -1,16 +1,18 @@
 using RealEstateApi.Helpers;
-using RealEstateApi.Repository.Interfaces;
-using RealEstateApi.Repository;
 using RealEstateApi.Service.Interfaces;
 using RealEstateApi.Service;
 using FluentValidation.AspNetCore;
 using RealEstateApi.Dto.Request;
 using RealEstateApi.Validators;
 using FluentValidation;
+using RealEstateApiLibraryEF.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers().AddFluentValidation();
 
@@ -19,6 +21,9 @@ configuration.AddUserSecrets<Program>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<RealEstateContext>(options => options
+    .UseNpgsql(SecretsHelper.GetDatabaseConnectionString(builder))
+    .UseSnakeCaseNamingConvention()); 
 builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
 
 builder.Services.AddCors(options =>
@@ -45,12 +50,6 @@ builder.Services.AddScoped<IRealEstateService, RealEstateService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IAgentService, AgentService>();
 builder.Services.AddScoped<IVisitRequestService, VisitRequestService>();
-
-builder.Services.AddScoped<IRealEstateRepository, RealEstateRepository>();
-builder.Services.AddScoped<IReferenceDataRepository, ReferenceDataRepository>();
-builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
-builder.Services.AddScoped<IAgentRepository, AgentRepository>();
-builder.Services.AddScoped<IVisitRequestRepository, VisitRequestRepository>();
 
 var app = builder.Build();
 

@@ -1,9 +1,8 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Enums;
-using RealEstateApi.Helpers;
-using RealEstateApi.Model;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -31,9 +30,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/Customer
         /// 
-        /// <returns> List<CustomerModel> </returns>
+        /// <returns> List<CustomerResponseDto> </returns>
         [HttpGet(Name = "GetAllCustomers")]
-        public async Task<ActionResult<List<CustomerModel>>> GetAllCustomersAsync()
+        public async Task<ActionResult<List<CustomerResponseDto>>> GetAllCustomersAsync()
         {
             var response = await _customerService.GetAllCustomersAsync();
                 
@@ -53,9 +52,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     POST /api/Customer
         ///     
-        /// <returns> CustomerModel </returns>
+        /// <returns> CustomerResponseDto </returns>
         [HttpPost(Name = "AddCustomer")]
-        public async Task<ActionResult<CustomerModel>> AddCustomerAsync(CustomerRequestDto customerData)
+        public async Task<ActionResult<CustomerResponseDto>> AddCustomerAsync(CustomerRequestDto customerData)
         {
             var response = await _customerService.AddCustomerAsync(customerData);
 
@@ -75,9 +74,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET api/Customer/{customerId}
         ///     
-        /// <returns> CustomerModel </returns>
+        /// <returns> CustomerResponseDto </returns>
         [HttpGet("{customerId}", Name = "GetCustomerById")]
-        public async Task<ActionResult<CustomerModel>> GetCustomerByIdAsync(int customerId)
+        public async Task<ActionResult<CustomerResponseDto>> GetCustomerByIdAsync(int customerId)
         {
             var response = await _customerService.GetCustomerByIdAsync(customerId);
 
@@ -97,9 +96,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     DELETE api/Customer/{customerId}
         ///     
-        /// <returns> CustomerModel </returns>
+        /// <returns> CustomerResponseDto </returns>
         [HttpDelete("{customerId}", Name = "DeleteCustomerById")]
-        public async Task<ActionResult<CustomerModel>> DeleteCustomerByIdAsync(int customerId)
+        public async Task<ActionResult<CustomerResponseDto>> DeleteCustomerByIdAsync(int customerId)
         {
             var response = await _customerService.DeleteCustomerByIdAsync(customerId);
 

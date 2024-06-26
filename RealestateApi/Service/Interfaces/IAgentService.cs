@@ -1,5 +1,5 @@
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Dto.Request;
-using RealEstateApi.Model;
 
 namespace RealEstateApi.Service.Interfaces
 {
@@ -11,7 +11,7 @@ namespace RealEstateApi.Service.Interfaces
         /// 
         /// </summary>
         /// <returns> List<AgentModel> </returns>
-        Task<ServiceResult<List<AgentModel>>> GetAllAgentsAsync();
+        Task<ServiceResult<List<AgentResponseDto?>>> GetAllAgentsAsync();
 
         /// <summary>
         /// 
@@ -20,8 +20,9 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="agentId"> Id to get an Agent </param>
         /// <returns> AgentModel </returns>
-        Task<ServiceResult<AgentModel?>> GetAgentByIdAsync(int agentId);
+        Task<ServiceResult<AgentResponseDto?>> GetAgentByIdAsync(int agentId);
 
+        
         /// <summary>
         /// 
         /// Save a Agent
@@ -29,10 +30,17 @@ namespace RealEstateApi.Service.Interfaces
         /// </summary>
         /// <param name="agentData"> Agent Data to be Saved </param>
         /// <returns> AgentModel </returns>
-        Task<ServiceResult<AgentModel>> AddAgentAsync(AgentRequestDto agentData);
-        
-        Task<ServiceResult<AgentModel>> DeleteAgentByIdAsync(int agentId);
+        Task<ServiceResult<AgentResponseDto>> AddAgentAsync(AgentRequestDto agentData);
 
+        /// <summary>
+        /// 
+        /// Deletes a Agent By Id
+        /// 
+        /// </summary>
+        /// <param name="agentId"> Id to get Agent </param>
+        /// <returns> AgentModel </returns>
+        Task<ServiceResult<AgentResponseDto>> DeleteAgentByIdAsync(int agentId);
+        
         /// <summary>
         /// 
         /// Updates an Agent
@@ -41,6 +49,6 @@ namespace RealEstateApi.Service.Interfaces
         /// <param name="agentId"> Id to update an Agent </param>
         /// <param name="newAgentData"> Agent Data to be Updated </param>
         /// <returns> AgentModel </returns>
-        Task<ServiceResult<AgentModel>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData);
+        Task<ServiceResult<AgentResponseDto>> PutAgentByIdAsync(int agentId, AgentRequestDto newAgentData);
     }
 }

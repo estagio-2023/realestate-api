@@ -1,8 +1,9 @@
-﻿namespace RealEstateApi.Model
+﻿namespace RealEstateApiLibraryEF.Entity
 {
-    public class ReferenceDataModel
+    public class ReferenceData
     {
         public int Id { get; set; }
+
         public string Description { get; set; } = null!;
     }
 }

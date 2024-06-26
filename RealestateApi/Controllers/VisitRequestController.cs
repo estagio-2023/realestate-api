@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using RealEstateApi.Dto.Request;
+using RealEstateApi.Dto.Response;
 using RealEstateApi.Enums;
 using RealEstateApi.Helpers;
-using RealEstateApi.Model;
-using RealEstateApi.Service;
 using RealEstateApi.Service.Interfaces;
 
 namespace RealEstateApi.Controllers
@@ -35,7 +34,7 @@ namespace RealEstateApi.Controllers
         /// 
         /// <returns> List<VisitRequestModel> </returns>
         [HttpGet(Name = "GetAllVisitRequests")]
-        public async Task<ActionResult<List<VisitRequestModel>>> GetAllVisitRequestsAsync()
+        public async Task<ActionResult<List<VisitRequestResponseDto>>> GetAllVisitRequestsAsync()
         {
             var response = await _visitRequestService.GetAllVisitRequestsAsync();
 
@@ -54,9 +53,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/VisitRequest/{visitRequestId}
         /// 
-        /// <returns> VisitRequestModel </returns>
+        /// <returns> VisitRequestResponseDto </returns>
         [HttpGet("{visitRequestId}", Name = "GetVisitRequestById")]
-        public async Task<ActionResult<VisitRequestModel>> GetVisitRequestByIdAsync(int visitRequestId)
+        public async Task<ActionResult<VisitRequestResponseDto>> GetVisitRequestByIdAsync(int visitRequestId)
         {
             var response = await _visitRequestService.GetVisitRequestByIdAsync(visitRequestId);
 
@@ -71,9 +70,9 @@ namespace RealEstateApi.Controllers
         /// 
         /// </summary>
         /// <param name="visitRequestId"> Id to update Visit Request Confirmation </param>
-        /// <returns> VisitRequestModel </returns>
+        /// <returns> VisitRequestResponseDto </returns>
         [HttpPut("{visitRequestId}/Confirmation", Name = "UpdateVisitRequestById")]
-        public async Task<ActionResult<VisitRequestModel>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
+        public async Task<ActionResult<VisitRequestResponseDto>> UpdateVisitRequestConfirmationByIdAsync(int visitRequestId)
         {
             var response = await _visitRequestService.UpdateVisitRequestConfirmationByIdAsync(visitRequestId);
 
@@ -92,9 +91,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     GET /api/VisitRequest/RealEstate/{realEstateId}
         /// 
-        /// <returns> VisitRequestModel </returns>
+        /// <returns> VisitRequestResponseDto </returns>
         [HttpGet("RealEstate/{realEstateId}", Name = "GetAllVisitRequestsByRealEstateId")]
-        public async Task<ActionResult<VisitRequestModel>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
+        public async Task<ActionResult<VisitRequestResponseDto>> GetAllVisitRequestsByRealEstateIdAsync(int realEstateId)
         {
             var response = await _visitRequestService.GetAllVisitRequestsByRealEstateIdAsync(realEstateId);
 
@@ -114,9 +113,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     POST /api/VisitRequest
         ///     
-        /// <returns> VisitRequestModel </returns>
+        /// <returns> VisitRequestResponseDto </returns>
         [HttpPost(Name = "AddVisitRequest")]
-        public async Task<ActionResult<VisitRequestModel>> AddVisitRequestAsync(VisitRequestDto visitRequestData)
+        public async Task<ActionResult<VisitRequestResponseDto>> AddVisitRequestAsync(VisitRequestDto visitRequestData)
         {
             var response = await _visitRequestService.AddVisitRequestAsync(visitRequestData);
 
@@ -135,9 +134,9 @@ namespace RealEstateApi.Controllers
         /// <param name="endTime"></param>
         /// <param name="realEstateId"></param>
         /// <param name="agentId"></param>
-        /// <returns></returns>
+        /// <returns> VisitRequestAvailabilityDto </returns>
         [HttpGet("Availability", Name = "GetVisitRequestAvailability")]
-        public async Task<ActionResult<VisitRequestModel>> GetVisitRequestAvailabilityAsync([FromQuery] string date, [FromQuery] string startTime, [FromQuery] string endTime, [FromQuery] int realEstateId, [FromQuery] int agentId)
+        public async Task<ActionResult<VisitRequestAvailabilityDto>> GetVisitRequestAvailabilityAsync([FromQuery] string date, [FromQuery] string startTime, [FromQuery] string endTime, [FromQuery] int realEstateId, [FromQuery] int agentId)
         {
             var visitRequestData = VisitRequestAvailabilityDto.BuildFrom(date,startTime,endTime,realEstateId, agentId);
 
@@ -163,9 +162,9 @@ namespace RealEstateApi.Controllers
         /// 
         ///     DELETE /api/VisitRequest/{visitRequestId}
         /// 
-        /// <returns> VisitRequestModel </returns>
+        /// <returns> VisitRequestResponseDto </returns>
         [HttpDelete("{visitRequestId}", Name = "DeleteVisitRequestById")]
-        public async Task<ActionResult<VisitRequestModel>> DeleteVisitRequestByIdAsync(int visitRequestId)
+        public async Task<ActionResult<VisitRequestResponseDto>> DeleteVisitRequestByIdAsync(int visitRequestId)
         {
             var deleteVisitRequest = await _visitRequestService.DeleteVisitRequestByIdAsync(visitRequestId);
             return deleteVisitRequest.IsSuccess ? Ok(deleteVisitRequest.Result) : Problem(deleteVisitRequest.ProblemType, string.Join(",", deleteVisitRequest.AdditionalInformation));
