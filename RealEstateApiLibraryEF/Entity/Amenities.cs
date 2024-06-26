@@ -2,5 +2,6 @@
 {
     public class Amenities : ReferenceData
     {
+        public List<RealEstate> RealEstates { get; set; } = null!;
     }
 }
