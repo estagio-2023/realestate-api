@@ -12,8 +12,8 @@ using RealEstateApiLibraryEF.DataAccess;
 namespace RealEstateApiLibraryEF.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    [Migration("20240626142223_CreateDb")]
-    partial class CreateDb
+    [Migration("20240626142820_createdb")]
+    partial class createdb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
