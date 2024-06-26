@@ -13,16 +13,8 @@ namespace RealEstateApiLibraryEF.DataAccess
             _configuration = configuration;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var typeDatabase = _configuration["TypeDatabase"];
-            var connectionString = _configuration.GetConnectionString(typeDatabase);
-
-            optionsBuilder
-                .UseNpgsql(connectionString)
-                .UseSnakeCaseNamingConvention();
-        }
-
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
+         
         public DbSet<Agent> Agents { get; set; }
         public DbSet<Amenities> Amenities { get; set; }
         public DbSet<City> Cities { get; set; }
