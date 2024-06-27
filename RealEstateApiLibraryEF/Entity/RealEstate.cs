@@ -28,16 +28,16 @@
 
         public int TypologyId { get; set; }
 
-        public City City { get; set; } = null!;
+        public City City { get; set; }
 
-        public Customer Customer { get; set; } = null!;
+        public Customer Customer { get; set; }
 
-        public RealEstateType RealEstateType { get; set; } = null!;
+        public RealEstateType RealEstateType { get; set; }
 
-        public Typology Typology { get; set; } = null!;
+        public Typology Typology { get; set; }
 
-        public List<RealEstateHasAmenities> RealEstateHasAmenities { get; set; } = null!;
+        public List<RealEstateHasAmenities> RealEstateHasAmenities { get; set; }
 
-        public List<VisitRequest> VisitRequests { get; set; } = null!;
+        public List<VisitRequest> VisitRequests { get; set; }
     }
 }

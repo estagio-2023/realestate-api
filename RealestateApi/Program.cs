@@ -8,6 +8,7 @@ using RealEstateApi.Dto.Request;
 using RealEstateApi.Validators;
 using FluentValidation;
 using RealEstateApiLibraryEF.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,9 @@ configuration.AddUserSecrets<Program>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<RealEstateContext>();
+builder.Services.AddDbContext<RealEstateContext>(options => options
+    .UseNpgsql(SecretsHelper.GetDatabaseConnectionString(builder))
+    .UseSnakeCaseNamingConvention());
 builder.Services.AddNpgsqlDataSource(SecretsHelper.GetDatabaseConnectionString(builder));
 
 builder.Services.AddCors(options =>

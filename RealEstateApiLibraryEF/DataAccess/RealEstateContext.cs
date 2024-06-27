@@ -4,24 +4,11 @@ using RealEstateApiLibraryEF.Entity;
 
 namespace RealEstateApiLibraryEF.DataAccess
 {
-    public class RealEstateContext : DbContext
+    public class RealEstateContext(DbContextOptions<RealEstateContext> options, IConfiguration configuration) : DbContext(options)
     {
-        public IConfiguration _configuration;
+        public IConfiguration _configuration = configuration;
 
-        public RealEstateContext(DbContextOptions<RealEstateContext> options, IConfiguration configuration) : base(options)
-        {
-            _configuration = configuration;
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            var typeDatabase = _configuration["TypeDatabase"];
-            var connectionString = _configuration.GetConnectionString(typeDatabase);
-
-            optionsBuilder
-                .UseNpgsql(connectionString)
-                .UseSnakeCaseNamingConvention();
-        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         public DbSet<Agent> Agents { get; set; }
         public DbSet<Amenities> Amenities { get; set; }
