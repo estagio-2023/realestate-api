@@ -14,3 +14,12 @@ RealestateApi/bin/*
 RealestateApi/obj/*
 /RealestateApi/.vs/RealEstateApi
 /RealestateApi/.vs/ProjectEvaluation
+/EntityFrameworkApiLibrary/bin/Debug/net8.0
+/EntityFrameworkApiLibrary/obj
+/RealEstateLibraryEF/bin/Debug/net8.0
+/RealEstateLibraryEF/obj/Debug/net8.0
+/RealEstateLibraryEF/obj/project.assets.json
+/RealEstateLibraryEF/obj/project.nuget.cache
+/RealEstateLibraryEF/obj/RealEstateLibraryEF.csproj.nuget.dgspec.json
+/RealEstateLibraryEF/obj/RealEstateLibraryEF.csproj.nuget.g.props
+/RealEstateLibraryEF/obj/RealEstateLibraryEF.csproj.nuget.g.targets
