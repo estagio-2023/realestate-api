@@ -4,17 +4,12 @@ using RealEstateApiLibraryEF.Entity;
 
 namespace RealEstateApiLibraryEF.DataAccess
 {
-    public class RealEstateContext : DbContext
+    public class RealEstateContext(DbContextOptions<RealEstateContext> options, IConfiguration configuration) : DbContext(options)
     {
-        public IConfiguration _configuration;
-
-        public RealEstateContext(DbContextOptions<RealEstateContext> options, IConfiguration configuration) : base(options)
-        {
-            _configuration = configuration;
-        }
+        public IConfiguration _configuration = configuration;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
-         
+
         public DbSet<Agent> Agents { get; set; }
         public DbSet<Amenities> Amenities { get; set; }
         public DbSet<City> Cities { get; set; }
