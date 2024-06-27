@@ -13,11 +13,6 @@ namespace RealEstateLibrary
             _configuration = configuration;
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            
-        }
-
         public DbSet<CityEntity> City {  get; set; } 
         public DbSet<TypologyEntity> Typology {  get; set; }
         public DbSet<RealEstateTypeEntity> RealEstateType {  get; set; }
